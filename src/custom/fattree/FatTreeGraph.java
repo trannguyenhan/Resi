@@ -41,41 +41,73 @@ public class FatTreeGraph extends Graph {
 			adj[v] = new ArrayList<Integer>();
 		}
 
-		// each pod has k^2/4 servers and k switches
-		int numEachPod = k * k / 4 + k;
+		int numEachPod = k * k / 4 + k; // the number of nodes in a pod, each pod has k^2/4 servers and k switches
+
+		/*
+		 * Connect edge switches to servers Connect aggregation switches to edge
+		 * switches Connect core switches to aggregation switches
+		 */
 		for (int p = 0; p < k; p++) {
 			int offset = numEachPod * p;
-
-			// between server and edge
-			for (int e = 0; e < k / 2; e++) {
-				int edgeSwitch = offset + k * k / 4 + e;
-				for (int s = 0; s < k / 2; s++) {
-					int server = offset + e * k / 2 + s;
-					addEdge(edgeSwitch, server);
-				}
-			}
-
-			// between agg and edge
-			for (int e = 0; e < k / 2; e++) {
-				int edgeSwitch = offset + k * k / 4 + e;
-				for (int a = k / 2; a < k; a++) {
-					int aggSwitch = offset + k * k / 4 + a;
-					addEdge(edgeSwitch, aggSwitch);
-				}
-			}
-
-			// between agg and core
-			for (int a = 0; a < k / 2; a++) {
-				int aggSwitch = offset + k * k / 4 + k / 2 + a;
-				for (int c = 0; c < k / 2; c++) {
-					int coreSwitch = a * k / 2 + c + numPodSwitches + numServers;
-					addEdge(aggSwitch, coreSwitch);
-				}
-			}
-
+			edgeServerConnection(offset);
+			edgeAggConnection(offset);
+			aggCoreConnection(offset);
 		}
 
 		buildAddress();
+	}
+
+	/**
+	 * This method is used to connect edge switches to servers. In each pod, there
+	 * are k/2 edge switches, each switch is directly connected to k/2 servers
+	 * 
+	 * @param offset
+	 */
+	private void edgeServerConnection(int offset) {
+		// between edge and server
+		for (int e = 0; e < k / 2; e++) {
+			int edgeSwitch = offset + k * k / 4 + e;
+			for (int s = 0; s < k / 2; s++) {
+				int server = offset + e * k / 2 + s;
+				addEdge(edgeSwitch, server);
+			}
+		}
+	}
+
+	/**
+	 * This method is used to connect edge switches to aggregation switches. In each
+	 * pod, there are k/2 edge switches, each switch is directly connected to k/2
+	 * aggregation switches.
+	 * 
+	 * @param offset
+	 */
+	private void edgeAggConnection(int offset) {
+
+		for (int e = 0; e < k / 2; e++) {
+			int edgeSwitch = offset + k * k / 4 + e;
+			for (int a = k / 2; a < k; a++) {
+				int aggSwitch = offset + k * k / 4 + a;
+				addEdge(edgeSwitch, aggSwitch);
+			}
+		}
+	}
+
+	/**
+	 * This method is used to connect aggregation switches to core switches. There
+	 * are (k/2)^2 core switches. Consecutive ports in the aggregation layer of each
+	 * pod switch are connected to core switches on (k/2) strides
+	 * 
+	 * @param offset
+	 */
+	private void aggCoreConnection(int offset) {
+
+		for (int a = 0; a < k / 2; a++) {
+			int aggSwitch = offset + k * k / 4 + k / 2 + a;
+			for (int c = 0; c < k / 2; c++) {
+				int coreSwitch = a * k / 2 + c + numPodSwitches + numServers;
+				addEdge(aggSwitch, coreSwitch);
+			}
+		}
 	}
 
 	/**
