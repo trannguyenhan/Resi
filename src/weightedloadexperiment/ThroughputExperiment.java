@@ -42,7 +42,7 @@ public class ThroughputExperiment {
 		topology.clear(); // clear all the data, queue, ... in switches, hosts
 		topology.setSimulator(simulator);
 
-		simulator.initializeCollectionOfEvents();
+		//simulator.initializeCollectionOfEvents();
 
 		int count = 0;
 		for (Integer source : trafficPattern.keySet()) {
