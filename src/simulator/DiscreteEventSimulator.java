@@ -139,7 +139,7 @@ public class DiscreteEventSimulator extends Simulator {
 		this.getEventList().add(e);
 	}
 
-	public void initializeCollectionOfEvents() {
+	/*public void initializeCollectionOfEvents() {
 		// long startTime = System.currentTimeMillis();
 		// todo chu y kiem tra moi thu extends Element Class
 		List<Host> allHosts = this.topology.getHosts();
@@ -185,7 +185,7 @@ public class DiscreteEventSimulator extends Simulator {
 		}
 
 		System.out.println("Number of 1/2 events = " + halfSizeOfEvents);
-	}
+	}*/
 
 	public long selectNextCurrentTime(long currentTime) {
 		long result = Long.MAX_VALUE;
