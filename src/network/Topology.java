@@ -14,9 +14,6 @@ import simulator.DiscreteEventSimulator;
 import weightedloadexperiment.pairstrategies.PairGenerator;
 import java.util.*;
 
-/**
- * Created by Dandoh on 6/27/17.
- */
 public class Topology {
 	private Graph graph;
 	private List<Host> hosts;
@@ -46,7 +43,6 @@ public class Topology {
 		cordOfNodes = new HashMap<>();
 		// Endof ThanhNT 14/10 add new statements to init property
 
-		// NetworkLayer networkLayer = new NetworkLayer(routingAlgorithm);
 		// khoi tao switch va them vao list
 		for (int sid : graph.switches()) {
 			Switch sw = new Switch(sid);
@@ -58,8 +54,6 @@ public class Topology {
 			// Endof ThanhNT 14/10 add new statements to add new ID of switch
 
 			sw.physicalLayer = new PhysicalLayer(sw, graph.getK());
-			// sw.networkLayer = //networkLayer;
-			// new NetworkLayer(routingAlgorithm);
 			sw.setNetworkLayer(routingAlgorithm, sw);
 		}
 
@@ -73,9 +67,6 @@ public class Topology {
 					if (!otherSwitch.physicalLayer.links.containsKey(sw.getId())) {
 						// create new link
 						double distance = C.distanceBetween(sw.getId(), otherSwitch.getId());
-						// System.out.println("Chieu dai switch = " + distance + " from: " + sw.getId()
-						// + " to: " + otherSwitch.getId());
-						// double x = 5;
 
 						EntranceBuffer entranceBuffer;
 						ExitBuffer exitBuffer;
@@ -118,26 +109,17 @@ public class Topology {
 		pairGenerator.checkValid();
 
 		List<Integer> sourceNodeIDs = new ArrayList<>();
-		// = topology.getSourceNodeIDs();
 		List<Integer> destinationNodeIDs = new ArrayList<>();
-		// = topology.getDestinationNodeIDs();
 
 		sourceNodeIDs = pairGenerator.getSources();
 		destinationNodeIDs = pairGenerator.getDestinations();
-		// Knuth.shuffle(hostIDList);
 
-//        hostIDList = new Integer[]{ 17,24,18,11,2,3,19,8,26,0,27,1,10,16,9,25 };
-
-		sourceNodes.addAll(sourceNodeIDs// .subList(0, hostIDList.length / 2)
-		);
-		// sourceNodes.add(0);
+		sourceNodes.addAll(sourceNodeIDs);
 
 		for (int sourceNodeID : sourceNodes) {
 			Host sourceNode = new Host(sourceNodeID);
 			sourceNode.type = TypeOfHost.Source;
 			sourceNode.physicalLayer = new PhysicalLayer(sourceNode);
-			// sourceNode.networkLayer = //networkLayer;
-			// new NetworkLayer(routingAlgorithm);
 			sourceNode.setNetworkLayer(routingAlgorithm, sourceNode);
 			hosts.add(sourceNode);
 			hostById.put(sourceNodeID, sourceNode);
@@ -148,9 +130,7 @@ public class Topology {
 
 		}
 
-		destinationNodes.addAll(// Arrays.asList(hostIDList)//.subList(hostIDList.length / 2, hostIDList.length)
-				destinationNodeIDs);
-		// destinationNodes.add(1);
+		destinationNodes.addAll(destinationNodeIDs);
 
 		for (int destinationNodeID : destinationNodes) {
 			Host destinationNode = null;
@@ -163,8 +143,6 @@ public class Topology {
 				hosts.add(destinationNode);
 				hostById.put(destinationNodeID, destinationNode);
 				destinationNode.physicalLayer = new PhysicalLayer(destinationNode);
-				// destinationNode.networkLayer = //networkLayer;
-				// new NetworkLayer(routingAlgorithm);
 				destinationNode.setNetworkLayer(routingAlgorithm, destinationNode);
 			}
 

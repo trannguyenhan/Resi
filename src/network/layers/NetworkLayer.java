@@ -66,9 +66,7 @@ public class NetworkLayer extends Layer implements IEventGenerator {
 				System.out.println("ERROR: 2");
 			}
 
-			int nextNodeID = // fatTreeRoutingAlgorithm.next(packet.getSource(),
-								// entranceBuffer.getNode().getId(), packet.getDestination());
-					routingAlgorithm.next(packet, entranceBuffer.getNode());
+			int nextNodeID = routingAlgorithm.next(packet, entranceBuffer.getNode());
 
 			entranceBuffer.setNextNode(nextNodeID);
 

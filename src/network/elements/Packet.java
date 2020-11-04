@@ -4,9 +4,6 @@ import config.Constant;
 import infrastructure.element.Element;
 import network.layers.DataLinkLayer;
 
-/**
- * Created by Dandoh on 6/27/17.
- */
 public class Packet extends Element {
 
 	private int source;

@@ -1,24 +1,16 @@
 package custom.fattree;
 
-//import javafx.util.Pair;
-//import kotlin.Triple;
-//import kotlin.TuplesKt;
 import javatuples.*;
 import network.elements.Packet;
 import network.entities.Host;
 import network.entities.Switch;
 import routing.RoutingAlgorithm;
 import routing.RoutingPath;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import infrastructure.entity.Node;
 
-/**
- * Created by Dandoh on 5/24/17.
- */
 public class FatTreeRoutingAlgorithm implements RoutingAlgorithm, Cloneable {
 	public FatTreeGraph G;
 	public Map<Pair<Integer, Integer>, RoutingPath> precomputedPaths = new HashMap<>();

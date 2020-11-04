@@ -1,18 +1,5 @@
 package common;
 
-/******************************************************************************
-*  Compilation:  javac Queue.java
-*  Execution:    java Queue < input.txt
-*  Dependencies: StdIn.java StdOut.java
-*  Data files:   http://introcs.cs.princeton.edu/43stack/tobe.txt
-*
-*  Queue implementation with a resizing array.
-*
-*  % java Queue < tobe.txt
-*  to be or not to be (2 left on queue)
-*
-******************************************************************************/
-
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 

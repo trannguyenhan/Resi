@@ -7,17 +7,12 @@ import infrastructure.entity.Node;
 import network.elements.Packet;
 import network.elements.SourceQueue;
 
-/**
- * Created by Dandoh on 6/27/17.
- */
-
 public class Host extends Node {
 
 	public TypeOfHost type;
 
 	public Host(int id) {
 		super(id);
-//	     this.physicalLayer = new PhysicalLayer(this);
 	}
 
 	@Override
@@ -56,11 +51,9 @@ public class Host extends Node {
 		double currentTime = this.physicalLayer.simulator.getTime();
 		this.physicalLayer.simulator.numReceived++;
 		if (this.receivedPacketInNode == 0) {
-//           this.firstTx = packet.getStartTime();
 			this.firstTx = currentTime;
-			// System.out.println("Thoi gian goi tin dau tien den voi host " + self.id + "
-			// la: " + this.firstTx);
 		}
+
 		this.receivedPacketInNode++;
 		this.lastRx = currentTime;
 		this.physicalLayer.simulator.receivedPacketPerUnit[(int) (currentTime / Constant.EXPERIMENT_INTERVAL + 1)]++;
@@ -68,7 +61,6 @@ public class Host extends Node {
 
 		this.physicalLayer.simulator.totalPacketTime += packet.timeTravel();
 		this.physicalLayer.simulator.totalHop += packet.nHop; // todo xem nHop la gi
-
 	}
 
 	@Override

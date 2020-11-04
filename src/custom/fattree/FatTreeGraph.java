@@ -4,9 +4,6 @@ import graph.Graph;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Dandoh on 5/24/17.
- */
 public class FatTreeGraph extends Graph {
 	public static final int CORE = 1;
 	public static final int AGG = 2;

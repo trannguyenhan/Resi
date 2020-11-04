@@ -7,9 +7,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
 
-/**
- * Created by mta on 7/25/17.
- */
 public class GridGraph extends Graph {
 	public static final int HOST_PER_SWITCH = 1;
 	private List<Integer> switches;
@@ -148,10 +145,7 @@ public class GridGraph extends Graph {
 		double length = 0;
 
 		for (int i = 0; i < path.size() - 1; i++)
-//            if (isSwitchVertex(path.get(i)) && isSwitchVertex(path.get(i + 1))) {
 			length += euclidDistance(path.get(i), path.get(i + 1));
-//            }
-
 		return length;
 	}
 

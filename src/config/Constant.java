@@ -1,8 +1,5 @@
 package config;
 
-/**
- * Created by Dandoh on 6/29/17. Copied to this project by ThanhNT on 2/24/20
- */
 public class Constant {
 	// Switch delay ~ 100ns
 	public static final int SWITCH_DELAY = 100;

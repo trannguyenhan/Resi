@@ -1,8 +1,5 @@
 package custom.fattree;
 
-/**
- * Created by Dandoh on 5/24/17.
- */
 public class Address {
 	public final int _1, _2, _3, _4;
 

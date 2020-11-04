@@ -10,11 +10,8 @@ public abstract class Element implements IEventGenerator {
 	protected int id;
 	protected State state;
 	protected long soonestEndTime = Long.MAX_VALUE; /// todo check NHONLV change from 0 to max
-	// public ArrayList<Event> allEvents;
-	// public DiscreteEventSimulator sim;
 
 	public Element() {
-		// allEvents = new ArrayList<Event>();
 	}
 
 	public void setId(int id) {

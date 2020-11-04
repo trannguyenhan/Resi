@@ -4,9 +4,6 @@ import network.layers.*;
 import routing.RoutingAlgorithm;
 import simulator.DiscreteEventSimulator;
 
-/**
- * Created by Dandoh on 6/27/17.
- */
 public abstract class Node extends Device {
 
 	private NetworkLayer networkLayer;
