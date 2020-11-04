@@ -25,7 +25,7 @@ public class Topology {
 	private long bandwithToHost = 0;
 	// ThanhNT 14/10 new property
 	public Map<Integer, String> cordOfNodes;
-	// Endof ThanhNT 14/10 new property
+	// End of ThanhNT 14/10 new property
 
 	public PairGenerator pairGenerator;
 
@@ -41,9 +41,9 @@ public class Topology {
 
 		// ThanhNT 14/10 add new statements to init property
 		cordOfNodes = new HashMap<>();
-		// Endof ThanhNT 14/10 add new statements to init property
+		// End of ThanhNT 14/10 add new statements to init property
 
-		// khoi tao switch va them vao list
+		// Initialize switch and add this to a list
 		for (int sid : graph.switches()) {
 			Switch sw = new Switch(sid);
 			switches.add(sw);
@@ -51,7 +51,7 @@ public class Topology {
 
 			// ThanhNT 14/10 add new statements to add new ID of switch
 			cordOfNodes.put(sid, "");
-			// Endof ThanhNT 14/10 add new statements to add new ID of switch
+			// End of ThanhNT 14/10 add new statements to add new ID of switch
 
 			sw.physicalLayer = new PhysicalLayer(sw, graph.getK());
 			sw.setNetworkLayer(routingAlgorithm, sw);
@@ -93,7 +93,7 @@ public class Topology {
 						// ThanhNT 14/10 add new statements to insert coord of switch
 						cordOfNodes.put(sw.getId(), C.getCoordOfSwitch(sw.getId()));
 						cordOfNodes.put(otherSwitch.getId(), C.getCoordOfSwitch(otherSwitch.getId()));
-						// Endof ThanhNT 14/10 add new statements to insert coord of switch
+						// End of ThanhNT 14/10 add new statements to insert coord of switch
 					}
 				}
 			}
@@ -101,7 +101,7 @@ public class Topology {
 
 		this.pairGenerator = pair;
 
-		// khoi tao host va dua vao list
+		// Initialize host and add this to a list
 		Integer[] hostIDList = graph.hosts().toArray(new Integer[0]);
 		pair.setAllHosts(hostIDList);
 
@@ -126,7 +126,7 @@ public class Topology {
 
 			// ThanhNT 14/10 add new statements to add new ID of HOST
 			cordOfNodes.put(sourceNodeID, "");
-			// Endof ThanhNT 14/10 add new statements to add new ID of HOST
+			// End of ThanhNT 14/10 add new statements to add new ID of HOST
 
 		}
 
@@ -148,11 +148,10 @@ public class Topology {
 
 			// ThanhNT 14/10 add new statements to add new ID of HOST
 			cordOfNodes.put(destinationNodeID, "");
-			// Endof ThanhNT 14/10 add new statements to add new ID of HOST
+			// End of ThanhNT 14/10 add new statements to add new ID of HOST
 
 		}
 
-		// todo them phan add link tu switch den host kieu nhu o tren
 		// link from switch to host
 		for (Host host : hosts) {
 			// get switch
@@ -177,8 +176,7 @@ public class Topology {
 				entranceBuffer.physicalLayer = sw.physicalLayer;
 				sw.physicalLayer.entranceBuffers.put(host.getId(), entranceBuffer);
 			}
-
-			// tao exitBuffer cho switch noi toi desNode
+			// create exitBuffer for switch to link with desNode
 			// exb of switch to desNode
 			if (host.isDestinationNode()) {
 				ExitBuffer exitBuffer = new ExitBuffer(sw, host, Constant.QUEUE_SIZE);
@@ -188,7 +186,7 @@ public class Topology {
 
 			// ThanhNT 14/10 add new statements to insert coord of HOST
 			cordOfNodes.put(host.getId(), C.getCoordOfHost(sw.getId(), Constant.HOST_TO_SWITCH_LENGTH));
-			// Endof ThanhNT 14/10 add new statements to insert coord of HOST
+			// End of ThanhNT 14/10 add new statements to insert coord of HOST
 		}
 
 		pairGenerator.setUpBandwidth(this);

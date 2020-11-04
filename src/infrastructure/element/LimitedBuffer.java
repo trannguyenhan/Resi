@@ -17,19 +17,17 @@ public abstract class LimitedBuffer extends Buffer {
 		return node;
 	}
 
-	/**
-	 * Phuong thuc insertPacket se lam nhiem vu chen goi tin p vao trong bo dem cua
-	 * no
-	 * 
-	 * @param p la goi tin can chen vao
-	 * @return true neu nhu chen duoc goi tin false neu nhu KHONG chen duoc goi tin
-	 *         vao (tuc bo dem da day)
-	 */
-
 	// tobe override
 	public void checkStateChange() {
 	}
-
+	
+	/**
+	 * The method insertPacket will insert packet p into its buffer
+	 * 
+	 * @param p The packet needs inserting
+	 * @return true if the packet is inserted successfully, false if the packet is
+	 *         inserted unsuccessfully (the buffer is full)
+	 */
 	public void insertPacket(Packet p) {
 		if (allPackets.size() > size)
 			System.out.println("ERROR: Buffer: " + this.toString() + " oversized");

@@ -7,11 +7,11 @@ import infrastructure.element.Buffer;
 import network.states.sourcequeue.*;
 
 public class SourceQueue extends Buffer {
-	// todo nen bo thuoc tinh desID di ko vi the nay chi gioi han moi sourceNode chi
-	// gui packet den duoc mot desNode duy nhat
+	// We should remove the attribute:destinationID. If not, one sourceNode can send
+	// packet to only one desNode
 	protected int sourceId;
 	protected int destinationId;
-	protected long numGeneratedPacket; // so packet da tao, khoi tao bawng -1
+	protected long numGeneratedPacket; // The number of packets which are generated, initialized as -1
 
 	public SourceQueue(int sourceId) {
 		this.id = sourceId;
@@ -25,7 +25,7 @@ public class SourceQueue extends Buffer {
 		this.id = sourceId;
 		this.sourceId = sourceId;
 		this.destinationId = destinationId;
-		this.numGeneratedPacket = -1; // so packet da tao
+		this.numGeneratedPacket = -1; // The number of packets which are generated
 		setState(new Sq1(this));
 	}
 
@@ -52,7 +52,6 @@ public class SourceQueue extends Buffer {
 		numGeneratedPacket++;
 		double timeSent = numGeneratedPacket * Constant.HOST_DELAY;
 		Packet p = new Packet(0, sourceId, destinationId, timeSent);
-//        p.setState( new StateP1(physicalLayer.sourceQueue, p)); // state set o ngoai khi event xay ra
 		insertPacket(p);
 		return p;
 	}

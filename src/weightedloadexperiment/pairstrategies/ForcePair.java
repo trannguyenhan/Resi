@@ -2,7 +2,6 @@ package weightedloadexperiment.pairstrategies;
 
 import java.util.Arrays;
 import java.util.List;
-
 import custom.fattree.FatTreeGraph;
 import custom.fattree.FatTreeRoutingAlgorithm;
 
@@ -104,19 +103,6 @@ public class ForcePair extends InterPodIncoming {
 		}
 
 		if (x == 4) {
-			/*
-			 * destinations.add(11); destinations.add(16); destinations.add(25);
-			 * destinations.add(18);
-			 * 
-			 * destinations.add(19); destinations.add(24); destinations.add(26);
-			 * destinations.add(27);
-			 * 
-			 * destinations.add(0); destinations.add(1); destinations.add(2);
-			 * destinations.add(3);
-			 * 
-			 * destinations.add(8); destinations.add(9); destinations.add(10);
-			 * destinations.add(17);
-			 */
 			results = new Integer[] { 1, 2, 3, 26, 9, 10, 11, 18, 8, 17, 16, 19, 0, 25, 27, 24 };
 		}
 
@@ -156,15 +142,14 @@ public class ForcePair extends InterPodIncoming {
 			for (int i = 0; i < results.length; i++) {
 				results[i] = 27;
 			}
-			// results[8] = 1;
 		}
 
-		if (x == 6)// Dat duoc 50%
+		if (x == 6) //Achieve 50%
 		{
 			results = new Integer[] { 1, 26, 8, 10, 0, 3, 19, 16, 11, 9, 27, 17, 2, 25, 18, 24 };
 		}
 
-		if (x == 7)// Dat duoc 50%
+		if (x == 7) //Achieve 50%
 		{
 			results = new Integer[] { 27, 9, 2, 1, 3, 17, 16, 10, 8, 18, 24, 11, 0, 19, 25, 26 };
 		}

@@ -2,7 +2,6 @@ package weightedloadexperiment.pairstrategies.interpod;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import common.RandomGenerator;
 import custom.fattree.FatTreeGraph;
 import custom.fattree.FatTreeRoutingAlgorithm;
@@ -74,10 +73,9 @@ public class MinimalCoreSwitches extends InterPodIncoming {
 			}
 		}
 	}
-
-	// Nhan dau vao la chi so cua Host trong danh sach cac host (tu 0..15)
-	// tra ve ket qua la ID cua host trong danh sach nodes: 0..3, 8..11, 16..19,
-	// 24..27
+	
+	// Input is the host's index in the list of hosts from 0 to 15
+	// Returns host's ID in the list of nodes: 0..3, 8..11, 16..19, 24..27
 	private int getHostIndex(int i) {
 		int result = 0;
 		int pod = i / (k * k / 4);

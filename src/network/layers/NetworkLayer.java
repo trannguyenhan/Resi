@@ -39,10 +39,10 @@ public class NetworkLayer extends Layer implements IEventGenerator {
 			int selectedId = Integer.MAX_VALUE;
 			EntranceBuffer selectedENB = null;
 			Packet p;
-			// lay ra cac enb tu request list cua exb hien tai
+			// Get enbs from request lisst of the current exb
 			for (EntranceBuffer enb : exitBuffer.getRequestList()) {
 				p = enb.getPeekPacket();
-				// chon ra Inport co Packet co id nho nhat
+				// Choose the Inport whose packet has the smallest ID
 				if (p != null && !(enb.hasEventOfPacket(p))) {
 					if (p.getId() < selectedId) {
 						selectedId = p.getId();
@@ -54,7 +54,7 @@ public class NetworkLayer extends Layer implements IEventGenerator {
 				long time = (long) selectedENB.physicalLayer.simulator.time();
 				Event event = new EMovingInSwitchEvent(selectedENB.physicalLayer.simulator, time,
 						time + Constant.SWITCH_CYCLE, selectedENB, selectedENB.getPeekPacket());
-				event.register(); // chen them su kien moi vao
+				event.register(); // add a new packet
 			}
 		}
 	}

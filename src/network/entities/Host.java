@@ -32,8 +32,8 @@ public class Host extends Node {
 	}
 
 	protected int receivedPacketInNode = 0;
-	protected double lastRx = 0; // thoi gian goi tin cuoi cung den host
-	protected double firstTx = -1; // la thoi gian goi tin dau tien den host
+	protected double lastRx = 0; // The time when the final packet is sent to host
+	protected double firstTx = -1; // The time when the first packet is sent to host
 
 	public int getReceivedPacketInNode() {
 		return receivedPacketInNode;
@@ -60,7 +60,7 @@ public class Host extends Node {
 		packet.setEndTime(currentTime);
 
 		this.physicalLayer.simulator.totalPacketTime += packet.timeTravel();
-		this.physicalLayer.simulator.totalHop += packet.nHop; // todo xem nHop la gi
+		this.physicalLayer.simulator.totalHop += packet.nHop; 
 	}
 
 	@Override

@@ -156,7 +156,6 @@ public class SameIDOutgoing extends OverSubscription {
 		List<Integer> sources = getSources();
 		List<Integer> destinations = getDestinations();
 		int realCore = 0;
-		// int count = 0;
 		if (sources.size() != k * k * k / 4) {
 			System.out.println("Not enough pair! Just " + sources.size());
 			for (int i = 0; i < sources.size(); i++) {

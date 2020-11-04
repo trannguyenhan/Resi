@@ -12,18 +12,17 @@ public class Sq1 extends State {
 	}
 
 	/**
-	 * Phuong thuc act dung de goi khi ma mot phan tu thay doi trang thai O day,
-	 * phan tu Source queue khi o trang thai Sq1 thi no se kiem tra xem danh sach
-	 * cac su kien (sap xay ra) co su kien sinh goi tin tiep theo chua? Neu chua se
-	 * tao ra su kien nay. Thoi diem xay ra su kien nay la tuong lai (mot
-	 * Constant.HOST_DELAY nua)
+	 * This method is used when an element change its state. When the element Source
+	 * queue is in the state Sq1, it will check whether the coming event list has an
+	 * event which generates the next packet or not. If not, it will create this event.
+	 * The time of this event is in the future (one more Constant.HOST_DELAY)
 	 */
 	@Override
 	public void act() {
 		SourceQueue sourceQueue = (SourceQueue) element;
 		long time = (long) sourceQueue.getNextPacketTime();
 		Event event = new AGenerationEvent(sourceQueue.physicalLayer.simulator, time, time, element);
-		event.register();// ma nguon cu dung pthuc add la khong dung
+		event.register();
 
 	}
 

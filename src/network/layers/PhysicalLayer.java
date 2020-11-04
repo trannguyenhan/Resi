@@ -14,7 +14,7 @@ public class PhysicalLayer extends Layer { // only transfers packets from a node
 	public HashMap<Integer, ExitBuffer> exitBuffers;
 	public HashMap<Integer, EntranceBuffer> entranceBuffers;
 	public SourceQueue sourceQueue;
-	public HashMap<Integer, Link> links; // rieng link host luu id la id cua host
+	public HashMap<Integer, Link> links; // only host link has id which is host's id
 	public DiscreteEventSimulator simulator;
 	public Node node;
 

@@ -116,8 +116,7 @@ public class DiscreteEventSimulator extends Simulator {
 			if (ev == null) {
 				return null;
 			} else {
-				this.currentTime = // (long) ev.time();
-						ev.getEndTime();
+				this.currentTime = ev.getEndTime();
 				ev.setEndTime(-10);
 
 				return ev;

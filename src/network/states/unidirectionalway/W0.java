@@ -31,12 +31,12 @@ public class W0 extends State {
 					long time = (long) exitBuffer.physicalLayer.simulator.time();
 					Event event = new CLeavingEXBEvent(exitBuffer.physicalLayer.simulator, time, time, exitBuffer,
 							packet);
-					event.register(); // chen them su kien moi vao
+					event.register(); // add a new event
 				} else if (exitBuffer.getNode() instanceof Switch) {
 					long time = (long) exitBuffer.physicalLayer.simulator.time();
 					Event event = new FLeavingSwitchEvent(exitBuffer.physicalLayer.simulator, time,
 							time + Constant.SWITCH_CYCLE, exitBuffer, packet);
-					event.register(); // chen them su kien moi vao
+					event.register(); // add a new event
 
 				}
 			}

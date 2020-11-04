@@ -72,10 +72,8 @@ public class ThroughputExperiment {
 		StdOut.printf("Throughput : %.2f\n", throughput);
 
 		double rawThroughput = throughput * Constant.LINK_BANDWIDTH / 100 / 1e9;
-		// StdOut.printf("RAW Throughput : %.2f GBit/s\n", rawThroughput);
 
 		double alternativeRawThroughput = simulator.numReceived * Constant.PACKET_SIZE / (trafficPattern.size());
-		// StdOut.printf("b1: %f\n", alternativeRawThroughput);
 		alternativeRawThroughput = alternativeRawThroughput / (nPoint * interval);
 
 		long end = System.currentTimeMillis();
@@ -142,7 +140,6 @@ public class ThroughputExperiment {
 			for (int i = 0; i < topology.getSwitches().size(); i++) {
 				Switch nodeSwitch = topology.getSwitches().get(i);
 				System.out.print("\nSwitch has id: " + nodeSwitch.getId() + " \n");
-				// Map<Integer, Integer> outgoingTraffic
 				if (nodeSwitch.getNetworkLayer().routingAlgorithm instanceof FatTreeFlowClassifier) {
 					FatTreeFlowClassifier ftfc = (FatTreeFlowClassifier) nodeSwitch.getNetworkLayer().routingAlgorithm;
 					Map<Integer, Long> outgoingTraffic = ftfc.outgoingTraffic;

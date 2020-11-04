@@ -23,8 +23,8 @@ public class Link extends Device {
 
 	private double length;
 
-	public Link(Node u, Node v) { // link co 2 unidirectional way nen can put 2 new way moi theo 2 chieu khi khoi
-									// tao
+	public Link(Node u, Node v) { // The link has two unidirectional ways, so we need to put two new ways in two
+									// directions when initializing
 		super(0);
 		this.ways = new HashMap<>();
 		ways.put(u.getId(), new UnidirectionalWay(u, v, this));

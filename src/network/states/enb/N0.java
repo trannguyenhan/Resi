@@ -22,20 +22,21 @@ public class N0 extends State {
 		long time = (long) entranceBuffer.physicalLayer.simulator.time();
 		Event event = new HNotificationEvent(entranceBuffer.physicalLayer.simulator, time, time + Constant.CREDIT_DELAY,
 				entranceBuffer);
-		event.register(); // chen them su kien moi vao
+		event.register(); // add a new event
 
 		UnidirectionalWay unidirectionalWay = entranceBuffer.physicalLayer.links
 				.get(entranceBuffer.getConnectNode().getId()).getWayToOtherNode(entranceBuffer.getConnectNode());
 		Packet packet = unidirectionalWay.getPacket();
 
-		if (packet != null) // todo them event moi phai tao state moi cho packet, vi state nay gan voi event
+		if (packet != null) // when adding a new event, we have to create a new state for the packet,
+							// because this state is associated with the event
 			if (!unidirectionalWay.hasEventOfPacket(packet)) {
 				// add event D
 				time = (long) entranceBuffer.physicalLayer.simulator.time();
 				event = new DReachingENBEvent(entranceBuffer.physicalLayer.simulator, time,
 						time + unidirectionalWay.getLink().getTotalLatency(packet.getSize()), unidirectionalWay,
 						packet);
-				event.register(); // chen them su kien moi vao
+				event.register(); // add a new event
 
 			}
 

@@ -157,7 +157,6 @@ public class InterPodIncoming extends OverSubscription {
 			if (sources.get(i) / sizeOfPod == destinations.get(i) / sizeOfPod) {
 				System.out.print("Source and destination are in the same pod. INVALID!!!!");
 				System.exit(0);
-				// count++;
 				break;
 			}
 		}

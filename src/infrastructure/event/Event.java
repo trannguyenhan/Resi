@@ -51,8 +51,7 @@ public abstract class Event extends umontreal.ssj.simevents.Event {
 	}
 
 	/**
-	 * Xay dung phuong thuc insertEvent thuc hien viec chen mot Event co ten la ev.
-	 * 
+	 * build method insertEvent to insert an event called ev
 	 * @param ev
 	 */
 	public void register() {

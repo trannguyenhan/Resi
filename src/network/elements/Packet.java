@@ -12,8 +12,8 @@ public class Packet extends Element {
 
 	private double startTime;
 	private double endTime;
-	public int nHop = 0; // tang 1 khi packet den switch??
-
+	public int nHop = 0; // nHop will be 1 when the packet is sent to switch
+	
 	public DataLinkLayer dataLinkLayer;
 
 	public Packet(int id, int source, int destination, double startTime) {

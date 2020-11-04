@@ -5,7 +5,7 @@ import network.elements.Packet;
 public class DataLinkLayer extends Layer {
 	public Packet packet;
 
-	// cap nhat thong tin packet
+	// update the packet's information
 	public DataLinkLayer(Packet p) {
 		this.packet = p;
 	}
