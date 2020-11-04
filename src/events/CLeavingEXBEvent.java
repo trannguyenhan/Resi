@@ -19,7 +19,6 @@ public class CLeavingEXBEvent extends Event {
 	// Event dai dien cho su kien loai (C): goi tin roi khoi EXB
 	public CLeavingEXBEvent(DiscreteEventSimulator sim, long startTime, long endTime, Element elem, Packet p) {
 		super(sim, endTime);
-		// countSubEvent++;
 		this.startTime = startTime;
 		this.endTime = endTime;
 		this.element = elem;
@@ -40,14 +39,10 @@ public class CLeavingEXBEvent extends Event {
 					&& ((exitBuffer.getState().type == Type.X11) || (exitBuffer.getState().type == Type.X01))) {
 				unidirectionalWay.addPacket(exitBuffer.removePacket());
 
-				// change Packet state
-				// if (packet.getState() instanceof StateP2)
 				{
-					// packet.setState(new StateP3(unidirectionalWay, packet, this));
 					packet.setType(Type.P3);
 				}
 				// change EXB state
-				// exitBuffer.setState(new X00(exitBuffer));
 				exitBuffer.setType(Type.X00);
 				exitBuffer.getState().act();
 				// change uniWay state

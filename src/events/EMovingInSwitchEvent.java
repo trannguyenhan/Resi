@@ -23,7 +23,6 @@ public class EMovingInSwitchEvent extends Event {
 
 	public EMovingInSwitchEvent(DiscreteEventSimulator sim, long startTime, long endTime, Element elem, Packet p) {
 		super(sim, endTime);
-		// countSubEvent++;
 		this.startTime = startTime;
 		this.endTime = endTime;
 		this.element = elem;
@@ -47,12 +46,8 @@ public class EMovingInSwitchEvent extends Event {
 				exitBuffer.insertPacket(packet);
 				exitBuffer.removeFromRequestList(entranceBuffer);
 
-				// change Packet state
-				// if (packet.getState() instanceof StateP4)
 				{
-					// packet.setState(new StateP5(exitBuffer, packet, this));
 					packet.setType(Type.P5);
-					// packet.getState().act();
 				}
 				if (entranceBuffer.getState() instanceof N1) {
 					entranceBuffer.setState(new N0(entranceBuffer));
@@ -61,12 +56,10 @@ public class EMovingInSwitchEvent extends Event {
 				if (exitBuffer.isFull()) {
 					type = TypeE.E2;
 					if (exitBuffer.getState().type == Type.X00) {
-						// exitBuffer.setState(new X10(exitBuffer));
 						exitBuffer.setType(Type.X10);
 						exitBuffer.getState().act();
 					}
 					if (exitBuffer.getState().type == Type.X01) {
-						// exitBuffer.setState(new X11(exitBuffer));
 						exitBuffer.setType(Type.X11);
 						exitBuffer.getState().act();
 					}

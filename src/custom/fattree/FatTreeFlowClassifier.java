@@ -128,7 +128,6 @@ public class FatTreeFlowClassifier extends FatTreeRoutingAlgorithm {
 	@Override
 	public RoutingAlgorithm build(Node node) throws CloneNotSupportedException {
 		currentNode = node.getId();
-		// return super.build(node);
 		RoutingAlgorithm ra = super.build(node);
 		if (ra instanceof FatTreeFlowClassifier) {
 			FatTreeFlowClassifier ftfc = (FatTreeFlowClassifier) ra;
@@ -162,7 +161,6 @@ public class FatTreeFlowClassifier extends FatTreeRoutingAlgorithm {
 				value += outgoingTraffic.get(idNextNode);
 			}
 			outgoingTraffic.put(idNextNode, value);
-			// int value = flowSizesPerDuration.get(new Pair<>)
 		}
 	}
 }

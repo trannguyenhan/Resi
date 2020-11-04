@@ -12,7 +12,6 @@ public class StateP2 extends State {
 	public StateP2(ExitBuffer exitBuffer, Packet p, BLeavingSourceQueueEvent ev) {
 		this.element = exitBuffer;
 		this.packet = p;
-		// this.ancestorEvent = ev;
 	}
 
 	@Override

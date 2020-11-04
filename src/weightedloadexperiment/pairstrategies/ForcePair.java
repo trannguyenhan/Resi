@@ -28,10 +28,9 @@ public class ForcePair extends InterPodIncoming {
 
 		for (int i = 0; i < sources.size(); i++) {
 			realCore = getRealCoreSwitch(sources.get(i), destinations.get(i));
-			System.out.println("From " + sources.get(i) + " through "
-					+ getCoreSwitch(sources.get(i), destinations.get(i)) + "/" + realCore + " to " + destinations.get(i)
-			// + "(HostID = " + getHostID(destinations.get(i)) + ")"
-			);
+			System.out
+					.println("From " + sources.get(i) + " through " + getCoreSwitch(sources.get(i), destinations.get(i))
+							+ "/" + realCore + " to " + destinations.get(i));
 
 		}
 		return;
@@ -44,7 +43,6 @@ public class ForcePair extends InterPodIncoming {
 		if (this.modulo != 0) {
 			Integer[] pairs = pairHostsByModulo(this.modulo);
 			sources.addAll(Arrays.asList(pairs));
-			// destinations.addAll(Arrays.asList(pairs[1]));
 		} else {
 			sources.add(1); // destinations.add(11);
 			sources.add(2); // destinations.add(16);

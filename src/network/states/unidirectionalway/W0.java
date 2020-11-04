@@ -27,7 +27,6 @@ public class W0 extends State {
 		if (packet != null) {
 			if (!(exitBuffer.hasEventOfPacket(packet))) {
 
-				// if(exitBuffer.getNode() instanceof SourceNode){
 				if (exitBuffer.getNode() instanceof Host) {
 					long time = (long) exitBuffer.physicalLayer.simulator.time();
 					Event event = new CLeavingEXBEvent(exitBuffer.physicalLayer.simulator, time, time, exitBuffer,

@@ -21,13 +21,10 @@ public class Sq1 extends State {
 	@Override
 	public void act() {
 		SourceQueue sourceQueue = (SourceQueue) element;
-		// if(notYetAddGenerationEvent(sourceQueue))//Kiem tra xem Source Queue da co
-		// event tao goi tin moi chua?
-		{
-			long time = (long) sourceQueue.getNextPacketTime();
-			Event event = new AGenerationEvent(sourceQueue.physicalLayer.simulator, time, time, element);
-			event.register();// ma nguon cu dung pthuc add la khong dung
-		}
+		long time = (long) sourceQueue.getNextPacketTime();
+		Event event = new AGenerationEvent(sourceQueue.physicalLayer.simulator, time, time, element);
+		event.register();// ma nguon cu dung pthuc add la khong dung
+
 	}
 
 }

@@ -13,29 +13,13 @@ import custom.fattree.FatTreeRoutingAlgorithm;
 
 public class InterPodIncoming extends OverSubscription {
 
-	// public int k;
 	private int[][] adjMx;
-	// private FatTreeRoutingAlgorithm routing;
-	// private FatTreeGraph G;
 
 	public InterPodIncoming(FatTreeRoutingAlgorithm routing, FatTreeGraph G) {
 		super();
 		this.routing = routing;
 		this.G = G;
 	}
-	/*
-	 * public InterPodIncoming(Integer[] allHosts, int k, FatTreeRoutingAlgorithm
-	 * routing, FatTreeGraph G) { super(allHosts); this.k = k; this.routing =
-	 * routing; this.G = G; int numOfHosts = allHosts.length;
-	 * 
-	 * adjMx = new int[numOfHosts][numOfHosts]; for(int i = 0; i < numOfHosts; i++)
-	 * { for(int j = 0; j < numOfHosts; j++) { if(i / (k*k/4) != j / (k*k/4)) { int
-	 * src = allHosts[i]; int dst = allHosts[j]; int core = getCoreSwitch(src, dst);
-	 * adjMx[i][j] = core; } else{ adjMx[i][j] = 0; } } }
-	 * 
-	 * 
-	 * }
-	 */
 
 	@Override
 	public void setAllHosts(Integer[] allHosts) {
@@ -75,10 +59,8 @@ public class InterPodIncoming extends OverSubscription {
 			prePod = currPod;
 			if (!destinations.contains(dst)) {
 				int index = (i + sizeOfPod + delta) % numOfHosts;
-				// if(allHosts[index] / elmOfPod == prePod)
 				if (index / sizeOfPod == prePod) {
 					index = (index + sizeOfPod) % numOfHosts;
-					// if(allHosts[index] /elmOfPod == dst / elmOfPod)
 					if (index / sizeOfPod == dst / sizeOfPod) {
 						index = (index + sizeOfPod) % numOfHosts;
 					}
@@ -86,7 +68,6 @@ public class InterPodIncoming extends OverSubscription {
 				int count = 0;
 				int expectedSrc = allHosts[index];
 				boolean found = false;
-				// int j =
 				while (!found && count < k) {
 					if (sources.contains(expectedSrc)) {
 						for (int j = index + 1; j < (index / sizeOfPod + 1) * sizeOfPod; j++) {
@@ -135,7 +116,6 @@ public class InterPodIncoming extends OverSubscription {
 			}
 			// end of if(!destinations.contains(dst))
 			else {
-				// currPod = (i + 1) / elmOfPod;
 				currPod = i / sizeOfPod;
 			}
 		}
@@ -149,7 +129,6 @@ public class InterPodIncoming extends OverSubscription {
 		List<Integer> sources = getSources();
 		List<Integer> destinations = getDestinations();
 		int realCore = 0;
-		// int count = 0;
 		int sizeOfPod = k * k / 4;
 		if (sources.size() != k * k * k / 4) {
 			System.out.println("Not enough pair! Just " + sources.size());

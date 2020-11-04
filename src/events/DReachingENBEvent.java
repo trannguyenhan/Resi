@@ -25,7 +25,6 @@ public class DReachingENBEvent extends Event {
 	// Event dai dien cho su kien loai (D): goi tin den duoc ENB cua nut tiep theo
 	public DReachingENBEvent(DiscreteEventSimulator sim, long startTime, long endTime, Element elem, Packet p) {
 		super(sim, endTime);
-		// countSubEvent++;
 		this.startTime = startTime;
 		this.endTime = endTime;
 		this.element = elem;
@@ -34,24 +33,19 @@ public class DReachingENBEvent extends Event {
 
 	@Override
 	public void actions() {
-		// if(getElement() instanceof UnidirectionalWay)
 		{
 			UnidirectionalWay unidirectionalWay = (UnidirectionalWay) element;
 
 			EntranceBuffer entranceBuffer = unidirectionalWay.getToNode().physicalLayer.entranceBuffers
 					.get(unidirectionalWay.getFromNode().getId());
 
-			if (// packet.getState() instanceof SStateP3
-			packet.getState().type == Type.P3 && unidirectionalWay.getState() instanceof W1
+			if (packet.getState().type == Type.P3 && unidirectionalWay.getState() instanceof W1
 					&& unidirectionalWay.getToNode() instanceof Switch && entranceBuffer.getState() instanceof N0
 					&& unidirectionalWay.getPacket() == packet) {
 				unidirectionalWay.removePacket();
 				entranceBuffer.insertPacket(packet);
 
-				// change state packet
-				// packet.setState(new StateP4(entranceBuffer, packet, this));
 				packet.setType(Type.P4);
-				// packet.getState().act();
 
 				if (entranceBuffer.isFull()) {
 					type = TypeD.D2; // ENB full
@@ -67,12 +61,10 @@ public class DReachingENBEvent extends Event {
 					ExitBuffer sendExitBuffer = unidirectionalWay.getFromNode().physicalLayer.exitBuffers
 							.get(unidirectionalWay.getToNode().getId());
 					if (sendExitBuffer.getState().type == Type.X00) {
-						// sendExitBuffer.setState(new X01(sendExitBuffer));
 						sendExitBuffer.setType(Type.X01);
 						sendExitBuffer.getState().act();
 					}
 					if (sendExitBuffer.getState().type == Type.X10) {
-						// sendExitBuffer.setState(new X11(sendExitBuffer));
 						sendExitBuffer.setType(Type.X11);
 						sendExitBuffer.getState().act();
 					}

@@ -104,11 +104,6 @@ public class FatTreeRoutingAlgorithm implements RoutingAlgorithm, Cloneable {
 
 				// create prefix table
 				Map<javatuples.Triplet<Integer, Integer, Integer>, Integer> prefixTable = new HashMap<>();
-				/*
-				 * javatuples.Triplet<Integer, String, String> triplet = new
-				 * javatuples.Triplet<Integer, String, String>(Integer.valueOf(1),
-				 * "GeeksforGeeks", "A computer portal");
-				 */
 
 				for (int e = 0; e < k / 2; e++) {
 					int edgeSwitch = offset + k * k / 4 + e;
@@ -155,7 +150,6 @@ public class FatTreeRoutingAlgorithm implements RoutingAlgorithm, Cloneable {
 										 * This parameter is the number of nodes in a pod (including (k*k/4)hosts, (k/2)
 										 * edge switches and (k/2) aggregation switches)
 										 */
-
 		edgeSwitches(k, numEachPod);
 		aggSwitches(k, numEachPod);
 		coreSwitches(k, numEachPod);

@@ -26,23 +26,19 @@ public class GReachingDestinationEvent extends Event {
 
 	@Override
 	public void actions() {
-		// if(getElement() instanceof UnidirectionalWay)
 		{
 			UnidirectionalWay unidirectionalWay = (UnidirectionalWay) element;
 
 			Node nextNode = unidirectionalWay.getToNode();
 
-			if (// packet.getState() instanceof SStateP3
-			packet.getState().type == Type.P3 && unidirectionalWay.getState() instanceof W1
+			if (packet.getState().type == Type.P3 && unidirectionalWay.getState() instanceof W1
 					&& nextNode.isDestinationNode() && unidirectionalWay.getPacket() == packet) {
 				unidirectionalWay.removePacket();
 				Host destinationNode = (Host) nextNode;
 				destinationNode.receivePacket(packet);
 
 				// change state packet
-				// packet.setState(new StateP6(packet, this));
 				packet.setType(Type.P6);
-				// packet.getState().act();
 				// change state of uniWay
 				unidirectionalWay.setState(new W0(unidirectionalWay));
 				unidirectionalWay.getState().act();
@@ -51,17 +47,13 @@ public class GReachingDestinationEvent extends Event {
 				ExitBuffer sendExitBuffer = unidirectionalWay.getFromNode().physicalLayer.exitBuffers
 						.get(unidirectionalWay.getToNode().getId());
 				if (sendExitBuffer.getState().type == Type.X00) {
-					// sendExitBuffer.setState(new X01(sendExitBuffer));
 					sendExitBuffer.setType(Type.X01);
 					sendExitBuffer.getState().act();
 				}
 				if (sendExitBuffer.getState().type == Type.X10) {
-					// sendExitBuffer.setState(new X11(sendExitBuffer));
 					sendExitBuffer.setType(Type.X11);
 					sendExitBuffer.getState().act();
 				}
-
-//                System.out.println("p: " + packet.getId() +  ", G to destination");
 
 			}
 		}

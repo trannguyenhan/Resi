@@ -24,7 +24,6 @@ public class HNotificationEvent extends Event {
 
 	@Override
 	public void actions() {
-		// if(getElement() instanceof EntranceBuffer)
 		{
 			EntranceBuffer entranceBuffer = (EntranceBuffer) element;
 
@@ -36,12 +35,10 @@ public class HNotificationEvent extends Event {
 						.get(entranceBuffer.physicalLayer.node.getId());
 
 				if (sendExitBuffer.getState().type == Type.X00) {
-					// sendExitBuffer.setState(new X01(sendExitBuffer));
 					sendExitBuffer.setType(Type.X01);
 					sendExitBuffer.getState().act();
 				}
 				if (sendExitBuffer.getState().type == Type.X10) {
-					// sendExitBuffer.setState(new X11(sendExitBuffer));
 					sendExitBuffer.setType(Type.X11);
 					sendExitBuffer.getState().act();
 				}

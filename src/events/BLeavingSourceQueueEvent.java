@@ -20,7 +20,6 @@ public class BLeavingSourceQueueEvent extends Event {
 	// Event dai dien cho su kien loai (B): goi tin roi khoi Source Queue
 	public BLeavingSourceQueueEvent(DiscreteEventSimulator sim, long startTime, long endTime, Element elem, Packet p) {
 		super(sim, endTime);
-		// countSubEvent++;
 		this.startTime = startTime;
 		this.endTime = endTime;
 		this.element = elem;
@@ -50,34 +49,26 @@ public class BLeavingSourceQueueEvent extends Event {
 				// change state source queue, type B1
 				if (sourceQueue.hasOnlyOnePacket()) {
 					sourceQueue.setState(new Sq1(sourceQueue));
-					// sourceQueue.getState().act();
 				}
 
 				sourceQueue.removePacket();
 				exitBuffer.insertPacket(packet);
 
-				// change Packet state
-				// if (packet.getState() instanceof StateP1)
 				{
-					// packet.setState(new StateP2(exitBuffer, packet, this));
 					packet.setType(Type.P2);
-					// packet.getState().act();
 				}
 				// change state EXB, type b4
 				if (exitBuffer.isFull()) {
 					if (exitBuffer.getState().type == Type.X00) {
-						// exitBuffer.setState(new X10(exitBuffer));
 						exitBuffer.setType(Type.X10);
-						// exitBuffer.getState().act();
 					}
 					if (exitBuffer.getState().type == Type.X01) {
-						// exitBuffer.setState(new X11(exitBuffer));
 						exitBuffer.setType(Type.X11);
 						exitBuffer.getState().act();
 					}
 				}
 
-//				// add event C
+				// add event C
 				long time = (long) sourceQueue.physicalLayer.simulator.time();
 				Event event = new CLeavingEXBEvent(sim, time, time, exitBuffer, packet);
 				event.register();// chen them su kien moi vao

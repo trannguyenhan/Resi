@@ -13,7 +13,6 @@ public class StateP4 extends State {
 	public StateP4(EntranceBuffer entranceBuffer, Packet p, DReachingENBEvent ev) {
 		this.element = entranceBuffer;
 		this.packet = p;
-		// this.ancestorEvent = ev;
 	}
 
 	@Override

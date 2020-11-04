@@ -22,7 +22,7 @@ public class FatTreeGraph extends Graph {
 			throw new IllegalArgumentException("K must be even");
 		if (k > 256)
 			throw new IllegalArgumentException("K must less than 256");
-		
+
 		this.k = k;
 		this.numServers = k * k * k / 4;
 		this.numPodSwitches = k * k;
@@ -30,11 +30,11 @@ public class FatTreeGraph extends Graph {
 		this.V = numServers + numPodSwitches + numCores;
 		this.E = 0;
 		adj = (List<Integer>[]) new List[V];
-		
+
 		for (int v = 0; v < V; v++) {
 			adj[v] = new ArrayList<Integer>();
 		}
-		
+
 		int numEachPod = k * k / 4 + k; // the number of nodes in a pod, each pod has k^2/4 servers and k switches
 		buildEdge(numEachPod);
 		buildAddress();
@@ -92,9 +92,10 @@ public class FatTreeGraph extends Graph {
 			}
 		}
 	}
-	
+
 	/**
 	 * This method is used to build connection among nodes in the network
+	 * 
 	 * @param numEachPod This is the number of nodes in a pod
 	 */
 	private void buildEdge(int numEachPod) {

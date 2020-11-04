@@ -17,7 +17,6 @@ import simulator.DiscreteEventSimulator;
 public class FLeavingSwitchEvent extends Event {
 	// Event dai dien cho su kien loai (F): goi tin roi khoi EXB cua Switch de di
 	// len tren LINK
-
 	public FLeavingSwitchEvent(DiscreteEventSimulator sim, long startTime, long endTime, Element elem, Packet p) {
 		super(sim, endTime);
 		// countSubEvent++;
@@ -42,13 +41,10 @@ public class FLeavingSwitchEvent extends Event {
 			// change Packet state
 			if (packet.getState().type == Type.P5) {
 				packet.setType(Type.P3);
-				// packet.getState().act();
 			}
 			// change EXB state
-			// exitBuffer.setState(new X00(exitBuffer));
 			exitBuffer.setType(Type.X00);
 			exitBuffer.getState().act();
-
 			unidirectionalWay.setState(new W1(unidirectionalWay));
 			unidirectionalWay.getState().act();
 

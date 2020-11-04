@@ -13,7 +13,6 @@ public class StateP3 extends State {
 	public StateP3(UnidirectionalWay unidirectionalWay, Packet p, Event ev) {
 		this.element = unidirectionalWay;
 		this.packet = p;
-		// this.ancestorEvent = ev;
 	}
 
 	@Override

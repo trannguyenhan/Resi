@@ -13,7 +13,6 @@ public class StateP5 extends State {
 	public StateP5(ExitBuffer exitBuffer, Packet p, EMovingInSwitchEvent ev) {
 		this.element = exitBuffer;
 		this.packet = p;
-		// this.ancestorEvent = ev;
 	}
 
 	@Override

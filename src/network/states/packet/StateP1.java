@@ -12,7 +12,6 @@ public class StateP1 extends State {
 	public StateP1(SourceQueue sq, Packet p, AGenerationEvent ev) {
 		this.element = sq;
 		this.packet = p;
-		// this.ancestorEvent = ev;
 	}
 
 	@Override

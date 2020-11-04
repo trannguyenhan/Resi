@@ -50,8 +50,6 @@ public class MinimalCoreSwitches extends InterPodIncoming {
 		int numOfOversubscriptedCores = k * k / 8;
 		oversubscriptedCores = new int[numOfOversubscriptedCores];
 		delta = delta % numOfOversubscriptedCores;
-		// delta = 2;
-		// System.out.println("Delta = " + delta);
 
 		for (int i = delta; (i - delta) < numOfOversubscriptedCores; i++) {
 			oversubscriptedCores[i - delta] = allCores[i % (k * k / 4)];
@@ -71,8 +69,6 @@ public class MinimalCoreSwitches extends InterPodIncoming {
 				int dst = getHostIndex(i);
 				if (isCoreAvailable(dst, indexOfFirstCore, usedPods)) {
 					dests.add(dst);
-					// int src = getSources().get(getSources().size() - 1);
-
 				}
 
 			}

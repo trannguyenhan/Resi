@@ -16,17 +16,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-/**
- *
- * @author "Hovercraft Full of Eels", "Rodrigo Azevedo"
- *
- *         This is an improved version of Hovercraft Full of Eels
- *         (https://stackoverflow.com/users/522444/hovercraft-full-of-eels)
- *         answer on StackOverflow: https://stackoverflow.com/a/8693635/753012
- *
- *         GitHub user @maritaria has made some performance improvements which
- *         can be found in the comment section of this Gist.
- */
 public class GraphPanel extends JPanel {
 	private int width = 800;
 	private int height = 400;
@@ -166,7 +155,6 @@ public class GraphPanel extends JPanel {
 		int maxScore = 10;
 		for (int i = 0; i < maxDataPoints; i++) {
 			scores.add((double) random.nextDouble() * maxScore);
-//            scores.add((double) i);
 		}
 		GraphPanel mainPanel = new GraphPanel(scores);
 		mainPanel.setPreferredSize(new Dimension(800, 600));

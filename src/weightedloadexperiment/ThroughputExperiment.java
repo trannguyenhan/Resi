@@ -37,12 +37,9 @@ public class ThroughputExperiment {
 
 		DiscreteEventSimulator.Initialize(true, Constant.MAX_TIME, verbose);
 
-		DiscreteEventSimulator simulator = // new DiscreteEventSimulator(true, Constant.MAX_TIME, verbose);
-				DiscreteEventSimulator.getInstance();
+		DiscreteEventSimulator simulator = DiscreteEventSimulator.getInstance();
 		topology.clear(); // clear all the data, queue, ... in switches, hosts
 		topology.setSimulator(simulator);
-
-		// simulator.initializeCollectionOfEvents();
 
 		int count = 0;
 		for (Integer source : trafficPattern.keySet()) {
@@ -92,13 +89,10 @@ public class ThroughputExperiment {
 
 	public static void main(String[] args) {
 
-		// for(int timeOfRun = 0; timeOfRun < 100-3; timeOfRun++)
 		{
 			FatTreeGraph G = new FatTreeGraph(4);
 			FatTreeRoutingAlgorithm ra = // new FatTreeRoutingAlgorithm(G, false);
 					new FatTreeFlowClassifier(G, false);
-
-			// Integer[] hosts = G.hosts().toArray(new Integer[0]);
 
 			PairGenerator pairGenerator = new StrideIndex(8);
 			// new InterPodIncoming(ra, G);
@@ -106,7 +100,6 @@ public class ThroughputExperiment {
 			// new MinimalCoreSwitches(ra, G);
 			// new SameIDOutgoing(G, ra);
 			Topology topology = new Topology(G, ra, pairGenerator);
-
 			// new StaggeredProb(hosts, 4, 1, 0);
 			// new InterPodIncoming(hosts, k, ra, G);
 

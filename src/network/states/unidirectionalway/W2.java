@@ -12,6 +12,5 @@ public class W2 extends State {
 
 	@Override
 	public void act() {
-
 	}
 }

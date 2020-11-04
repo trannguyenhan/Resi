@@ -12,7 +12,6 @@ public class StateP6 extends State {
 	public StateP6(Packet p, GReachingDestinationEvent ev) {
 		this.element = null;
 		this.packet = p;
-		// this.ancestorEvent = ev;
 	}
 
 	@Override

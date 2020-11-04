@@ -68,13 +68,7 @@ public class Knuth {
 
 		// read in the data
 		String[] a = { "A", "B" };
-		// = StdIn.readAllStrings();
-
 		// shuffle the array
 		Knuth.shuffle(a);
-
-		// print results.
-		// for (int i = 0; i < a.length; i++)
-		// StdOut.println(a[i]);
 	}
 }

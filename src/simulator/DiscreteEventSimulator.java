@@ -139,54 +139,6 @@ public class DiscreteEventSimulator extends Simulator {
 		this.getEventList().add(e);
 	}
 
-	/*public void initializeCollectionOfEvents() {
-		// long startTime = System.currentTimeMillis();
-		// todo chu y kiem tra moi thu extends Element Class
-		List<Host> allHosts = this.topology.getHosts();
-		for (Host host : allHosts) {
-			if (host.type != TypeOfHost.Destination) {// tuc no la source
-				// soonestEndTime will be updated later as events are executed
-				// host.physicalLayer.sourceQueue.sim = this;
-				halfSizeOfEvents++;
-				// soonestEndTime will be updated later as events are executed
-
-				// add uniWay of host(way from it)
-				UnidirectionalWay unidirectionalWay = host.physicalLayer.links.get(host.getId())
-						.getWayToOtherNode(host);
-				// unidirectionalWay.sim = this;
-				halfSizeOfEvents++;
-
-				int connectedNodeID = host.physicalLayer.links.get(host.getId()).getOtherNode(host).getId();
-				// host.physicalLayer.exitBuffers.get(connectedNodeID).sim = this;
-				halfSizeOfEvents++;
-
-			}
-
-		}
-		// lay event tu tat ca ca link truoc
-		List<Switch> allSwitches = this.topology.getSwitches();
-		for (Switch aSwitch : allSwitches) {
-			// add uniWay of switch(way from it)
-			for (Link link : aSwitch.physicalLayer.links.values()) {
-				// link.getWayToOtherNode(aSwitch).sim = this;
-				halfSizeOfEvents++;
-
-			}
-
-			for (ExitBuffer exitBuffer : aSwitch.physicalLayer.exitBuffers.values()) {
-				// exitBuffer.sim = this;
-				halfSizeOfEvents++;
-			}
-
-			for (EntranceBuffer entranceBuffer : aSwitch.physicalLayer.entranceBuffers.values()) {
-				// entranceBuffer.sim = this;
-				halfSizeOfEvents++;
-			}
-		}
-
-		System.out.println("Number of 1/2 events = " + halfSizeOfEvents);
-	}*/
-
 	public long selectNextCurrentTime(long currentTime) {
 		long result = Long.MAX_VALUE;
 

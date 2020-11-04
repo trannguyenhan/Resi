@@ -39,14 +39,11 @@ public class SameIDOutgoing extends OverSubscription {
 
 		int i = 0;
 		while (i < numOfHosts && count < numOfHosts * 1000) {
-			// int src = allHosts[i];
 			sameHostID = -1;
 			List<Integer> allTempDsts = new ArrayList<Integer>();
 			List<Integer> allTempSrcs = new ArrayList<Integer>();
 
-			for (int j = i; j < i + (k / 2); j++)
-			// if(!IsSameSubNet(previousSrc, src))
-			{
+			for (int j = i; j < i + (k / 2); j++) {
 				int src = allHosts[j];
 				boolean found = false;
 				for (int k = 0; k < numOfHosts; k++) {
