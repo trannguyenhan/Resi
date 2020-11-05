@@ -33,29 +33,25 @@ public class GraphPanel extends JPanel {
 		this.scores = scores;
 	}
 
-	@Override
-	protected void paintComponent(Graphics g) {
-		super.paintComponent(g);
-		Graphics2D g2 = (Graphics2D) g;
-		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+	/**
+	 * This method is used to draw white background
+	 * @param g2
+	 */
+	private void drawBackground (Graphics2D g2) {
+	
+				g2.setColor(Color.WHITE);
+				g2.fillRect(padding + labelPadding, padding, getWidth() - (2 * padding) - labelPadding,
+						getHeight() - 2 * padding - labelPadding);
+				g2.setColor(Color.BLACK);
+	}
+	
+	/**
+	 * This method is used to create hatch marks and grid lines for y axis
+	 * 
+	 * @param g2
+	 */
+	private void drawYAxis(Graphics2D g2) {
 
-		double xScale = ((double) getWidth() - (2 * padding) - labelPadding) / (scores.size() - 1);
-		double yScale = ((double) getHeight() - 2 * padding - labelPadding) / (getMaxScore() - getMinScore());
-
-		List<Point> graphPoints = new ArrayList<>();
-		for (int i = 0; i < scores.size(); i++) {
-			int x1 = (int) (i * xScale + padding + labelPadding);
-			int y1 = (int) ((getMaxScore() - scores.get(i)) * yScale + padding);
-			graphPoints.add(new Point(x1, y1));
-		}
-
-		// draw white background
-		g2.setColor(Color.WHITE);
-		g2.fillRect(padding + labelPadding, padding, getWidth() - (2 * padding) - labelPadding,
-				getHeight() - 2 * padding - labelPadding);
-		g2.setColor(Color.BLACK);
-
-		// create hatch marks and grid lines for y axis.
 		for (int i = 0; i < numberYDivisions + 1; i++) {
 			int x0 = padding + labelPadding;
 			int x1 = pointWidth + padding + labelPadding;
@@ -74,8 +70,15 @@ public class GraphPanel extends JPanel {
 			}
 			g2.drawLine(x0, y0, x1, y1);
 		}
+	}
 
-		// and for x axis
+	
+	/**
+	 * This method is used to create hatch marks and grid lines for x axis
+	 * @param g2
+	 */
+	private void drawXAxis(Graphics2D g2) {
+
 		for (int i = 0; i < scores.size(); i++) {
 			if (scores.size() > 1) {
 				int x0 = i * (getWidth() - padding * 2 - labelPadding) / (scores.size() - 1) + padding + labelPadding;
@@ -94,8 +97,16 @@ public class GraphPanel extends JPanel {
 				g2.drawLine(x0, y0, x1, y1);
 			}
 		}
+	}
 
-		// create x and y axes
+	/**
+	 * This method is used to create x and y axes
+	 * 
+	 * @param g2
+	 * @param graphPoints
+	 */
+	private void createAxes(Graphics2D g2, List<Point> graphPoints) {
+
 		g2.drawLine(padding + labelPadding, getHeight() - padding - labelPadding, padding + labelPadding, padding);
 		g2.drawLine(padding + labelPadding, getHeight() - padding - labelPadding, getWidth() - padding,
 				getHeight() - padding - labelPadding);
@@ -120,6 +131,31 @@ public class GraphPanel extends JPanel {
 			int ovalH = pointWidth;
 			g2.fillOval(x, y, ovalW, ovalH);
 		}
+	}
+	
+	/**
+	 * This method is used to paint Graphics g
+	 */
+	@Override
+	protected void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		Graphics2D g2 = (Graphics2D) g;
+		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+		double xScale = ((double) getWidth() - (2 * padding) - labelPadding) / (scores.size() - 1);
+		double yScale = ((double) getHeight() - 2 * padding - labelPadding) / (getMaxScore() - getMinScore());
+
+		List<Point> graphPoints = new ArrayList<>();
+		for (int i = 0; i < scores.size(); i++) {
+			int x1 = (int) (i * xScale + padding + labelPadding);
+			int y1 = (int) ((getMaxScore() - scores.get(i)) * yScale + padding);
+			graphPoints.add(new Point(x1, y1));
+		}
+
+		drawBackground (g2); // draw white background
+		drawYAxis(g2); // Create hatch marks and grid lines for y axis
+		drawXAxis(g2); // Create hatch marks and grid lines for x axis
+		createAxes(g2, graphPoints); // create x and y axes
 	}
 
 	private double getMinScore() {

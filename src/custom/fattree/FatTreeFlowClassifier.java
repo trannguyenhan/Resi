@@ -68,7 +68,6 @@ public class FatTreeFlowClassifier extends FatTreeRoutingAlgorithm {
 			} else { // Edge switch
 				Address address = G.getAddress(destination);
 				int suffix = address._4;
-
 				Map<Integer, Integer> suffixTable = suffixTables.get(current);
 				System.out.println(suffixTable.get(suffix));
 				return suffixTable.get(suffix);
@@ -91,9 +90,7 @@ public class FatTreeFlowClassifier extends FatTreeRoutingAlgorithm {
 		} else {
 			int type = G.switchType(current);
 			if (type == FatTreeGraph.CORE) {
-
 				return super.next(source, current, destination);
-
 			} else {
 				if (flowTable.isEmpty()) {
 
@@ -146,7 +143,7 @@ public class FatTreeFlowClassifier extends FatTreeRoutingAlgorithm {
 		int currentTime = (int) node.physicalLayer.simulator.time();
 		if (currentTime - time >= Constant.TIME_REARRANGE) {
 			time = currentTime;
-			// Cap nhat ket qua bang dinh tuyen o day
+			// Update the result of routing table here
 			flowSizesPerDuration = new HashMap<Pair<Integer, Integer>, Long>();
 		} else {
 			Pair<Integer, Integer> flow = new Pair<>(src, dst);

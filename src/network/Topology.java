@@ -22,7 +22,7 @@ public class Topology {
 	private Map<Integer, Switch> switchById;
 	private List<Integer> sourceNodes;
 	private List<Integer> destinationNodes;
-	private long bandwithToHost = 0;
+	// private long bandwithToHost = 0;
 	// ThanhNT 14/10 new property
 	public Map<Integer, String> cordOfNodes;
 	// End of ThanhNT 14/10 new property
@@ -38,12 +38,26 @@ public class Topology {
 		switchById = new HashMap<>();
 		sourceNodes = new ArrayList<>();
 		destinationNodes = new ArrayList<>();
+		cordOfNodes = new HashMap<>();// ThanhNT 14/10 add new statements to init property
 
-		// ThanhNT 14/10 add new statements to init property
-		cordOfNodes = new HashMap<>();
-		// End of ThanhNT 14/10 add new statements to init property
+		initSwitch(graph, routingAlgorithm); // Initialize switch and add this to a list
+		Coordination C = new Coordination(graph);
+		linkSwitch(C); // Link from switch to switch
+		this.pairGenerator = pair;
+		initHost(routingAlgorithm, pair); // Initialize host and add this to a list
+		linkSwitchHost(C, graph); // link from switch to host
 
-		// Initialize switch and add this to a list
+		pairGenerator.setUpBandwidth(this);
+	}
+
+	/**
+	 * This method is used to initialize switch and add this to a list
+	 * 
+	 * @param graph
+	 * @param routingAlgorithm
+	 */
+	private void initSwitch(FatTreeGraph graph, FatTreeRoutingAlgorithm routingAlgorithm) {
+
 		for (int sid : graph.switches()) {
 			Switch sw = new Switch(sid);
 			switches.add(sw);
@@ -56,52 +70,72 @@ public class Topology {
 			sw.physicalLayer = new PhysicalLayer(sw, graph.getK());
 			sw.setNetworkLayer(routingAlgorithm, sw);
 		}
+	}
 
-		// link from switch to switch
-		Coordination C = new Coordination(graph);
+	/**
+	 * This method is used link from switch to switch
+	 * 
+	 * @param C
+	 */
+	private void linkSwitch(Coordination C) {
+
 		for (Switch sw : switches) {
 			for (int nextNodeID : graph.adj(sw.getId())) {
 				if (graph.isSwitchVertex(nextNodeID)) {
 					Switch otherSwitch = switchById.get(nextNodeID);
-					// => ThanhNT set comment to THE following line
 					if (!otherSwitch.physicalLayer.links.containsKey(sw.getId())) {
 						// create new link
 						double distance = C.distanceBetween(sw.getId(), otherSwitch.getId());
-
-						EntranceBuffer entranceBuffer;
-						ExitBuffer exitBuffer;
 						Link link = new Link(sw, otherSwitch, distance);
 						sw.physicalLayer.links.put(otherSwitch.getId(), link);
 						otherSwitch.physicalLayer.links.put(sw.getId(), link);
 
-						// exb and enb of switch
-						entranceBuffer = new EntranceBuffer(sw, otherSwitch, Constant.QUEUE_SIZE);
-						exitBuffer = new ExitBuffer(sw, otherSwitch, Constant.QUEUE_SIZE);
-						entranceBuffer.physicalLayer = sw.physicalLayer;
-						exitBuffer.physicalLayer = sw.physicalLayer;
-						sw.physicalLayer.entranceBuffers.put(otherSwitch.getId(), entranceBuffer);
-						sw.physicalLayer.exitBuffers.put(otherSwitch.getId(), exitBuffer);
-
-						// exb and enb of Otherswitch
-						entranceBuffer = new EntranceBuffer(otherSwitch, sw, Constant.QUEUE_SIZE);
-						exitBuffer = new ExitBuffer(otherSwitch, sw, Constant.QUEUE_SIZE);
-						entranceBuffer.physicalLayer = otherSwitch.physicalLayer;
-						exitBuffer.physicalLayer = otherSwitch.physicalLayer;
-						otherSwitch.physicalLayer.entranceBuffers.put(sw.getId(), entranceBuffer);
-						otherSwitch.physicalLayer.exitBuffers.put(sw.getId(), exitBuffer);
+						createBuffer(sw, otherSwitch); // Create entrance buffer and exit buffer of switch and otherSwitch
 
 						// ThanhNT 14/10 add new statements to insert coord of switch
 						cordOfNodes.put(sw.getId(), C.getCoordOfSwitch(sw.getId()));
 						cordOfNodes.put(otherSwitch.getId(), C.getCoordOfSwitch(otherSwitch.getId()));
-						// End of ThanhNT 14/10 add new statements to insert coord of switch
 					}
 				}
 			}
 		}
+	}
 
-		this.pairGenerator = pair;
+	/**
+	 * This method is used to create entrance buffer and exit buffer of switch and otherSwitch
+	 * @param sw
+	 * @param otherSwitch
+	 */
+	private void createBuffer(Switch sw, Switch otherSwitch) {
 
-		// Initialize host and add this to a list
+		EntranceBuffer entranceBuffer;
+		ExitBuffer exitBuffer;
+
+		// exb and enb of switch
+		entranceBuffer = new EntranceBuffer(sw, otherSwitch, Constant.QUEUE_SIZE);
+		exitBuffer = new ExitBuffer(sw, otherSwitch, Constant.QUEUE_SIZE);
+		entranceBuffer.physicalLayer = sw.physicalLayer;
+		exitBuffer.physicalLayer = sw.physicalLayer;
+		sw.physicalLayer.entranceBuffers.put(otherSwitch.getId(), entranceBuffer);
+		sw.physicalLayer.exitBuffers.put(otherSwitch.getId(), exitBuffer);
+
+		// exb and enb of Otherswitch
+		entranceBuffer = new EntranceBuffer(otherSwitch, sw, Constant.QUEUE_SIZE);
+		exitBuffer = new ExitBuffer(otherSwitch, sw, Constant.QUEUE_SIZE);
+		entranceBuffer.physicalLayer = otherSwitch.physicalLayer;
+		exitBuffer.physicalLayer = otherSwitch.physicalLayer;
+		otherSwitch.physicalLayer.entranceBuffers.put(sw.getId(), entranceBuffer);
+		otherSwitch.physicalLayer.exitBuffers.put(sw.getId(), exitBuffer);
+	}
+
+	/**
+	 * This method is used to initialize host and add this to a list
+	 * 
+	 * @param routingAlgorithm
+	 * @param pair
+	 */
+	private void initHost(FatTreeRoutingAlgorithm routingAlgorithm, PairGenerator pair) {
+
 		Integer[] hostIDList = graph.hosts().toArray(new Integer[0]);
 		pair.setAllHosts(hostIDList);
 
@@ -113,6 +147,12 @@ public class Topology {
 
 		sourceNodeIDs = pairGenerator.getSources();
 		destinationNodeIDs = pairGenerator.getDestinations();
+
+		addSourceNodeID(sourceNodeIDs, routingAlgorithm);
+		addDesNodeID(destinationNodeIDs, routingAlgorithm);
+	}
+
+	private void addSourceNodeID(List<Integer> sourceNodeIDs, FatTreeRoutingAlgorithm routingAlgorithm) {
 
 		sourceNodes.addAll(sourceNodeIDs);
 
@@ -127,8 +167,10 @@ public class Topology {
 			// ThanhNT 14/10 add new statements to add new ID of HOST
 			cordOfNodes.put(sourceNodeID, "");
 			// End of ThanhNT 14/10 add new statements to add new ID of HOST
-
 		}
+	}
+
+	private void addDesNodeID(List<Integer> destinationNodeIDs, FatTreeRoutingAlgorithm routingAlgorithm) {
 
 		destinationNodes.addAll(destinationNodeIDs);
 
@@ -138,6 +180,7 @@ public class Topology {
 				destinationNode = hostById.get(destinationNodeID);
 				destinationNode.type = TypeOfHost.Mix;
 			} else {
+
 				destinationNode = new Host(destinationNodeID);
 				destinationNode.type = TypeOfHost.Destination;
 				hosts.add(destinationNode);
@@ -146,50 +189,45 @@ public class Topology {
 				destinationNode.setNetworkLayer(routingAlgorithm, destinationNode);
 			}
 
-			// ThanhNT 14/10 add new statements to add new ID of HOST
-			cordOfNodes.put(destinationNodeID, "");
-			// End of ThanhNT 14/10 add new statements to add new ID of HOST
-
+			cordOfNodes.put(destinationNodeID, ""); // ThanhNT 14/10 add new statements to add new ID of HOST
 		}
+	}
 
-		// link from switch to host
+	/**
+	 * This method is used to link from switch to host
+	 * 
+	 * @param C
+	 * @param graph
+	 */
+	private void linkSwitchHost(Coordination C, FatTreeGraph graph) {
 		for (Host host : hosts) {
 			// get switch
 			int switchID = graph.adj(host.getId()).get(0);
 			Switch sw = switchById.get(switchID);
+			Link link = new Link(host, sw, Constant.HOST_TO_SWITCH_LENGTH); // create new link
 
-			// create new link
-			Link link = new Link(host, sw, Constant.HOST_TO_SWITCH_LENGTH);
-
-			host.physicalLayer.links.put(host.getId(), link);// rieng link host luu id la id cua host
+			host.physicalLayer.links.put(host.getId(), link); // only host link has id which is the id of host
 			sw.physicalLayer.links.put(host.getId(), link);
-
 			// initiate property in Physical Layer
 			if (host.isSourceNode()) {
-				// exb of host
+				// exit buffer of host
 				ExitBuffer exitBuffer = new ExitBuffer(host, sw, Constant.QUEUE_SIZE);
 				exitBuffer.physicalLayer = host.physicalLayer;
 				host.physicalLayer.exitBuffers.put(sw.getId(), exitBuffer);
-
-				// enb of switch to host
+				// entrance buffer of switch to host
 				EntranceBuffer entranceBuffer = new EntranceBuffer(sw, host, Constant.QUEUE_SIZE);
 				entranceBuffer.physicalLayer = sw.physicalLayer;
 				sw.physicalLayer.entranceBuffers.put(host.getId(), entranceBuffer);
 			}
 			// create exitBuffer for switch to link with desNode
-			// exb of switch to desNode
 			if (host.isDestinationNode()) {
 				ExitBuffer exitBuffer = new ExitBuffer(sw, host, Constant.QUEUE_SIZE);
 				exitBuffer.physicalLayer = sw.physicalLayer;
 				sw.physicalLayer.exitBuffers.put(host.getId(), exitBuffer);
 			}
-
 			// ThanhNT 14/10 add new statements to insert coord of HOST
 			cordOfNodes.put(host.getId(), C.getCoordOfHost(sw.getId(), Constant.HOST_TO_SWITCH_LENGTH));
-			// End of ThanhNT 14/10 add new statements to insert coord of HOST
 		}
-
-		pairGenerator.setUpBandwidth(this);
 	}
 
 	public List<Integer> getSourceNodeIDs() {

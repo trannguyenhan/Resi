@@ -4,9 +4,9 @@ import infrastructure.entity.Node;
 import network.elements.Packet;
 
 public abstract class LimitedBuffer extends Buffer {
-	// todo should set to protected
-	protected Node node; // co the bo di
-	protected Node connectNode; // ko the bo, vi tu buffer ko the biet duoc no connect voi node khac nao
+	// should be set to protected
+	protected Node node; // can be removed
+	protected Node connectNode; // can not be removed, because from buffer, we do not know which node will be connected
 	protected int size;
 
 	public Node getConnectNode() {

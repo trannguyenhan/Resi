@@ -1,12 +1,5 @@
-/common/
-/config/
-/custom/
-/events/
-/graph/
-/infrastructure/
 /javatuples/
 /network/
-/results/
 /routing/
 /simulator/
 /weightedloadexperiment/
