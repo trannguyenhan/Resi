@@ -2,13 +2,10 @@ package custom.fattree;
 
 import java.util.HashMap;
 import java.util.Map;
-
 import config.Constant;
 import infrastructure.entity.Node;
 import javatuples.Pair;
-import javatuples.Triplet;
 import network.elements.Packet;
-import network.layers.DataLinkLayer;
 import routing.RoutingAlgorithm;
 
 public class FatTreeFlowClassifier extends FatTreeRoutingAlgorithm {
@@ -24,7 +21,6 @@ public class FatTreeFlowClassifier extends FatTreeRoutingAlgorithm {
 
 	public FatTreeFlowClassifier(FatTreeGraph G, boolean precomputed) {
 		super(G, precomputed);
-
 	}
 
 	private int time = 0;
@@ -39,42 +35,31 @@ public class FatTreeFlowClassifier extends FatTreeRoutingAlgorithm {
 
 	@Override
 	public int next(int source, int current, int destination) {
+
 		if (G.isHostVertex(current)) {
 			return G.adj(current).get(0);
 		} else if (G.adj(current).contains(destination)) {
 			return destination;
 		} else {
 			int type = G.switchType(current);
+
 			if (type == FatTreeGraph.CORE) {
-
-				return super.next(source, current, destination);
-
+				return super.next(source, current,
+						destination); /*
+										 * Find the next node in the path when the current switch is core switch
+										 */
 			} else if (type == FatTreeGraph.AGG) {
-				Address address = G.getAddress(destination);
-
-				Triplet<Integer, Integer, Integer> prefix = new Triplet<>(address._1, address._2, address._3);
-				int suffix = address._4;
-
-				Map<Triplet<Integer, Integer, Integer>, Integer> prefixTable = getPrefixTables().get(current);
-				Map<Integer, Integer> suffixTable = suffixTables.get(current);
-
-				if (prefixTable.containsKey(prefix)) {
-					System.out.println(prefixTable.get(prefix));
-					return prefixTable.get(prefix);
-				} else {
-					System.out.println(suffixTable.get(suffix));
-					return suffixTable.get(suffix);
-				}
-			} else { // Edge switch
-				Address address = G.getAddress(destination);
-				int suffix = address._4;
-				Map<Integer, Integer> suffixTable = suffixTables.get(current);
-				System.out.println(suffixTable.get(suffix));
-				return suffixTable.get(suffix);
+				return aggType(current,
+						destination); /*
+										 * Find the next node in the path when the current switch is aggregation switch
+										 */
+			} else {
+				return edgeType(current,
+						destination); /*
+										 * Find the next node in the path when the current switch is edge switch
+										 */
 			}
-
 		}
-
 	}
 
 	@Override
@@ -90,35 +75,25 @@ public class FatTreeFlowClassifier extends FatTreeRoutingAlgorithm {
 		} else {
 			int type = G.switchType(current);
 			if (type == FatTreeGraph.CORE) {
-				return super.next(source, current, destination);
+				return super.next(source, current,
+						destination); /*
+										 * Find the next node in the path when the current switch is core switch
+										 */
 			} else {
 				if (flowTable.isEmpty()) {
-
 				}
 				if (type == FatTreeGraph.AGG) {
-
-					Address address = G.getAddress(destination);
-
-					Triplet<Integer, Integer, Integer> prefix = new Triplet<>(address._1, address._2, address._3);
-					int suffix = address._4;
-
-					Map<Triplet<Integer, Integer, Integer>, Integer> prefixTable = getPrefixTables().get(current);
-					Map<Integer, Integer> suffixTable = suffixTables.get(current);
-
-					if (prefixTable.containsKey(prefix)) {
-						return prefixTable.get(prefix);
-					} else {
-						return suffixTable.get(suffix);
-					}
-				} else { // Edge switch
-					Address address = G.getAddress(destination);
-					int suffix = address._4;
-
-					Map<Integer, Integer> suffixTable = suffixTables.get(current);
-					return suffixTable.get(suffix);
+					return aggType(current, destination); /*
+															 * Find the next node in the path when the current switch is
+															 * aggregation switch
+															 */
+				} else {
+					return edgeType(current,
+							destination); /*
+											 * Find the next node in the path when the current switch is edge switch
+											 */
 				}
 			}
-
 		}
 	}
 
@@ -136,6 +111,9 @@ public class FatTreeFlowClassifier extends FatTreeRoutingAlgorithm {
 		return ra;
 	}
 
+	/**
+	 * This method is used to update the result of routing table
+	 */
 	@Override
 	public void update(Packet p, Node node) {
 		int src = p.getSource();

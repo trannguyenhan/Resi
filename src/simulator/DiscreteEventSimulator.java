@@ -75,22 +75,15 @@ public class DiscreteEventSimulator extends Simulator {
 			throw new IllegalStateException("start() called with an empty event list");
 		stopped = false;
 		simulating = true;
-		umontreal.ssj.simevents.Event ev;
+		umontreal.ssj.simevents.Event ev = null;
 		int countEvent = 0;
 
 		try {
 			long startTime = System.currentTimeMillis();// remove redundant variable
 			int lastPercentage = 0;
 
-			while ((ev = removeFirstEvent()) != null && !stopped && (!isLimit || currentTime < timeLimit)) {
-				countEvent++;
-				ev.actions();
-				int percentage = (int) (currentTime) / (int) Constant.EXPERIMENT_INTERVAL;
-				if (percentage > lastPercentage) {
-					lastPercentage = percentage;
-					StdOut.printProgress("Progress", startTime, (long) timeLimit, currentTime);
-				}
-			}
+			printProgress(countEvent, lastPercentage, startTime, ev);
+
 			StdOut.print("\r");
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -98,8 +91,21 @@ public class DiscreteEventSimulator extends Simulator {
 			stopped = true;
 			simulating = false;
 		}
+		System.out.println("# of Events: " + countEvent); // print the number of event
+	}
 
-		System.out.println("# of Events: " + countEvent);
+	private void printProgress(int countEvent, int lastPercentage, long startTime, umontreal.ssj.simevents.Event ev) {
+		
+		while ((ev = removeFirstEvent()) != null && !stopped && (!isLimit || currentTime < timeLimit)) {
+			countEvent++;
+			ev.actions();
+			int percentage = (int) (currentTime) / (int) Constant.EXPERIMENT_INTERVAL;
+
+			if (percentage > lastPercentage) {
+				lastPercentage = percentage;
+				StdOut.printProgress("Progress", startTime, (long) timeLimit, currentTime);
+			}
+		}
 	}
 
 	@Override
@@ -135,7 +141,6 @@ public class DiscreteEventSimulator extends Simulator {
 
 	public long selectNextCurrentTime(long currentTime) {
 		long result = Long.MAX_VALUE;
-
 		return result;
 	}
 

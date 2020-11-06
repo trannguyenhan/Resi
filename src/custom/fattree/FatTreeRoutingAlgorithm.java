@@ -181,7 +181,7 @@ public class FatTreeRoutingAlgorithm implements RoutingAlgorithm, Cloneable {
 	 * @return the prefix or suffix pointing to the destination node
 	 */
 
-	private int aggType(int current, int destination) {
+	protected int aggType(int current, int destination) {
 		Address address = G.getAddress(destination);
 
 		Triplet<Integer, Integer, Integer> prefix = new Triplet<>(address._1, address._2, address._3);
@@ -206,7 +206,7 @@ public class FatTreeRoutingAlgorithm implements RoutingAlgorithm, Cloneable {
 	 * @return the suffix pointing to the destination node
 	 */
 
-	private int edgeType(int current, int destination) {
+	protected int edgeType(int current, int destination) {
 		Address address = G.getAddress(destination);
 		int suffix = address._4;
 		Map<Integer, Integer> suffixTable = suffixTables.get(current);
