@@ -13,8 +13,18 @@ import network.states.unidirectionalway.W1;
 import simulator.DiscreteEventSimulator;
 
 public class GReachingDestinationEvent extends Event {
-	// Event dai dien cho su kien loai (G): goi tin den duoc nut dich
 
+	/**
+	 * This is the constructor method of GReachingDestinationEvent class extending
+	 * Event class. This is the event which represents type (G) event: packet
+	 * reaches the destination node
+	 * 
+	 * @param sim
+	 * @param startTime
+	 * @param endTime
+	 * @param elem
+	 * @param p
+	 */
 	public GReachingDestinationEvent(DiscreteEventSimulator sim, long startTime, long endTime, Element elem, Packet p) {
 		// countSubEvent++;
 		super(sim, endTime);

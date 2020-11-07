@@ -17,7 +17,17 @@ enum TypeB {
 public class BLeavingSourceQueueEvent extends Event {
 	protected TypeB type = TypeB.B;
 
-	// Event dai dien cho su kien loai (B): goi tin roi khoi Source Queue
+	/**
+	 * This is the constructor method of BLeavingSourceQueueEvent class extending
+	 * Event class. This is the event which represents a type (B) event: packet
+	 * leaves Source Queue
+	 * 
+	 * @param sim
+	 * @param startTime
+	 * @param endTime
+	 * @param elem
+	 * @param p
+	 */
 	public BLeavingSourceQueueEvent(DiscreteEventSimulator sim, long startTime, long endTime, Element elem, Packet p) {
 		super(sim, endTime);
 		this.startTime = startTime;
@@ -57,7 +67,7 @@ public class BLeavingSourceQueueEvent extends Event {
 				{
 					packet.setType(Type.P2);
 				}
-				// change state EXB, type b4
+				// change state EXB, type B4
 				if (exitBuffer.isFull()) {
 					if (exitBuffer.getState().type == Type.X00) {
 						exitBuffer.setType(Type.X10);
@@ -71,7 +81,7 @@ public class BLeavingSourceQueueEvent extends Event {
 				// add event C
 				long time = (long) sourceQueue.physicalLayer.simulator.time();
 				Event event = new CLeavingEXBEvent(sim, time, time, exitBuffer, packet);
-				event.register();// chen them su kien moi vao
+				event.register();// add a new event
 			}
 		}
 	}

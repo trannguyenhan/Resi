@@ -22,7 +22,17 @@ enum TypeD {
 public class DReachingENBEvent extends Event {
 	public TypeD type = TypeD.D;
 
-	// Event dai dien cho su kien loai (D): goi tin den duoc ENB cua nut tiep theo
+	/**
+	 * This is the constructor method of DReachingENBEvent class extending Event class. 
+	 * This is the event which represents a type (D) event: packet reaches entrance
+	 * buffer (ENB) of the next node
+	 * 
+	 * @param sim
+	 * @param startTime
+	 * @param endTime
+	 * @param elem
+	 * @param p
+	 */
 	public DReachingENBEvent(DiscreteEventSimulator sim, long startTime, long endTime, Element elem, Packet p) {
 		super(sim, endTime);
 		this.startTime = startTime;

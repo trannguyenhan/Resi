@@ -11,9 +11,17 @@ import network.states.unidirectionalway.W2;
 import simulator.DiscreteEventSimulator;
 
 public class HNotificationEvent extends Event {
-	// Event dai dien cho su kien loai (H): mot Switch bao cho hang xom cua no rang
-	// ENB cua no da trong
 
+	/**
+	 * This is the constructor method of HNotificationEvent class extending Event
+	 * class. This is the event which represents a type (H) event: a switch notifies
+	 * nearby switches that its exit buffer (ENB) is empty
+	 * 
+	 * @param sim
+	 * @param startTime
+	 * @param endTime
+	 * @param elem
+	 */
 	public HNotificationEvent(DiscreteEventSimulator sim, long startTime, long endTime, Element elem) {
 		super(sim, endTime);
 		this.startTime = startTime;

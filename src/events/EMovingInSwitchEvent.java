@@ -18,9 +18,18 @@ enum TypeE {
 
 public class EMovingInSwitchEvent extends Event {
 	public TypeE type = TypeE.E;
-	// Event dai dien cho su kien loai (E): goi tin roi khoi ENB cua Switch de sang
-	// EXB
 
+	/**
+	 * This is the constructor method of EMovingInSwitchEvent class extending Event
+	 * class. This is the event which represents a type (F) event: packet moves from
+	 * switch's entrance buffer (ENB) to switch's exit buffer (EXB)
+	 * 
+	 * @param sim
+	 * @param startTime
+	 * @param endTime
+	 * @param elem
+	 * @param p
+	 */
 	public EMovingInSwitchEvent(DiscreteEventSimulator sim, long startTime, long endTime, Element elem, Packet p) {
 		super(sim, endTime);
 		this.startTime = startTime;

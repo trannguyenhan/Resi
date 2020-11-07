@@ -11,6 +11,17 @@ import simulator.DiscreteEventSimulator;
 public class AGenerationEvent extends Event {
 
 	// Event dai dien cho su kien loai (A): goi tin duoc sinh ra
+
+	/**
+	 * This is the constructor event of AGenerationEvent class extending Event
+	 * class. This is the event which represents a type (A) event: packet is
+	 * generated
+	 * 
+	 * @param sim
+	 * @param startTime
+	 * @param endTime
+	 * @param elem
+	 */
 	public AGenerationEvent(DiscreteEventSimulator sim, long startTime, long endTime, IEventGenerator elem) {
 		super(sim, endTime);
 		this.element = elem;
@@ -19,7 +30,7 @@ public class AGenerationEvent extends Event {
 	}
 
 	@Override
-	// todo bat dau tu event A
+	// starting from event type (A)
 	public void actions() {
 		DiscreteEventSimulator sim = DiscreteEventSimulator.getInstance();
 		{
@@ -33,7 +44,7 @@ public class AGenerationEvent extends Event {
 			this.setPacket(newPacket);
 			newPacket.setType(Type.P1);
 
-			// update source queue state
+			// update source queue's state
 			if (sourceQueue.getState() instanceof Sq1)// it means that elem is an instance of SourceQueue
 			{
 				sourceQueue.setState(new Sq2(sourceQueue));

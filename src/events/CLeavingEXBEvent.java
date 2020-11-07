@@ -16,7 +16,17 @@ import simulator.DiscreteEventSimulator;
 
 public class CLeavingEXBEvent extends Event {
 
-	// Event dai dien cho su kien loai (C): goi tin roi khoi EXB
+	/**
+	 * This is the constructor method of CLeavingEXBEvent class extending Event class.
+	 * This is the event which represents a type (C) event: packet leaves exit
+	 * buffer (EXB)
+	 * 
+	 * @param sim
+	 * @param startTime
+	 * @param endTime
+	 * @param elem
+	 * @param p
+	 */
 	public CLeavingEXBEvent(DiscreteEventSimulator sim, long startTime, long endTime, Element elem, Packet p) {
 		super(sim, endTime);
 		this.startTime = startTime;
@@ -32,7 +42,7 @@ public class CLeavingEXBEvent extends Event {
 			ExitBuffer exitBuffer = (ExitBuffer) element;
 
 			UnidirectionalWay unidirectionalWay = exitBuffer.physicalLayer.links
-					.get(exitBuffer.physicalLayer.node.getId())// vi la link cua host nen hoi khac
+					.get(exitBuffer.physicalLayer.node.getId()) // It is different because it is the host's link
 					.getWayToOtherNode(exitBuffer.physicalLayer.node);
 
 			if (unidirectionalWay.getState() instanceof W0 && exitBuffer.isPeekPacket(packet)
@@ -57,7 +67,7 @@ public class CLeavingEXBEvent extends Event {
 					Event event = new DReachingENBEvent(sim, time,
 							time + unidirectionalWay.getLink().getTotalLatency(packet.getSize()), unidirectionalWay,
 							packet);
-					event.register(); // chen them su kien moi vao
+					event.register(); // add a new event
 				} else if (nextNode instanceof Host) {
 					Host h = (Host) nextNode;
 					if (h.type == TypeOfHost.Destination || h.type == TypeOfHost.Mix) {
@@ -66,7 +76,7 @@ public class CLeavingEXBEvent extends Event {
 						Event event = new GReachingDestinationEvent(sim, time,
 								time + unidirectionalWay.getLink().getTotalLatency(packet.getSize()), unidirectionalWay,
 								packet);
-						event.register(); // chen them su kien moi vao
+						event.register(); // add a new event
 					}
 				}
 			}
