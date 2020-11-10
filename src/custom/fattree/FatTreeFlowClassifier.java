@@ -33,6 +33,13 @@ public class FatTreeFlowClassifier extends FatTreeRoutingAlgorithm {
 		this.time = time;
 	}
 
+	/**
+	 * This method is used to find the next node from the current node in the path
+	 * 
+	 * @param source      This is the source node
+	 * @param current     This is the current node
+	 * @param destination This is the destination node
+	 */
 	@Override
 	public int next(int source, int current, int destination) {
 
@@ -62,6 +69,12 @@ public class FatTreeFlowClassifier extends FatTreeRoutingAlgorithm {
 		}
 	}
 
+	/**
+	 * This method is used to find the next node to send the packet
+	 * 
+	 * @param packet This is the packet which needs to be sent
+	 * @param node   This is the current node where the packet stays
+	 */
 	@Override
 	public int next(Packet packet, Node node) {
 		int current = node.getId();
@@ -113,6 +126,9 @@ public class FatTreeFlowClassifier extends FatTreeRoutingAlgorithm {
 
 	/**
 	 * This method is used to update the result of routing table
+	 * 
+	 * @param p    This is the packet which needs to be sent
+	 * @param node This is the current node where the packet stays
 	 */
 	@Override
 	public void update(Packet p, Node node) {
@@ -121,7 +137,6 @@ public class FatTreeFlowClassifier extends FatTreeRoutingAlgorithm {
 		int currentTime = (int) node.physicalLayer.simulator.time();
 		if (currentTime - time >= Constant.TIME_REARRANGE) {
 			time = currentTime;
-			// Update the result of routing table here
 			flowSizesPerDuration = new HashMap<Pair<Integer, Integer>, Long>();
 		} else {
 			Pair<Integer, Integer> flow = new Pair<>(src, dst);

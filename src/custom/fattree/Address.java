@@ -9,6 +9,7 @@ public class Address {
 		this._3 = _3;
 		this._4 = _4;
 	}
+	
 	/**
 	 * This method is used to check whether an object is an address or not
 	 * @return true if it is an address

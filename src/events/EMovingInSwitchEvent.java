@@ -21,7 +21,7 @@ public class EMovingInSwitchEvent extends Event {
 
 	/**
 	 * This is the constructor method of EMovingInSwitchEvent class extending Event
-	 * class. This is the event which represents a type (F) event: packet moves from
+	 * class. This is the event which represents a type (E) event: packet moves from
 	 * switch's entrance buffer (ENB) to switch's exit buffer (EXB)
 	 * 
 	 * @param sim

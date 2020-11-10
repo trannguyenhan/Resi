@@ -8,10 +8,10 @@ public class FatTreeGraph extends Graph {
 	public static final int CORE = 1;
 	public static final int AGG = 2;
 	public static final int EDGE = 3;
-	private final int numServers;
-	private final int numPodSwitches;
-	private final int numCores;
-	private final int k;
+	private final int numServers;  // the number of servers
+	private final int numPodSwitches; // the number of switches in a pod
+	private final int numCores; // the number of core switches
+	private final int k; // k must be even and less than 256
 	private Address[] address;
 
 	private List<Integer> switches;
@@ -21,12 +21,12 @@ public class FatTreeGraph extends Graph {
 		if (k % 2 == 1)
 			throw new IllegalArgumentException("K must be even");
 		if (k > 256)
-			throw new IllegalArgumentException("K must less than 256");
+			throw new IllegalArgumentException("K must be less than 256");
 
-		this.k = k;
+		this.k = k; 
 		this.numServers = k * k * k / 4;
-		this.numPodSwitches = k * k;
-		this.numCores = k * k / 4;
+		this.numPodSwitches = k * k; 
+		this.numCores = k * k / 4; 
 		this.V = numServers + numPodSwitches + numCores;
 		this.E = 0;
 		adj = (List<Integer>[]) new List[V];
@@ -35,7 +35,7 @@ public class FatTreeGraph extends Graph {
 			adj[v] = new ArrayList<Integer>();
 		}
 
-		int numEachPod = k * k / 4 + k; // the number of nodes in a pod, each pod has k^2/4 servers and k switches
+		int numEachPod = k * k / 4 + k; // the number of nodes in a pod, including k^2/4 servers and k switches
 		buildEdge(numEachPod);
 		buildAddress();
 	}

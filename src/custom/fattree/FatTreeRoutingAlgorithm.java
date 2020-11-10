@@ -266,11 +266,11 @@ public class FatTreeRoutingAlgorithm implements RoutingAlgorithm, Cloneable {
 				((FatTreeRoutingAlgorithm) ra).corePrefixTables = null;
 			}
 			if (type == FatTreeGraph.EDGE) {
-				((FatTreeRoutingAlgorithm) ra).prefixTables = null;
+				//((FatTreeRoutingAlgorithm) ra).prefixTables = null;
 				((FatTreeRoutingAlgorithm) ra).corePrefixTables = null;
 			}
 			if (type == FatTreeGraph.CORE) {
-				((FatTreeRoutingAlgorithm) ra).prefixTables = null;
+				//((FatTreeRoutingAlgorithm) ra).prefixTables = null;
 				((FatTreeRoutingAlgorithm) ra).suffixTables = null;
 			}
 		}
@@ -278,7 +278,6 @@ public class FatTreeRoutingAlgorithm implements RoutingAlgorithm, Cloneable {
 	}
 
 	public void update(Packet p, Node node) {
-
 	}
 
 }

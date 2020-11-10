@@ -15,8 +15,18 @@ import network.states.unidirectionalway.W1;
 import simulator.DiscreteEventSimulator;
 
 public class FLeavingSwitchEvent extends Event {
-	// Event dai dien cho su kien loai (F): goi tin roi khoi EXB cua Switch de di
-	// len tren LINK
+
+	/**
+	 * This is the constructor method of FLeavingSwitchEvent class extending Event
+	 * class. This is the event which represents a type (F) event: packet leaves
+	 * switch's entrance buffer (ENB) to go up to LINK
+	 * 
+	 * @param sim
+	 * @param startTime
+	 * @param endTime
+	 * @param elem
+	 * @param p
+	 */
 	public FLeavingSwitchEvent(DiscreteEventSimulator sim, long startTime, long endTime, Element elem, Packet p) {
 		super(sim, endTime);
 		// countSubEvent++;
@@ -58,7 +68,7 @@ public class FLeavingSwitchEvent extends Event {
 					Event event = new GReachingDestinationEvent(sim, time,
 							time + unidirectionalWay.getLink().getTotalLatency(packet.getSize()), unidirectionalWay,
 							packet);
-					event.register(); // chen them su kien moi vao
+					event.register(); // add a new event
 				}
 			} else if (nextNode instanceof Switch) {
 
@@ -67,7 +77,7 @@ public class FLeavingSwitchEvent extends Event {
 				Event event = new DReachingENBEvent(sim, time,
 						time + unidirectionalWay.getLink().getTotalLatency(packet.getSize()), unidirectionalWay,
 						packet);
-				event.register(); // chen them su kien moi vao
+				event.register(); // add a new event
 			}
 		}
 

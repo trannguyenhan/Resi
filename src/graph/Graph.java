@@ -56,7 +56,44 @@ public abstract class Graph {
 	public double pathCableLength(List<Integer> path) {
 		return 0;
 	}
-
+	
+	/**
+	 * If vNode is not visited and it is a vertex switch, add it to queue
+	 * 
+	 * @param visited
+	 * @param uNode
+	 * @param trace
+	 * @param queue
+	 */
+	private void addVNodeToQueue(boolean[] visited, int uNode, int[] trace, Queue<Integer> queue) {
+		
+		for (int vNode : this.adj(uNode)) {
+			if (!visited[vNode] && isSwitchVertex(vNode)) {
+				visited[vNode] = true;
+				trace[vNode] = uNode;
+				queue.add(vNode);
+			}
+		}
+	}
+	
+	/**
+	 * This method is used to add a node to path
+	 * 
+	 * @param path This is the shortest path to send packet from a node to another node 
+	 * @param v 
+	 * @param trace If v is visited, trace[v] = -1
+	 */
+	private void addNodeToPath(List<Integer> path, int v, int[] trace) {
+		path.add(v);
+		
+		while (trace[v] != -1) {
+			v = trace[v];
+			path.add(v);
+		}
+		
+		Collections.reverse(path);
+	}
+	
 	public List<Integer> shortestPath(int u, int v) {
 		Queue<Integer> queue = new LinkedList<Integer>();
 		List<Integer> path = new ArrayList<>();
@@ -68,22 +105,10 @@ public abstract class Graph {
 		while (!queue.isEmpty()) {
 			int uNode = queue.remove();
 			if (uNode == v) {
-				path.add(v);
-				while (trace[v] != -1) {
-					v = trace[v];
-					path.add(v);
-				}
-				Collections.reverse(path);
+				addNodeToPath(path, v, trace);
 				break;
 			}
-
-			for (int vNode : this.adj(uNode)) {
-				if (!visited[vNode] && isSwitchVertex(vNode)) {
-					visited[vNode] = true;
-					trace[vNode] = uNode;
-					queue.add(vNode);
-				}
-			}
+			addVNodeToQueue(visited, uNode, trace, queue);
 		}
 		return path;
 	}
@@ -97,29 +122,16 @@ public abstract class Graph {
 		trace[u] = -1;
 		while (!queue.isEmpty()) {
 			int uNode = queue.remove();
-
-			for (int vNode : this.adj(uNode)) {
-				if (!visited[vNode] && isSwitchVertex(vNode)) {
-					visited[vNode] = true;
-					trace[vNode] = uNode;
-					queue.add(vNode);
-				}
-			}
+			addVNodeToQueue(visited, uNode, trace, queue);
 		}
 
 		Map<Integer, List<Integer>> paths = new HashMap<>();
 		for (int node : this.switches()) {
 			List<Integer> path = new ArrayList<>();
 			int v = node;
-			path.add(v);
-			while (trace[v] != -1) {
-				v = trace[v];
-				path.add(v);
-			}
-			Collections.reverse(path);
+			addNodeToPath(path, v, trace);
 			paths.put(node, path);
 		}
-
 		return paths;
 	}
 
@@ -133,32 +145,18 @@ public abstract class Graph {
 		for (int u : switches()) {
 			queue.clear();
 			Arrays.fill(visited, false);
-
 			queue.add(u);
 			visited[u] = true;
 			trace[u] = -1;
 			while (!queue.isEmpty()) {
 				int uNode = queue.remove();
-
-				for (int vNode : this.adj(uNode)) {
-					if (!visited[vNode] && isSwitchVertex(vNode)) {
-						visited[vNode] = true;
-						trace[vNode] = uNode;
-						queue.add(vNode);
-					}
-				}
+				addVNodeToQueue(visited, uNode, trace, queue);
 			}
-
 			paths.put(u, new HashMap<>());
 			for (int node : this.switches()) {
 				List<Integer> path = new ArrayList<>();
 				int v = node;
-				path.add(v);
-				while (trace[v] != -1) {
-					v = trace[v];
-					path.add(v);
-				}
-				Collections.reverse(path);
+				addNodeToPath(path, v, trace);
 				paths.get(u).put(node, path);
 			}
 			StdOut.printf("Done for %d\n", u);

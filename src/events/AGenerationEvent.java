@@ -10,8 +10,6 @@ import simulator.DiscreteEventSimulator;
 
 public class AGenerationEvent extends Event {
 
-	// Event dai dien cho su kien loai (A): goi tin duoc sinh ra
-
 	/**
 	 * This is the constructor event of AGenerationEvent class extending Event
 	 * class. This is the event which represents a type (A) event: packet is
@@ -45,7 +43,7 @@ public class AGenerationEvent extends Event {
 			newPacket.setType(Type.P1);
 
 			// update source queue's state
-			if (sourceQueue.getState() instanceof Sq1)// it means that elem is an instance of SourceQueue
+			if (sourceQueue.getState() instanceof Sq1) // it means that elem is an instance of SourceQueue
 			{
 				sourceQueue.setState(new Sq2(sourceQueue));
 			}

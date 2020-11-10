@@ -112,7 +112,7 @@ public class ThroughputExperiment {
 	}
 	
 	/**
-	 * This method is used to calculate the capacity for flowing from switches to nodes
+	 * This method is used to calculate the capacity for switches to flow to other nodes
 	 */
 	private void calFlowCapacity() {
 		
