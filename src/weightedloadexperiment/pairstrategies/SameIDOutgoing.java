@@ -29,67 +29,76 @@ public class SameIDOutgoing extends OverSubscription {
 		setTypeOfAddresss();
 		List<Integer> sources = getSources();
 		List<Integer> destinations = getDestinations();
-
 		Integer[] allHosts = this.getAllHosts();
 		int numOfHosts = allHosts.length;
-		int previousSrc = 0;
 		int sameHostID = -1;
 		int delta = RandomGenerator.nextInt(0, k * k * k / 4);
 		int count = 0;
-
 		int i = 0;
+
 		while (i < numOfHosts && count < numOfHosts * 1000) {
 			sameHostID = -1;
 			List<Integer> allTempDsts = new ArrayList<Integer>();
 			List<Integer> allTempSrcs = new ArrayList<Integer>();
 
-			for (int j = i; j < i + (k / 2); j++) {
-				int src = allHosts[j];
-				boolean found = false;
-				for (int k = 0; k < numOfHosts; k++) {
-					int dst = allHosts[(k + delta) % numOfHosts];
-					if (dst != src && !destinations.contains(dst) && !allTempDsts.contains(dst)) {
-						if (sameHostID == -1) {
-							sameHostID = getHostID(dst);
-							allTempDsts.add(dst);
-							found = true;
-							break;
-						} else {
-							if (sameHostID == getHostID(dst)) {
-								allTempDsts.add(dst);
-								found = true;
-								break;
-							}
-						}
-					}
-				}
-
-				if (found) {
-					allTempSrcs.add(src);
-				} else {
-					break;
-				}
-
-			}
+			checkSameHostID(i, numOfHosts, delta, allTempDsts, allTempSrcs, sameHostID, allHosts, destinations);
 
 			if (allTempDsts.size() == k / 2) {
-				i += k / 2;
-				System.out.print("\n");
-				sources.addAll(allTempSrcs);
-				destinations.addAll(allTempDsts);
-				for (int m = 0; m < allTempDsts.size(); m++) {
-					System.out.print(allTempDsts.get(m) + "(" + getHostID(allTempDsts.get(m)) + ") ");
-					int id = allTempDsts.get(m);
-					Address host = G.getAddress(id);
-					System.out.print("Addr: " + host._1 + "." + host._2 + "." + host._3 + "." + host._4);
-					System.out.println();
-				}
-				System.out.print("\n");
+				getHostAddr(i, sources, destinations, allTempSrcs, allTempDsts);
 			} else {
 				delta = RandomGenerator.nextInt(0, k * k * k / 4);
 			}
 			count++;
 		}
+	}
+
+	private void checkSameHostID(int i, int numOfHosts, int delta, List<Integer> allTempDsts, List<Integer> allTempSrcs,
+			int sameHostID, Integer[] allHosts, List<Integer> destinations) {
+		for (int j = i; j < i + (k / 2); j++) {
+			int src = allHosts[j];
+			boolean found = false;
+
+			for (int k = 0; k < numOfHosts; k++) {
+				int dst = allHosts[(k + delta) % numOfHosts];
+				if (dst != src && !destinations.contains(dst) && !allTempDsts.contains(dst)) {
+					if (sameHostID == -1) {
+						sameHostID = getHostID(dst);
+						allTempDsts.add(dst);
+						found = true;
+						break;
+					} else {
+						if (sameHostID == getHostID(dst)) {
+							allTempDsts.add(dst);
+							found = true;
+							break;
+						}
+					}
+				}
+			}
+			if (found) {
+				allTempSrcs.add(src);
+			} else {
+				break;
+			}
+		}
+	}
+
+	private void getHostAddr(int i, List<Integer> sources, List<Integer> destinations, List<Integer> allTempSrcs,
+			List<Integer> allTempDsts) {
+
+		i += k / 2;
+		System.out.print("\n");
+		sources.addAll(allTempSrcs);
+		destinations.addAll(allTempDsts);
+
+		for (int m = 0; m < allTempDsts.size(); m++) {
+			System.out.print(allTempDsts.get(m) + "(" + getHostID(allTempDsts.get(m)) + ") ");
+			int id = allTempDsts.get(m);
+			Address host = G.getAddress(id);
+			System.out.print("Addr: " + host._1 + "." + host._2 + "." + host._3 + "." + host._4);
+			System.out.println();
+		}
+		System.out.print("\n");
 	}
 
 	@Override
@@ -114,7 +123,6 @@ public class SameIDOutgoing extends OverSubscription {
 		int hostID = 0;
 		if (lengthOfHostID == 8) {
 			hostID = (lastPart << 24) >> 24;
-
 		}
 
 		if (lengthOfHostID == 16) {
@@ -124,7 +132,6 @@ public class SameIDOutgoing extends OverSubscription {
 		if (lengthOfHostID == 24) {
 			hostID = (lastPart << 8) >> 8;
 		}
-
 		return hostID;
 	}
 
@@ -148,7 +155,6 @@ public class SameIDOutgoing extends OverSubscription {
 			lengthOfHostID = 8;
 			return;
 		}
-
 	}
 
 	@Override
@@ -174,7 +180,5 @@ public class SameIDOutgoing extends OverSubscription {
 					+ "(HostID = " + getHostID(destinations.get(i)) + ")");
 
 		}
-
 	}
-
 }
