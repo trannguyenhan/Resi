@@ -41,7 +41,7 @@ public class SameIDOutgoing extends OverSubscription {
 			List<Integer> allTempDsts = new ArrayList<Integer>();
 			List<Integer> allTempSrcs = new ArrayList<Integer>();
 
-			checkSameHostID(i, numOfHosts, delta, allTempDsts, allTempSrcs, sameHostID, allHosts, destinations);
+			addSrcAndDst(i, numOfHosts, delta, allTempDsts, allTempSrcs, sameHostID, allHosts, destinations);
 
 			if (allTempDsts.size() == k / 2) {
 				getHostAddr(i, sources, destinations, allTempSrcs, allTempDsts);
@@ -52,7 +52,7 @@ public class SameIDOutgoing extends OverSubscription {
 		}
 	}
 
-	private void checkSameHostID(int i, int numOfHosts, int delta, List<Integer> allTempDsts, List<Integer> allTempSrcs,
+	private void addSrcAndDst(int i, int numOfHosts, int delta, List<Integer> allTempDsts, List<Integer> allTempSrcs,
 			int sameHostID, Integer[] allHosts, List<Integer> destinations) {
 		for (int j = i; j < i + (k / 2); j++) {
 			int src = allHosts[j];

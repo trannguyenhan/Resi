@@ -155,8 +155,8 @@ public class ThroughputExperiment {
 		FatTreeGraph G = new FatTreeGraph(4);
 		FatTreeRoutingAlgorithm ra = //new FatTreeRoutingAlgorithm(G, false);
 				new FatTreeFlowClassifier(G, false);
-		PairGenerator pairGenerator = //new StrideIndex(8);
-		new InterPodIncoming(ra, G);
+		PairGenerator pairGenerator = new StrideIndex(8);
+		//new InterPodIncoming(ra, G);
 		// new ForcePair(ra, G, 13);
 		// new MinimalCoreSwitches(ra, G);
 		//new SameIDOutgoing(G, ra);

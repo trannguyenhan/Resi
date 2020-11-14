@@ -49,39 +49,58 @@ public class BLeavingSourceQueueEvent extends Event {
 		DiscreteEventSimulator sim = DiscreteEventSimulator.getInstance();
 		{
 			SourceQueue sourceQueue = (SourceQueue) getElement();
-
 			int connectedNodeID = sourceQueue.physicalLayer.links.get(sourceQueue.getId())
 					.getOtherNode(sourceQueue.physicalLayer.node).getId();
 
 			ExitBuffer exitBuffer = sourceQueue.physicalLayer.exitBuffers.get(connectedNodeID);
 			if (((exitBuffer.getState().type == Type.X00) || (exitBuffer.getState().type == Type.X01))
 					&& (sourceQueue.getState() instanceof Sq2 && sourceQueue.isPeekPacket(packet))) {
-				// change state source queue, type B1
-				if (sourceQueue.hasOnlyOnePacket()) {
-					sourceQueue.setState(new Sq1(sourceQueue));
-				}
 
-				sourceQueue.removePacket();
-				exitBuffer.insertPacket(packet);
-
-				{
-					packet.setType(Type.P2);
-				}
-				// change state EXB, type B4
-				if (exitBuffer.isFull()) {
-					if (exitBuffer.getState().type == Type.X00) {
-						exitBuffer.setType(Type.X10);
-					}
-					if (exitBuffer.getState().type == Type.X01) {
-						exitBuffer.setType(Type.X11);
-						exitBuffer.getState().act();
-					}
-				}
+				changeSrcQueueState(sourceQueue, exitBuffer); // change state source queue, type B1
+				changeEXBState(exitBuffer); // change state EXB, type B4
 
 				// add event C
 				long time = (long) sourceQueue.physicalLayer.simulator.time();
 				Event event = new CLeavingEXBEvent(sim, time, time, exitBuffer, packet);
 				event.register();// add a new event
+			}
+		}
+	}
+
+	/**
+	 * This method is used to change the state of source queue
+	 * 
+	 * @param sourceQueue
+	 * @param exitBuffer
+	 */
+	private void changeSrcQueueState(SourceQueue sourceQueue, ExitBuffer exitBuffer) {
+
+		if (sourceQueue.hasOnlyOnePacket()) {
+			sourceQueue.setState(new Sq1(sourceQueue));
+		}
+
+		sourceQueue.removePacket();
+		exitBuffer.insertPacket(packet);
+
+		{
+			packet.setType(Type.P2);
+		}
+	}
+
+	/**
+	 * This method is used to change the state of exit buffer
+	 * 
+	 * @param exitBuffer
+	 */
+	private void changeEXBState(ExitBuffer exitBuffer) {
+
+		if (exitBuffer.isFull()) {
+			if (exitBuffer.getState().type == Type.X00) {
+				exitBuffer.setType(Type.X10);
+			}
+			if (exitBuffer.getState().type == Type.X01) {
+				exitBuffer.setType(Type.X11);
+				exitBuffer.getState().act();
 			}
 		}
 	}
