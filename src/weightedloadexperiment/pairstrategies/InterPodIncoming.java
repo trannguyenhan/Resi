@@ -48,16 +48,15 @@ public class InterPodIncoming extends OverSubscription {
 		List<Integer> sources = getSources();
 		List<Integer> destinations = getDestinations();
 		Integer[] allHosts = this.getAllHosts();
-		
+
 		int delta = RandomGenerator.nextInt(0, k * k / 4);
 		int numOfHosts = allHosts.length;
 		int sizeOfPod = k * k / 4;
 		int currPod = 0, prePod = 0;
-		
+
 		for (int i = 0; i < numOfHosts; i++) {
 			int dst = allHosts[i];
 			prePod = currPod;
-			
 			if (!destinations.contains(dst)) {
 				int index = calIndex(delta, numOfHosts, sizeOfPod, prePod, i, dst);
 				int count = 0;
@@ -75,7 +74,7 @@ public class InterPodIncoming extends OverSubscription {
 
 	private int calIndex(int delta, int numOfHosts, int sizeOfPod, int prePod, int i, int dst) {
 		int index = (i + sizeOfPod + delta) % numOfHosts;
-		
+
 		if (index / sizeOfPod == prePod) {
 			index = (index + sizeOfPod) % numOfHosts;
 			if (index / sizeOfPod == dst / sizeOfPod) {
@@ -88,7 +87,7 @@ public class InterPodIncoming extends OverSubscription {
 	private void addSrcAndDst(List<Integer> sources, List<Integer> destinations, int index, int sizeOfPod,
 			int expectedSrc, Integer[] allHosts, boolean found, int currPod, int dst, int i, int count,
 			int numOfHosts) {
-		
+
 		while (!found && count < k) {
 			if (sources.contains(expectedSrc)) {
 				addIfContained(sources, destinations, index, sizeOfPod, expectedSrc, allHosts, found, currPod, dst, i);
@@ -98,7 +97,7 @@ public class InterPodIncoming extends OverSubscription {
 					break;
 				}
 			}
-			
+
 			if (!found) {
 				count++;
 				index = (index + sizeOfPod) % numOfHosts;
@@ -108,21 +107,21 @@ public class InterPodIncoming extends OverSubscription {
 
 	private void addIfContained(List<Integer> sources, List<Integer> destinations, int index, int sizeOfPod,
 			int expectedSrc, Integer[] allHosts, boolean found, int currPod, int dst, int i) {
-		
+
 		for (int j = index + 1; j < (index / sizeOfPod + 1) * sizeOfPod; j++) {
 			expectedSrc = allHosts[j];
-			
+
 			if (!sources.contains(expectedSrc) && ((expectedSrc / sizeOfPod) != (dst / sizeOfPod))) {
 				found = true;
 				sources.add(expectedSrc);
 				destinations.add(dst);
-				
+
 				if ((i + 1) % sizeOfPod == 0) {
 					currPod = (i + 1) / sizeOfPod;
 				} else {
 					currPod = j / sizeOfPod;
 				}
-				
+
 				sources.add(dst);
 				destinations.add(expectedSrc);
 				break;
@@ -133,7 +132,7 @@ public class InterPodIncoming extends OverSubscription {
 	private void addIfNotContained(List<Integer> sources, List<Integer> destinations, int index, int sizeOfPod,
 			int expectedSrc, boolean found, int currPod, int dst, int i) {
 		found = true;
-		
+
 		sources.add(expectedSrc);
 		destinations.add(dst);
 
@@ -147,6 +146,10 @@ public class InterPodIncoming extends OverSubscription {
 		}
 	}
 
+	/**
+	 * This method is used to check whether there are enough pairs and whether 
+	 * source node and destination node are in the same pod
+	 */
 	@Override
 	public void checkValid() {
 		Map<Integer, Integer> flowPerCore = new HashMap<Integer, Integer>();

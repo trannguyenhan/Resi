@@ -254,26 +254,6 @@ public class FatTreeRoutingAlgorithm implements RoutingAlgorithm, Cloneable {
 
 	public RoutingAlgorithm build(Node node) throws CloneNotSupportedException {
 		RoutingAlgorithm ra = (RoutingAlgorithm) this.clone();
-		if (node instanceof Host) {
-			((FatTreeRoutingAlgorithm) ra).setCorePrefixTables(null);
-			((FatTreeRoutingAlgorithm) ra).setPrefixTables(null);
-			((FatTreeRoutingAlgorithm) ra).setSuffixTables(null);
-		}
-		if (node instanceof Switch) {
-			int id = ((Switch) node).getId();
-			int type = G.switchType(id);
-			if (type == FatTreeGraph.AGG) {
-				((FatTreeRoutingAlgorithm) ra).corePrefixTables = null;
-			}
-			if (type == FatTreeGraph.EDGE) {
-				//((FatTreeRoutingAlgorithm) ra).prefixTables = null;
-				((FatTreeRoutingAlgorithm) ra).corePrefixTables = null;
-			}
-			if (type == FatTreeGraph.CORE) {
-				//((FatTreeRoutingAlgorithm) ra).prefixTables = null;
-				((FatTreeRoutingAlgorithm) ra).suffixTables = null;
-			}
-		}
 		return ra;
 	}
 

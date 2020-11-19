@@ -57,6 +57,25 @@ public abstract class Graph {
 		return 0;
 	}
 	
+	public List<Integer> shortestPath(int u, int v) {
+		Queue<Integer> queue = new LinkedList<Integer>();
+		List<Integer> path = new ArrayList<>();
+		boolean[] visited = new boolean[this.V];
+		int[] trace = new int[this.V];
+		queue.add(u);
+		visited[u] = true;
+		trace[u] = -1;
+		while (!queue.isEmpty()) {
+			int uNode = queue.remove();
+			if (uNode == v) {
+				addNodeToPath(path, v, trace);
+				break;
+			}
+			addVNodeToQueue(visited, uNode, trace, queue);
+		}
+		return path;
+	}
+	
 	/**
 	 * If vNode is not visited and it is a vertex switch, add it to queue
 	 * 
@@ -92,25 +111,6 @@ public abstract class Graph {
 		}
 		
 		Collections.reverse(path);
-	}
-	
-	public List<Integer> shortestPath(int u, int v) {
-		Queue<Integer> queue = new LinkedList<Integer>();
-		List<Integer> path = new ArrayList<>();
-		boolean[] visited = new boolean[this.V];
-		int[] trace = new int[this.V];
-		queue.add(u);
-		visited[u] = true;
-		trace[u] = -1;
-		while (!queue.isEmpty()) {
-			int uNode = queue.remove();
-			if (uNode == v) {
-				addNodeToPath(path, v, trace);
-				break;
-			}
-			addVNodeToQueue(visited, uNode, trace, queue);
-		}
-		return path;
 	}
 
 	public Map<Integer, List<Integer>> shortestPaths(int u) {

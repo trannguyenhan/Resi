@@ -83,6 +83,17 @@ public class SameIDOutgoing extends OverSubscription {
 		}
 	}
 
+	/**
+	 * This method is used to add all temporary sources to a list of sources, and
+	 * add all temporary destinations to a list of destinations. After that, print
+	 * all temporary destinations with their hostIDs and print the address of hosts
+	 * 
+	 * @param i
+	 * @param sources
+	 * @param destinations
+	 * @param allTempSrcs
+	 * @param allTempDsts
+	 */
 	private void getHostAddr(int i, List<Integer> sources, List<Integer> destinations, List<Integer> allTempSrcs,
 			List<Integer> allTempDsts) {
 
@@ -107,7 +118,15 @@ public class SameIDOutgoing extends OverSubscription {
 		this.k = (int) Math.cbrt(4 * allHosts.length);
 	}
 
-	private boolean IsSameSubNet(int preHost, int currHost) {
+	/**
+	 * This method is used to check whether the previous host and the current host
+	 * are in the same subnet or not
+	 * 
+	 * @param preHost  This is the previous host
+	 * @param currHost This is the current host
+	 * @return
+	 */
+	private boolean isSameSubNet(int preHost, int currHost) {
 		if (Math.abs(preHost - currHost) >= k / 2) {
 			return false;
 		}
@@ -157,13 +176,17 @@ public class SameIDOutgoing extends OverSubscription {
 		}
 	}
 
+	/**
+	 * This method is used to check whether there are enough pairs or not. Moreover,
+	 * source nodes and destination nodes must have the same hostID
+	 */
 	@Override
 	public void checkValid() {
 		List<Integer> sources = getSources();
 		List<Integer> destinations = getDestinations();
 		int realCore = 0;
 		if (sources.size() != k * k * k / 4) {
-			System.out.println("Not enough pair! Just " + sources.size());
+			System.out.println("Not enough pairs! Just " + sources.size());
 			for (int i = 0; i < sources.size(); i++) {
 				realCore = getRealCoreSwitch(sources.get(i), destinations.get(i));
 				System.out.println("From " + sources.get(i) + " through "

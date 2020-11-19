@@ -9,11 +9,12 @@ public class Address {
 		this._3 = _3;
 		this._4 = _4;
 	}
-	
+
 	/**
-	 * This method is used to check whether an object is an address or not
-	 * @return true if it is an address
-	 * @return false if it is not an address
+	 * This method is used to check whether an address equals another address or not
+	 * 
+	 * @return true if it equals
+	 * @return false if it does not equal
 	 */
 	@Override
 	public boolean equals(Object obj) {
