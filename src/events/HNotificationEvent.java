@@ -39,24 +39,20 @@ public class HNotificationEvent extends Event {
 					.get(entranceBuffer.getConnectNode().getId()).getWayToOtherNode(entranceBuffer.getConnectNode());
 
 			if (unidirectionalWay.getState() instanceof W0 || unidirectionalWay.getState() instanceof W2) {
-				ExitBuffer sendExitBuffer = entranceBuffer.getConnectNode().physicalLayer.exitBuffers
+				ExitBuffer exitBuffer = entranceBuffer.getConnectNode().physicalLayer.exitBuffers
 						.get(entranceBuffer.physicalLayer.node.getId());
 
-				if (sendExitBuffer.getState().type == Type.X00) {
-					sendExitBuffer.setType(Type.X01);
-					sendExitBuffer.getState().act();
+				//change state of EXB
+				if (exitBuffer.getState().type == Type.X00) {
+					changeEXBStateX01(exitBuffer);
 				}
-				if (sendExitBuffer.getState().type == Type.X10) {
-					sendExitBuffer.setType(Type.X11);
-					sendExitBuffer.getState().act();
+				if (exitBuffer.getState().type == Type.X10) {
+					changeEXBStateX11(exitBuffer);
 				}
 				if (unidirectionalWay.getState() instanceof W2) {
-					unidirectionalWay.setState(new W0(unidirectionalWay));
-					unidirectionalWay.getState().act();
+					changeWayStateW0(unidirectionalWay); // change uniWay state
 				}
-
 			}
 		}
-
 	}
 }

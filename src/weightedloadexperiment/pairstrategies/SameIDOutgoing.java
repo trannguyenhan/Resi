@@ -8,6 +8,10 @@ import custom.fattree.FatTreeGraph;
 import custom.fattree.FatTreeRoutingAlgorithm;
 
 public class SameIDOutgoing extends OverSubscription {
+	private List<Integer> sources = getSources();
+	private List<Integer> destinations = getDestinations();
+	private int delta = RandomGenerator.nextInt(0, k * k * k / 4);
+	private int sameHostID = -1;
 
 	public SameIDOutgoing(FatTreeGraph G, FatTreeRoutingAlgorithm routing) {
 		super();
@@ -27,12 +31,9 @@ public class SameIDOutgoing extends OverSubscription {
 	@Override
 	public void pairHosts() {
 		setTypeOfAddresss();
-		List<Integer> sources = getSources();
-		List<Integer> destinations = getDestinations();
+
 		Integer[] allHosts = this.getAllHosts();
 		int numOfHosts = allHosts.length;
-		int sameHostID = -1;
-		int delta = RandomGenerator.nextInt(0, k * k * k / 4);
 		int count = 0;
 		int i = 0;
 
@@ -41,10 +42,10 @@ public class SameIDOutgoing extends OverSubscription {
 			List<Integer> allTempDsts = new ArrayList<Integer>();
 			List<Integer> allTempSrcs = new ArrayList<Integer>();
 
-			addSrcAndDst(i, numOfHosts, delta, allTempDsts, allTempSrcs, sameHostID, allHosts, destinations);
+			addSrcAndDst(i, numOfHosts, allTempDsts, allTempSrcs, allHosts);
 
 			if (allTempDsts.size() == k / 2) {
-				getHostAddr(i, sources, destinations, allTempSrcs, allTempDsts);
+				getHostAddr(i, allTempSrcs, allTempDsts);
 			} else {
 				delta = RandomGenerator.nextInt(0, k * k * k / 4);
 			}
@@ -52,8 +53,8 @@ public class SameIDOutgoing extends OverSubscription {
 		}
 	}
 
-	private void addSrcAndDst(int i, int numOfHosts, int delta, List<Integer> allTempDsts, List<Integer> allTempSrcs,
-			int sameHostID, Integer[] allHosts, List<Integer> destinations) {
+	private void addSrcAndDst(int i, int numOfHosts, List<Integer> allTempDsts, List<Integer> allTempSrcs,
+			Integer[] allHosts) {
 		for (int j = i; j < i + (k / 2); j++) {
 			int src = allHosts[j];
 			boolean found = false;
@@ -89,13 +90,10 @@ public class SameIDOutgoing extends OverSubscription {
 	 * all temporary destinations with their hostIDs and print the address of hosts
 	 * 
 	 * @param i
-	 * @param sources
-	 * @param destinations
 	 * @param allTempSrcs
 	 * @param allTempDsts
 	 */
-	private void getHostAddr(int i, List<Integer> sources, List<Integer> destinations, List<Integer> allTempSrcs,
-			List<Integer> allTempDsts) {
+	private void getHostAddr(int i, List<Integer> allTempSrcs, List<Integer> allTempDsts) {
 
 		i += k / 2;
 		System.out.print("\n");
@@ -182,8 +180,6 @@ public class SameIDOutgoing extends OverSubscription {
 	 */
 	@Override
 	public void checkValid() {
-		List<Integer> sources = getSources();
-		List<Integer> destinations = getDestinations();
 		int realCore = 0;
 		if (sources.size() != k * k * k / 4) {
 			System.out.println("Not enough pairs! Just " + sources.size());

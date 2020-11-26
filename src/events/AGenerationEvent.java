@@ -31,33 +31,33 @@ public class AGenerationEvent extends Event {
 	// starting from event type (A)
 	public void actions() {
 		DiscreteEventSimulator sim = DiscreteEventSimulator.getInstance();
+
+		SourceQueue sourceQueue = (SourceQueue) getElement();
+		Packet newPacket = sourceQueue.generatePacket(this.getStartTime());
+		if (newPacket == null) {
+			return;
+		}
+
+		newPacket.setId(sim.numSent++);
+		this.setPacket(newPacket);
+		newPacket.setType(Type.P1);
+
+		updateSrcQueue(sourceQueue); // update Source Queue
+		addEventB(sim, sourceQueue, newPacket); // add event B
+		addEventA(sim, sourceQueue); // add event A
+
+	}
+
+	/**
+	 * This method is used to update Source Queue
+	 * 
+	 * @param sourceQueue
+	 */
+	private void updateSrcQueue(SourceQueue sourceQueue) {
+		// update source queue's state
+		if (sourceQueue.getState() instanceof Sq1) // it means that element is an instance of SourceQueue
 		{
-			SourceQueue sourceQueue = (SourceQueue) getElement();
-
-			Packet newPacket = sourceQueue.generatePacket(this.getStartTime());
-			if (newPacket == null) {
-				return;
-			}
-			newPacket.setId(sim.numSent++);
-			this.setPacket(newPacket);
-			newPacket.setType(Type.P1);
-
-			// update source queue's state
-			if (sourceQueue.getState() instanceof Sq1) // it means that elem is an instance of SourceQueue
-			{
-				sourceQueue.setState(new Sq2(sourceQueue));
-			}
-
-			long time = (long) sim.time();
-			Event event = new BLeavingSourceQueueEvent(sim, time, time, sourceQueue, newPacket);
-
-			sim.addEvent(event);
-
-			time = (long) sourceQueue.getNextPacketTime();
-
-			Event ev = new AGenerationEvent(sim, time, time, sourceQueue);
-
-			sim.addEvent(ev);
+			sourceQueue.setState(new Sq2(sourceQueue));
 		}
 	}
 

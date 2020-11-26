@@ -14,6 +14,9 @@ import custom.fattree.FatTreeRoutingAlgorithm;
 public class InterPodIncoming extends OverSubscription {
 
 	private int[][] adjMx;
+	private List<Integer> sources = getSources();
+	private List<Integer> destinations = getDestinations();
+	private int delta = RandomGenerator.nextInt(0, k * k / 4);
 
 	public InterPodIncoming(FatTreeRoutingAlgorithm routing, FatTreeGraph G) {
 		super();
@@ -45,11 +48,9 @@ public class InterPodIncoming extends OverSubscription {
 
 	@Override
 	public void pairHosts() {
-		List<Integer> sources = getSources();
-		List<Integer> destinations = getDestinations();
+
 		Integer[] allHosts = this.getAllHosts();
 
-		int delta = RandomGenerator.nextInt(0, k * k / 4);
 		int numOfHosts = allHosts.length;
 		int sizeOfPod = k * k / 4;
 		int currPod = 0, prePod = 0;
@@ -58,12 +59,10 @@ public class InterPodIncoming extends OverSubscription {
 			int dst = allHosts[i];
 			prePod = currPod;
 			if (!destinations.contains(dst)) {
-				int index = calIndex(delta, numOfHosts, sizeOfPod, prePod, i, dst);
-				int count = 0;
-				int expectedSrc = allHosts[index];
-				boolean found = false;
-				addSrcAndDst(sources, destinations, index, sizeOfPod, expectedSrc, allHosts, found, currPod, dst, i,
-						count, numOfHosts);
+
+				int index = calIndex(numOfHosts, sizeOfPod, prePod, i, dst);
+
+				addSrcAndDst(index, sizeOfPod, allHosts, currPod, dst, i, numOfHosts);
 			} else {
 				currPod = i / sizeOfPod;
 			}
@@ -72,7 +71,7 @@ public class InterPodIncoming extends OverSubscription {
 		this.setDestinations(destinations);
 	}
 
-	private int calIndex(int delta, int numOfHosts, int sizeOfPod, int prePod, int i, int dst) {
+	private int calIndex(int numOfHosts, int sizeOfPod, int prePod, int i, int dst) {
 		int index = (i + sizeOfPod + delta) % numOfHosts;
 
 		if (index / sizeOfPod == prePod) {
@@ -84,16 +83,19 @@ public class InterPodIncoming extends OverSubscription {
 		return index;
 	}
 
-	private void addSrcAndDst(List<Integer> sources, List<Integer> destinations, int index, int sizeOfPod,
-			int expectedSrc, Integer[] allHosts, boolean found, int currPod, int dst, int i, int count,
+	private void addSrcAndDst(int index, int sizeOfPod, Integer[] allHosts, int currPod, int dst, int i,
 			int numOfHosts) {
+
+		boolean found = false;
+		int count = 0;
+		int expectedSrc = allHosts[index];
 
 		while (!found && count < k) {
 			if (sources.contains(expectedSrc)) {
-				addIfContained(sources, destinations, index, sizeOfPod, expectedSrc, allHosts, found, currPod, dst, i);
+				addIfContained(index, sizeOfPod, expectedSrc, allHosts, found, currPod, dst, i);
 			} else {
 				if (expectedSrc / sizeOfPod != dst / sizeOfPod) {
-					addIfNotContained(sources, destinations, index, sizeOfPod, expectedSrc, found, currPod, dst, i);
+					addIfNotContained(index, sizeOfPod, expectedSrc, found, currPod, dst, i);
 					break;
 				}
 			}
@@ -105,8 +107,8 @@ public class InterPodIncoming extends OverSubscription {
 		}
 	}
 
-	private void addIfContained(List<Integer> sources, List<Integer> destinations, int index, int sizeOfPod,
-			int expectedSrc, Integer[] allHosts, boolean found, int currPod, int dst, int i) {
+	private void addIfContained(int index, int sizeOfPod, int expectedSrc, Integer[] allHosts, boolean found,
+			int currPod, int dst, int i) {
 
 		for (int j = index + 1; j < (index / sizeOfPod + 1) * sizeOfPod; j++) {
 			expectedSrc = allHosts[j];
@@ -129,8 +131,8 @@ public class InterPodIncoming extends OverSubscription {
 		}
 	}
 
-	private void addIfNotContained(List<Integer> sources, List<Integer> destinations, int index, int sizeOfPod,
-			int expectedSrc, boolean found, int currPod, int dst, int i) {
+	private void addIfNotContained(int index, int sizeOfPod, int expectedSrc, boolean found, int currPod, int dst,
+			int i) {
 		found = true;
 
 		sources.add(expectedSrc);
@@ -147,20 +149,19 @@ public class InterPodIncoming extends OverSubscription {
 	}
 
 	/**
-	 * This method is used to check whether there are enough pairs and whether 
+	 * This method is used to check whether there are enough pairs and whether
 	 * source node and destination node are in the same pod
 	 */
 	@Override
 	public void checkValid() {
 		Map<Integer, Integer> flowPerCore = new HashMap<Integer, Integer>();
-		List<Integer> sources = getSources();
-		List<Integer> destinations = getDestinations();
+
 		int realCore = 0;
 		int sizeOfPod = k * k / 4;
 
-		checkPairQuantity(sources, destinations, realCore); // check whether there are enough pairs or not.
+		checkPairQuantity(realCore); // check whether there are enough pairs or not.
 
-		checkSamePod(sources, destinations, flowPerCore, realCore,
+		checkSamePod(flowPerCore, realCore,
 				sizeOfPod); /*
 							 * check whether a source node and a destination node are in the same pod or not
 							 */
@@ -184,7 +185,7 @@ public class InterPodIncoming extends OverSubscription {
 	 * @param destinations
 	 * @param realCore
 	 */
-	private void checkPairQuantity(List<Integer> sources, List<Integer> destinations, int realCore) {
+	private void checkPairQuantity(int realCore) {
 		if (sources.size() != k * k * k / 4) {
 			System.out.println("Not enough pairs! Just " + sources.size());
 
@@ -209,8 +210,7 @@ public class InterPodIncoming extends OverSubscription {
 	 * @param realCore
 	 * @param sizeOfPod
 	 */
-	private void checkSamePod(List<Integer> sources, List<Integer> destinations, Map<Integer, Integer> flowPerCore,
-			int realCore, int sizeOfPod) {
+	private void checkSamePod(Map<Integer, Integer> flowPerCore, int realCore, int sizeOfPod) {
 		for (int i = 0; i < sources.size(); i++) {
 			realCore = getRealCoreSwitch(sources.get(i), destinations.get(i));
 			System.out

@@ -19,7 +19,7 @@ public class DiscreteEventSimulator extends Simulator {
 	public int numSent = 0;
 	public int numLoss = 0;
 	public long totalPacketTime = 0;
-	public int numEvent = 0;
+	public long numEvent = 0;
 	private boolean isLimit;
 	private double timeLimit;
 	private boolean verbose;
@@ -76,13 +76,12 @@ public class DiscreteEventSimulator extends Simulator {
 		stopped = false;
 		simulating = true;
 		umontreal.ssj.simevents.Event ev = null;
-		int countEvent = 0;
 
 		try {
 			long startTime = System.currentTimeMillis();// remove redundant variable
 			int lastPercentage = 0;
 
-			printProgress(countEvent, lastPercentage, startTime, ev);
+			executeAndPrintProgress(lastPercentage, startTime, ev);
 
 			StdOut.print("\r");
 		} catch (Exception ex) {
@@ -91,13 +90,13 @@ public class DiscreteEventSimulator extends Simulator {
 			stopped = true;
 			simulating = false;
 		}
-		System.out.println("# of Events: " + countEvent); // print the number of event
+		System.out.println("# of Events: " + numEvent); // print the number of event
 	}
 
-	private void printProgress(int countEvent, int lastPercentage, long startTime, umontreal.ssj.simevents.Event ev) {
+	private void executeAndPrintProgress(int lastPercentage, long startTime, umontreal.ssj.simevents.Event ev) {
 		
 		while ((ev = removeFirstEvent()) != null && !stopped && (!isLimit || currentTime < timeLimit)) {
-			countEvent++;
+			numEvent++;
 			ev.actions();
 			int percentage = (int) (currentTime) / (int) Constant.EXPERIMENT_INTERVAL;
 
@@ -107,7 +106,7 @@ public class DiscreteEventSimulator extends Simulator {
 			}
 		}
 	}
-
+	
 	@Override
 	protected Event removeFirstEvent() {
 		if (this.stopped) {

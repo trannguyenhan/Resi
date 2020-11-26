@@ -47,24 +47,18 @@ public class GReachingDestinationEvent extends Event {
 				Host destinationNode = (Host) nextNode;
 				destinationNode.receivePacket(packet);
 
-				// change state packet
-				packet.setType(Type.P6);
-				// change state of uniWay
-				unidirectionalWay.setState(new W0(unidirectionalWay));
-				unidirectionalWay.getState().act();
+				packet.setType(Type.P6); // change state packet
+				changeWayStateW0(unidirectionalWay); // change state of uniWay
+				ExitBuffer exitBuffer = unidirectionalWay.getFromNode().physicalLayer.exitBuffers
+						.get(unidirectionalWay.getToNode().getId());
 
 				// change state of EXB
-				ExitBuffer sendExitBuffer = unidirectionalWay.getFromNode().physicalLayer.exitBuffers
-						.get(unidirectionalWay.getToNode().getId());
-				if (sendExitBuffer.getState().type == Type.X00) {
-					sendExitBuffer.setType(Type.X01);
-					sendExitBuffer.getState().act();
+				if (exitBuffer.getState().type == Type.X00) {
+					changeEXBStateX01(exitBuffer);
 				}
-				if (sendExitBuffer.getState().type == Type.X10) {
-					sendExitBuffer.setType(Type.X11);
-					sendExitBuffer.getState().act();
+				if (exitBuffer.getState().type == Type.X10) {
+					changeEXBStateX11(exitBuffer);
 				}
-
 			}
 		}
 	}
