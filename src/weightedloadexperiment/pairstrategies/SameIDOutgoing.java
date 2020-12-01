@@ -20,12 +20,11 @@ public class SameIDOutgoing extends OverSubscription {
 	}
 
 	public SameIDOutgoing() {
-		// TODO Auto-generated constructor stub
+		
 	}
 
 	public SameIDOutgoing(Integer[] allHosts) {
 		super(allHosts);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override

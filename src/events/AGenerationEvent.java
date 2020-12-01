@@ -1,6 +1,6 @@
 package events;
 
-import infrastructure.event.Event;
+import infrastructure.event.EventController;
 import infrastructure.state.Type;
 import network.elements.SourceQueue;
 import network.elements.Packet;
@@ -8,7 +8,7 @@ import network.states.sourcequeue.Sq1;
 import network.states.sourcequeue.Sq2;
 import simulator.DiscreteEventSimulator;
 
-public class AGenerationEvent extends Event {
+public class AGenerationEvent extends EventController {
 
 	/**
 	 * This is the constructor event of AGenerationEvent class extending Event
@@ -49,16 +49,15 @@ public class AGenerationEvent extends Event {
 	}
 
 	/**
-	 * This method is used to update Source Queue
+	 * This method is used to update the state of Source Queue
 	 * 
 	 * @param sourceQueue
 	 */
 	private void updateSrcQueue(SourceQueue sourceQueue) {
-		// update source queue's state
+
 		if (sourceQueue.getState() instanceof Sq1) // it means that element is an instance of SourceQueue
 		{
 			sourceQueue.setState(new Sq2(sourceQueue));
 		}
 	}
-
 }

@@ -51,20 +51,16 @@ public class FatTreeFlowClassifier extends FatTreeRoutingAlgorithm {
 			int type = G.switchType(current);
 
 			if (type == FatTreeGraph.CORE) {
-				return super.next(source, current,
-						destination); /*
-										 * Find the next node in the path when the current switch is core switch
-										 */
+				return super.next(source, current, destination); // Find the next node in the path when the current
+																	// switch is core switch
+
 			} else if (type == FatTreeGraph.AGG) {
-				return aggType(current,
-						destination); /*
-										 * Find the next node in the path when the current switch is aggregation switch
-										 */
+				return aggType(current, destination); // Find the next node in the path when the current switch is
+														// aggregation switch
+
 			} else {
-				return edgeType(current,
-						destination); /*
-										 * Find the next node in the path when the current switch is edge switch
-										 */
+				return edgeType(current, destination); // Find the next node in the path when the current switch is edge
+														// switch
 			}
 		}
 	}
@@ -88,23 +84,19 @@ public class FatTreeFlowClassifier extends FatTreeRoutingAlgorithm {
 		} else {
 			int type = G.switchType(current);
 			if (type == FatTreeGraph.CORE) {
-				return super.next(source, current,
-						destination); /*
-										 * Find the next node in the path when the current switch is core switch
-										 */
+				return super.next(source, current, destination); // Find the next node in the path when the current
+																	// switch is core switch
+
 			} else {
 				if (flowTable.isEmpty()) {
 				}
 				if (type == FatTreeGraph.AGG) {
-					return aggType(current, destination); /*
-															 * Find the next node in the path when the current switch is
-															 * aggregation switch
-															 */
+					return aggType(current, destination); // Find the next node in the path when the current switch is
+															// aggregation switch
+
 				} else {
-					return edgeType(current,
-							destination); /*
-											 * Find the next node in the path when the current switch is edge switch
-											 */
+					return edgeType(current, destination); // Find the next node in the path when the current switch is
+															// edge switch
 				}
 			}
 		}

@@ -2,7 +2,7 @@ package events;
 
 import infrastructure.element.Element;
 import infrastructure.entity.Node;
-import infrastructure.event.Event;
+import infrastructure.event.EventController;
 import infrastructure.state.Type;
 import network.elements.ExitBuffer;
 import network.elements.Packet;
@@ -11,10 +11,9 @@ import network.entities.Host;
 import network.entities.Switch;
 import network.entities.TypeOfHost;
 import network.states.unidirectionalway.W0;
-import network.states.unidirectionalway.W1;
 import simulator.DiscreteEventSimulator;
 
-public class FLeavingSwitchEvent extends Event {
+public class FLeavingSwitchEvent extends EventController {
 
 	/**
 	 * This is the constructor method of FLeavingSwitchEvent class extending Event
@@ -48,11 +47,7 @@ public class FLeavingSwitchEvent extends Event {
 				&& ((exitBuffer.getState().type == Type.X11) || (exitBuffer.getState().type == Type.X01))) {
 			unidirectionalWay.addPacket(exitBuffer.removePacket());
 
-			if (packet.getState().type == Type.P5) {
-				packet.setType(Type.P3); // change Packet state
-			}
-			changeEXBStateX00(exitBuffer); // change EXB state
-			changeWayStateW1(unidirectionalWay); // change state of way
+			changeState(exitBuffer, unidirectionalWay);
 
 			Node nextNode = exitBuffer.getConnectNode();
 			exitBuffer.physicalLayer.node.getNetworkLayer().routingAlgorithm.update(packet, nextNode);
@@ -65,6 +60,14 @@ public class FLeavingSwitchEvent extends Event {
 				addEventD(exitBuffer, unidirectionalWay, sim); // add event D
 			}
 		}
-
+	}
+	
+	private void changeState(ExitBuffer exitBuffer, UnidirectionalWay unidirectionalWay) {
+		if (packet.getState().type == Type.P5) {
+			packet.setType(Type.P3); // change Packet state
+		}
+		
+		changeEXBStateX00(exitBuffer); // change EXB state
+		changeWayStateW1(unidirectionalWay); // change state of way
 	}
 }

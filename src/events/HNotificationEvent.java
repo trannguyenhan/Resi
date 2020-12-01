@@ -1,7 +1,7 @@
 package events;
 
 import infrastructure.element.Element;
-import infrastructure.event.Event;
+import infrastructure.event.EventController;
 import infrastructure.state.Type;
 import network.elements.EntranceBuffer;
 import network.elements.ExitBuffer;
@@ -10,7 +10,7 @@ import network.states.unidirectionalway.W0;
 import network.states.unidirectionalway.W2;
 import simulator.DiscreteEventSimulator;
 
-public class HNotificationEvent extends Event {
+public class HNotificationEvent extends EventController {
 
 	/**
 	 * This is the constructor method of HNotificationEvent class extending Event
@@ -41,18 +41,22 @@ public class HNotificationEvent extends Event {
 			if (unidirectionalWay.getState() instanceof W0 || unidirectionalWay.getState() instanceof W2) {
 				ExitBuffer exitBuffer = entranceBuffer.getConnectNode().physicalLayer.exitBuffers
 						.get(entranceBuffer.physicalLayer.node.getId());
+				changeState(exitBuffer, unidirectionalWay);
 
-				//change state of EXB
-				if (exitBuffer.getState().type == Type.X00) {
-					changeEXBStateX01(exitBuffer);
-				}
-				if (exitBuffer.getState().type == Type.X10) {
-					changeEXBStateX11(exitBuffer);
-				}
-				if (unidirectionalWay.getState() instanceof W2) {
-					changeWayStateW0(unidirectionalWay); // change uniWay state
-				}
 			}
+		}
+	}
+
+	private void changeState(ExitBuffer exitBuffer, UnidirectionalWay unidirectionalWay) {
+		// change state of EXB
+		if (exitBuffer.getState().type == Type.X00) {
+			changeEXBStateX01(exitBuffer);
+		}
+		if (exitBuffer.getState().type == Type.X10) {
+			changeEXBStateX11(exitBuffer);
+		}
+		if (unidirectionalWay.getState() instanceof W2) {
+			changeWayStateW0(unidirectionalWay); // change uniWay state
 		}
 	}
 }

@@ -1,7 +1,7 @@
 package events;
 
 import infrastructure.element.Element;
-import infrastructure.event.Event;
+import infrastructure.event.EventController;
 import infrastructure.state.Type;
 import network.elements.ExitBuffer;
 import network.elements.Packet;
@@ -14,7 +14,7 @@ enum TypeB {
 	B, B1, B2, B3, B4
 }
 
-public class BLeavingSourceQueueEvent extends Event {
+public class BLeavingSourceQueueEvent extends EventController {
 	protected TypeB type = TypeB.B;
 
 	/**
@@ -59,15 +59,19 @@ public class BLeavingSourceQueueEvent extends Event {
 				changeSrcQueueState(sourceQueue, exitBuffer); // change state source queue, type B1
 				// change state EXB, type B4
 				if (exitBuffer.isFull()) {
-					if (exitBuffer.getState().type == Type.X00) {
-						exitBuffer.setType(Type.X10);
-					}
-					if (exitBuffer.getState().type == Type.X01) {
-						changeEXBStateX11(exitBuffer);
-					}
+					changeState(exitBuffer);
 					addEventC(sourceQueue, exitBuffer, sim);
 				}
 			}
+		}
+	}
+	
+	private void changeState(ExitBuffer exitBuffer) {
+		if (exitBuffer.getState().type == Type.X00) {
+			exitBuffer.setType(Type.X10);
+		}
+		if (exitBuffer.getState().type == Type.X01) {
+			changeEXBStateX11(exitBuffer);
 		}
 	}
 
@@ -90,5 +94,4 @@ public class BLeavingSourceQueueEvent extends Event {
 			packet.setType(Type.P2);
 		}
 	}
-
 }

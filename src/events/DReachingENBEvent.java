@@ -1,7 +1,7 @@
 package events;
 
 import infrastructure.element.Element;
-import infrastructure.event.Event;
+import infrastructure.event.EventController;
 import infrastructure.state.Type;
 import network.elements.EntranceBuffer;
 import network.elements.ExitBuffer;
@@ -9,17 +9,14 @@ import network.elements.Packet;
 import network.elements.UnidirectionalWay;
 import network.entities.Switch;
 import network.states.enb.N0;
-import network.states.enb.N1;
-import network.states.unidirectionalway.W0;
 import network.states.unidirectionalway.W1;
-import network.states.unidirectionalway.W2;
 import simulator.DiscreteEventSimulator;
 
 enum TypeD {
 	D, D1, D2
 }
 
-public class DReachingENBEvent extends Event {
+public class DReachingENBEvent extends EventController {
 	public TypeD type = TypeD.D;
 
 	/**
@@ -43,36 +40,39 @@ public class DReachingENBEvent extends Event {
 
 	@Override
 	public void actions() {
-		{
-			UnidirectionalWay unidirectionalWay = (UnidirectionalWay) element;
-			EntranceBuffer entranceBuffer = unidirectionalWay.getToNode().physicalLayer.entranceBuffers
-					.get(unidirectionalWay.getFromNode().getId());
-			if (packet.getState().type == Type.P3 && unidirectionalWay.getState() instanceof W1
-					&& unidirectionalWay.getToNode() instanceof Switch && entranceBuffer.getState() instanceof N0
-					&& unidirectionalWay.getPacket() == packet) {
-				unidirectionalWay.removePacket();
-				entranceBuffer.insertPacket(packet);
-				packet.setType(Type.P4);
-
-				if (entranceBuffer.isFull()) {
-					type = TypeD.D2; // ENB full
-					changeENBStateN1(entranceBuffer); // change state of ENB
-					changeWayStateW2(unidirectionalWay); // change state of way
-				} else {
-					type = TypeD.D1; // ENB not full
-					ExitBuffer exitBuffer = unidirectionalWay.getFromNode().physicalLayer.exitBuffers
-							.get(unidirectionalWay.getToNode().getId());
-					if (exitBuffer.getState().type == Type.X00) {
-						changeEXBStateX01(exitBuffer); // change EXB state
-					}
-					if (exitBuffer.getState().type == Type.X10) {
-						changeEXBStateX11(exitBuffer); // change EXB state
-					}
-				}
-				changeWayStateW0(unidirectionalWay); // change state of way
-			}
-			entranceBuffer.getNode().getNetworkLayer().route(entranceBuffer);
+		UnidirectionalWay unidirectionalWay = (UnidirectionalWay) element;
+		EntranceBuffer entranceBuffer = unidirectionalWay.getToNode().physicalLayer.entranceBuffers
+				.get(unidirectionalWay.getFromNode().getId());
+		ExitBuffer exitBuffer = unidirectionalWay.getFromNode().physicalLayer.exitBuffers
+				.get(unidirectionalWay.getToNode().getId());
+		
+		if (packet.getState().type == Type.P3 && unidirectionalWay.getState() instanceof W1
+				&& unidirectionalWay.getToNode() instanceof Switch && entranceBuffer.getState() instanceof N0
+				&& unidirectionalWay.getPacket() == packet) {
+			unidirectionalWay.removePacket();
+			entranceBuffer.insertPacket(packet);
+			packet.setType(Type.P4);
+			
+			changeState(entranceBuffer, exitBuffer, unidirectionalWay);
 		}
+		entranceBuffer.getNode().getNetworkLayer().route(entranceBuffer);
 	}
 
+	private void changeState(EntranceBuffer entranceBuffer, ExitBuffer exitBuffer, UnidirectionalWay unidirectionalWay) {
+		if (entranceBuffer.isFull()) {
+			type = TypeD.D2; // ENB full
+			changeENBStateN1(entranceBuffer); // change state of ENB
+			changeWayStateW2(unidirectionalWay); // change state of way
+		} else {
+			type = TypeD.D1; // ENB not full
+
+			if (exitBuffer.getState().type == Type.X00) {
+				changeEXBStateX01(exitBuffer); // change EXB state
+			}
+			if (exitBuffer.getState().type == Type.X10) {
+				changeEXBStateX11(exitBuffer); // change EXB state
+			}
+		}
+		changeWayStateW0(unidirectionalWay); // change state of way
+	}
 }
