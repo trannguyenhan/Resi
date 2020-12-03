@@ -3,9 +3,11 @@ package events;
 import infrastructure.element.Element;
 import infrastructure.event.EventController;
 import infrastructure.state.Type;
+import network.elements.EntranceBuffer;
 import network.elements.ExitBuffer;
 import network.elements.Packet;
 import network.elements.SourceQueue;
+import network.elements.UnidirectionalWay;
 import network.states.sourcequeue.Sq1;
 import network.states.sourcequeue.Sq2;
 import simulator.DiscreteEventSimulator;
@@ -47,26 +49,30 @@ public class BLeavingSourceQueueEvent extends EventController {
 	@Override
 	public void actions() {
 		DiscreteEventSimulator sim = DiscreteEventSimulator.getInstance();
-		{
-			SourceQueue sourceQueue = (SourceQueue) getElement();
-			int connectedNodeID = sourceQueue.physicalLayer.links.get(sourceQueue.getId())
-					.getOtherNode(sourceQueue.physicalLayer.node).getId();
+		SourceQueue sourceQueue = (SourceQueue) getElement();
+		int connectedNodeID = sourceQueue.physicalLayer.links.get(sourceQueue.getId())
+				.getOtherNode(sourceQueue.physicalLayer.node).getId();
+		EntranceBuffer entranceBuffer = null;
+		UnidirectionalWay unidirectionalWay = null;
 
-			ExitBuffer exitBuffer = sourceQueue.physicalLayer.exitBuffers.get(connectedNodeID);
-			if (((exitBuffer.getState().type == Type.X00) || (exitBuffer.getState().type == Type.X01))
-					&& (sourceQueue.getState() instanceof Sq2 && sourceQueue.isPeekPacket(packet))) {
+		ExitBuffer exitBuffer = sourceQueue.physicalLayer.exitBuffers.get(connectedNodeID);
+		if (((exitBuffer.getState().type == Type.X00) || (exitBuffer.getState().type == Type.X01))
+				&& (sourceQueue.getState() instanceof Sq2 && sourceQueue.isPeekPacket(packet))) {
 
-				changeSrcQueueState(sourceQueue, exitBuffer); // change state source queue, type B1
-				// change state EXB, type B4
-				if (exitBuffer.isFull()) {
-					changeState(exitBuffer);
-					addEventC(sourceQueue, exitBuffer, sim);
-				}
+			changeSrcQueueState(sourceQueue, exitBuffer); // change state source queue, type B1
+			// change state EXB, type B4
+			if (exitBuffer.isFull()) {
+				changeState(entranceBuffer, exitBuffer, unidirectionalWay);
+				addEventC(sourceQueue, exitBuffer, sim);
 			}
 		}
 	}
-	
-	private void changeState(ExitBuffer exitBuffer) {
+
+	/**
+	 * This method is used to change the state of exit buffer
+	 */
+	@Override
+	public void changeState(EntranceBuffer entranceBuffer, ExitBuffer exitBuffer, UnidirectionalWay unidirectionalWay) {
 		if (exitBuffer.getState().type == Type.X00) {
 			exitBuffer.setType(Type.X10);
 		}

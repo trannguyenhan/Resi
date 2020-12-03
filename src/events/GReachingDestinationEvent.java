@@ -4,6 +4,7 @@ import infrastructure.element.Element;
 import infrastructure.entity.Node;
 import infrastructure.event.EventController;
 import infrastructure.state.Type;
+import network.elements.EntranceBuffer;
 import network.elements.ExitBuffer;
 import network.elements.Packet;
 import network.elements.UnidirectionalWay;
@@ -35,9 +36,10 @@ public class GReachingDestinationEvent extends EventController {
 
 	@Override
 	public void actions() {
-
+		EntranceBuffer entranceBuffer = null;
 		UnidirectionalWay unidirectionalWay = (UnidirectionalWay) element;
-
+		ExitBuffer exitBuffer = unidirectionalWay.getFromNode().physicalLayer.exitBuffers
+				.get(unidirectionalWay.getToNode().getId());
 		Node nextNode = unidirectionalWay.getToNode();
 
 		if (packet.getState().type == Type.P3 && unidirectionalWay.getState() instanceof W1
@@ -46,16 +48,18 @@ public class GReachingDestinationEvent extends EventController {
 			Host destinationNode = (Host) nextNode;
 			destinationNode.receivePacket(packet);
 
-			changeState(unidirectionalWay);
+			changeState(entranceBuffer, exitBuffer, unidirectionalWay);
 		}
 
 	}
 
-	public void changeState(UnidirectionalWay unidirectionalWay) {
+	/**
+	 * This method is used to change the state of exit buffer and unidirectional way
+	 */
+	@Override
+	public void changeState(EntranceBuffer entranceBuffer, ExitBuffer exitBuffer, UnidirectionalWay unidirectionalWay) {
 		packet.setType(Type.P6); // change state packet
 		changeWayStateW0(unidirectionalWay); // change state of uniWay
-		ExitBuffer exitBuffer = unidirectionalWay.getFromNode().physicalLayer.exitBuffers
-				.get(unidirectionalWay.getToNode().getId());
 
 		// change state of EXB
 		if (exitBuffer.getState().type == Type.X00) {

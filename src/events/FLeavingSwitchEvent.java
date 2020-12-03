@@ -4,6 +4,7 @@ import infrastructure.element.Element;
 import infrastructure.entity.Node;
 import infrastructure.event.EventController;
 import infrastructure.state.Type;
+import network.elements.EntranceBuffer;
 import network.elements.ExitBuffer;
 import network.elements.Packet;
 import network.elements.UnidirectionalWay;
@@ -38,8 +39,8 @@ public class FLeavingSwitchEvent extends EventController {
 	@Override
 	public void actions() {
 		DiscreteEventSimulator sim = DiscreteEventSimulator.getInstance();
+		EntranceBuffer entranceBuffer = null;
 		ExitBuffer exitBuffer = (ExitBuffer) element;
-
 		UnidirectionalWay unidirectionalWay = exitBuffer.physicalLayer.links.get(exitBuffer.getConnectNode().getId())
 				.getWayToOtherNode(exitBuffer.physicalLayer.node);
 
@@ -47,7 +48,7 @@ public class FLeavingSwitchEvent extends EventController {
 				&& ((exitBuffer.getState().type == Type.X11) || (exitBuffer.getState().type == Type.X01))) {
 			unidirectionalWay.addPacket(exitBuffer.removePacket());
 
-			changeState(exitBuffer, unidirectionalWay);
+			changeState(entranceBuffer, exitBuffer, unidirectionalWay);
 
 			Node nextNode = exitBuffer.getConnectNode();
 			exitBuffer.physicalLayer.node.getNetworkLayer().routingAlgorithm.update(packet, nextNode);
@@ -61,12 +62,16 @@ public class FLeavingSwitchEvent extends EventController {
 			}
 		}
 	}
-	
-	private void changeState(ExitBuffer exitBuffer, UnidirectionalWay unidirectionalWay) {
+
+	/**
+	 * This method is used to change the state of exit buffer and unidirectional way
+	 */
+	@Override
+	public void changeState(EntranceBuffer entranceBuffer, ExitBuffer exitBuffer, UnidirectionalWay unidirectionalWay) {
 		if (packet.getState().type == Type.P5) {
 			packet.setType(Type.P3); // change Packet state
 		}
-		
+
 		changeEXBStateX00(exitBuffer); // change EXB state
 		changeWayStateW1(unidirectionalWay); // change state of way
 	}

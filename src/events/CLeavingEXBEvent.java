@@ -4,6 +4,7 @@ import infrastructure.element.Element;
 import infrastructure.entity.Node;
 import infrastructure.event.EventController;
 import infrastructure.state.Type;
+import network.elements.EntranceBuffer;
 import network.elements.ExitBuffer;
 import network.elements.Packet;
 import network.elements.UnidirectionalWay;
@@ -37,34 +38,36 @@ public class CLeavingEXBEvent extends EventController {
 	@Override
 	public void actions() {
 		DiscreteEventSimulator sim = DiscreteEventSimulator.getInstance();
-		{
-			ExitBuffer exitBuffer = (ExitBuffer) element;
-			UnidirectionalWay unidirectionalWay = exitBuffer.physicalLayer.links
-					.get(exitBuffer.physicalLayer.node.getId()) // It is different because it is the host's link
-					.getWayToOtherNode(exitBuffer.physicalLayer.node);
+		ExitBuffer exitBuffer = (ExitBuffer) element;
+		EntranceBuffer entranceBuffer = null;
+		UnidirectionalWay unidirectionalWay = exitBuffer.physicalLayer.links.get(exitBuffer.physicalLayer.node.getId())
+				.getWayToOtherNode(exitBuffer.physicalLayer.node);
 
-			if (unidirectionalWay.getState() instanceof W0 && exitBuffer.isPeekPacket(packet)
-					&& ((exitBuffer.getState().type == Type.X11) || (exitBuffer.getState().type == Type.X01))) {
-				unidirectionalWay.addPacket(exitBuffer.removePacket());
-				
-				chanegState(exitBuffer, unidirectionalWay);
+		if (unidirectionalWay.getState() instanceof W0 && exitBuffer.isPeekPacket(packet)
+				&& ((exitBuffer.getState().type == Type.X11) || (exitBuffer.getState().type == Type.X01))) {
+			unidirectionalWay.addPacket(exitBuffer.removePacket());
 
-				Node nextNode = unidirectionalWay.getToNode();
-				if (nextNode instanceof Switch) { // if next node is switch, add event D
-					addEventD(exitBuffer, unidirectionalWay, sim);
-				} else if (nextNode instanceof Host) { 	// if next node is host, add event G
-					Host h = (Host) nextNode;
-					if (h.type == TypeOfHost.Destination || h.type == TypeOfHost.Mix) {
-						addEventG(exitBuffer, unidirectionalWay, sim);
-					}
+			changeState(entranceBuffer, exitBuffer, unidirectionalWay);
+
+			Node nextNode = unidirectionalWay.getToNode();
+			if (nextNode instanceof Switch) { // if next node is switch, add event D
+				addEventD(exitBuffer, unidirectionalWay, sim);
+			} else if (nextNode instanceof Host) { // if next node is host, add event G
+				Host h = (Host) nextNode;
+				if (h.type == TypeOfHost.Destination || h.type == TypeOfHost.Mix) {
+					addEventG(exitBuffer, unidirectionalWay, sim);
 				}
 			}
 		}
 	}
-	
-	private void chanegState(ExitBuffer exitBuffer, UnidirectionalWay unidirectionalWay) {
+
+	/**
+	 * This method is used to change the state of exit buffer and unidirectional way
+	 */
+	@Override
+	public void changeState(EntranceBuffer entranceBuffer, ExitBuffer exitBuffer, UnidirectionalWay unidirectionalWay) {
 		packet.setType(Type.P3);
-		
+
 		changeEXBStateX00(exitBuffer); // change EXB state
 		changeWayStateW1(unidirectionalWay); // change uniWay state
 	}

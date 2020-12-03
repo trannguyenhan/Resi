@@ -45,20 +45,25 @@ public class DReachingENBEvent extends EventController {
 				.get(unidirectionalWay.getFromNode().getId());
 		ExitBuffer exitBuffer = unidirectionalWay.getFromNode().physicalLayer.exitBuffers
 				.get(unidirectionalWay.getToNode().getId());
-		
+
 		if (packet.getState().type == Type.P3 && unidirectionalWay.getState() instanceof W1
 				&& unidirectionalWay.getToNode() instanceof Switch && entranceBuffer.getState() instanceof N0
 				&& unidirectionalWay.getPacket() == packet) {
 			unidirectionalWay.removePacket();
 			entranceBuffer.insertPacket(packet);
 			packet.setType(Type.P4);
-			
+
 			changeState(entranceBuffer, exitBuffer, unidirectionalWay);
 		}
 		entranceBuffer.getNode().getNetworkLayer().route(entranceBuffer);
 	}
 
-	private void changeState(EntranceBuffer entranceBuffer, ExitBuffer exitBuffer, UnidirectionalWay unidirectionalWay) {
+	/**
+	 * This method is used to change the state of entrance buffer, exit buffer and
+	 * unidirectional way
+	 */
+	@Override
+	public void changeState(EntranceBuffer entranceBuffer, ExitBuffer exitBuffer, UnidirectionalWay unidirectionalWay) {
 		if (entranceBuffer.isFull()) {
 			type = TypeD.D2; // ENB full
 			changeENBStateN1(entranceBuffer); // change state of ENB

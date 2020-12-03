@@ -32,22 +32,23 @@ public class HNotificationEvent extends EventController {
 
 	@Override
 	public void actions() {
-		{
-			EntranceBuffer entranceBuffer = (EntranceBuffer) element;
+		EntranceBuffer entranceBuffer = (EntranceBuffer) element;
+		UnidirectionalWay unidirectionalWay = entranceBuffer.physicalLayer.links
+				.get(entranceBuffer.getConnectNode().getId()).getWayToOtherNode(entranceBuffer.getConnectNode());
 
-			UnidirectionalWay unidirectionalWay = entranceBuffer.physicalLayer.links
-					.get(entranceBuffer.getConnectNode().getId()).getWayToOtherNode(entranceBuffer.getConnectNode());
+		if (unidirectionalWay.getState() instanceof W0 || unidirectionalWay.getState() instanceof W2) {
+			ExitBuffer exitBuffer = entranceBuffer.getConnectNode().physicalLayer.exitBuffers
+					.get(entranceBuffer.physicalLayer.node.getId());
 
-			if (unidirectionalWay.getState() instanceof W0 || unidirectionalWay.getState() instanceof W2) {
-				ExitBuffer exitBuffer = entranceBuffer.getConnectNode().physicalLayer.exitBuffers
-						.get(entranceBuffer.physicalLayer.node.getId());
-				changeState(exitBuffer, unidirectionalWay);
-
-			}
+			changeState(entranceBuffer, exitBuffer, unidirectionalWay);
 		}
 	}
 
-	private void changeState(ExitBuffer exitBuffer, UnidirectionalWay unidirectionalWay) {
+	/**
+	 * This method is used to change the state of exit buffer and unidirectional way
+	 */
+	@Override
+	public void changeState(EntranceBuffer entranceBuffer, ExitBuffer exitBuffer, UnidirectionalWay unidirectionalWay) {
 		// change state of EXB
 		if (exitBuffer.getState().type == Type.X00) {
 			changeEXBStateX01(exitBuffer);

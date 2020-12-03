@@ -6,6 +6,7 @@ import infrastructure.state.Type;
 import network.elements.EntranceBuffer;
 import network.elements.ExitBuffer;
 import network.elements.Packet;
+import network.elements.UnidirectionalWay;
 import network.entities.Switch;
 import network.states.enb.N1;
 import simulator.DiscreteEventSimulator;
@@ -43,6 +44,7 @@ public class EMovingInSwitchEvent extends EventController {
 		Switch sw = (Switch) entranceBuffer.physicalLayer.node;
 		int nextNodeID = entranceBuffer.getNextNodeId();
 		ExitBuffer exitBuffer = sw.physicalLayer.exitBuffers.get(nextNodeID);
+		UnidirectionalWay unidirectionalWay = null;
 		
 		if (entranceBuffer.isPeekPacket(packet)
 				&& ((exitBuffer.getState().type == Type.X00) || (exitBuffer.getState().type == Type.X01))) {
@@ -52,7 +54,7 @@ public class EMovingInSwitchEvent extends EventController {
 			exitBuffer.removeFromRequestList(entranceBuffer);
 			packet.setType(Type.P5);
 
-			changeState(entranceBuffer,exitBuffer);
+			changeState(entranceBuffer,exitBuffer, unidirectionalWay);
 			
 			if (exitBuffer.isPeekPacket(packet)) {
 				addEventF(exitBuffer, sim); // add event F
@@ -64,8 +66,11 @@ public class EMovingInSwitchEvent extends EventController {
 		}
 	}
 	
-	
-	private void changeState(EntranceBuffer entranceBuffer, ExitBuffer exitBuffer) {
+	/**
+	 * This method is used to change the state of entrance buffer and exit buffer 
+	 */
+	@Override
+	public void changeState(EntranceBuffer entranceBuffer, ExitBuffer exitBuffer, UnidirectionalWay unidirectionalWay) {
 		if (entranceBuffer.getState() instanceof N1) {
 			changeENBStateN0(entranceBuffer); // change ENB state
 		}

@@ -25,7 +25,19 @@ public abstract class EventController extends Event {
 	public EventController(DiscreteEventSimulator sim, long time) {
 		super(sim, time);
 	}
-	
+
+	/**
+	 * This method is used to change the state of entrance buffer, exit buffer or
+	 * unidirectional way. And it will be overridden in subclasses
+	 * 
+	 * @param entranceBuffer    This is the entrance buffer
+	 * @param exitBuffer        This is the exit buffer
+	 * @param unidirectionalWay This is the unidirectional way
+	 */
+	public void changeState(EntranceBuffer entranceBuffer, ExitBuffer exitBuffer, UnidirectionalWay unidirectionalWay) {
+
+	}
+
 	/**
 	 * This method is used to change the state of exit buffer, type X00
 	 * 
@@ -35,7 +47,7 @@ public abstract class EventController extends Event {
 		exitBuffer.setType(Type.X00);
 		exitBuffer.getState().act();
 	}
-	
+
 	/**
 	 * This method is used to change the state of exit buffer, type X01
 	 * 
@@ -45,7 +57,7 @@ public abstract class EventController extends Event {
 		exitBuffer.setType(Type.X01);
 		exitBuffer.getState().act();
 	}
-	
+
 	/**
 	 * This method is used to change the state of exit buffer, type X10
 	 * 
@@ -55,7 +67,7 @@ public abstract class EventController extends Event {
 		exitBuffer.setType(Type.X10);
 		exitBuffer.getState().act();
 	}
-	
+
 	/**
 	 * This method is used to change the state of exit buffer, type X11
 	 * 
@@ -65,7 +77,7 @@ public abstract class EventController extends Event {
 		exitBuffer.setType(Type.X11);
 		exitBuffer.getState().act();
 	}
-	
+
 	/**
 	 * This method is used to change state of entrance buffer, type N0
 	 * 
@@ -75,20 +87,20 @@ public abstract class EventController extends Event {
 		entranceBuffer.setState(new N0(entranceBuffer));
 		entranceBuffer.getState().act();
 	}
-	
+
 	/**
 	 * This method is used to change state of entrance buffer, type N1
 	 * 
 	 * @param entranceBuffer
 	 */
 	public void changeENBStateN1(EntranceBuffer entranceBuffer) {
-		
+
 		entranceBuffer.setState(new N1(entranceBuffer));
 		entranceBuffer.getState().act();
 	}
-	
+
 	/**
-	 * This method is used to the state of unidirectioncal way, type W0
+	 * This method is used to the state of unidirectional way, type W0
 	 * 
 	 * @param unidirectionalWay
 	 */
@@ -96,29 +108,29 @@ public abstract class EventController extends Event {
 		unidirectionalWay.setState(new W0(unidirectionalWay));
 		unidirectionalWay.getState().act();
 	}
-	
+
 	/**
-	 * This method is used to the state of unidirectioncal way, type W1
+	 * This method is used to the state of unidirectional way, type W1
 	 * 
 	 * @param unidirectionalWay
 	 */
 	public void changeWayStateW1(UnidirectionalWay unidirectionalWay) {
-		
+
 		unidirectionalWay.setState(new W1(unidirectionalWay));
 		unidirectionalWay.getState().act();
 	}
-	
+
 	/**
-	 * This method is used to the state of unidirectioncal way, type W2
+	 * This method is used to the state of unidirectional way, type W2
 	 * 
 	 * @param unidirectionalWay
 	 */
 	public void changeWayStateW2(UnidirectionalWay unidirectionalWay) {
-		
+
 		unidirectionalWay.setState(new W2(unidirectionalWay));
 		unidirectionalWay.getState().act();
 	}
-	
+
 	/**
 	 * This method is used to add event A
 	 * 
@@ -126,13 +138,13 @@ public abstract class EventController extends Event {
 	 * @param sourceQueue
 	 */
 	public void addEventA(DiscreteEventSimulator sim, SourceQueue sourceQueue) {
-		
+
 		long time = (long) sourceQueue.getNextPacketTime();
 		Event event = new AGenerationEvent(sim, time, time, sourceQueue);
 
 		event.register();
 	}
-	
+
 	/**
 	 * This method is used to add event B
 	 * 
@@ -141,13 +153,13 @@ public abstract class EventController extends Event {
 	 * @param newPacket
 	 */
 	public void addEventB(DiscreteEventSimulator sim, SourceQueue sourceQueue, Packet newPacket) {
-		
+
 		long time = (long) sim.time();
 		Event event = new BLeavingSourceQueueEvent(sim, time, time, sourceQueue, newPacket);
-	
+
 		event.register();
 	}
-	
+
 	/**
 	 * This method is used to add event C
 	 * 
@@ -159,7 +171,7 @@ public abstract class EventController extends Event {
 
 		long time = (long) sourceQueue.physicalLayer.simulator.time();
 		Event event = new CLeavingEXBEvent(sim, time, time, exitBuffer, packet);
-		
+
 		event.register();// add a new event
 	}
 
@@ -171,11 +183,11 @@ public abstract class EventController extends Event {
 	 * @param sim
 	 */
 	public void addEventD(ExitBuffer exitBuffer, UnidirectionalWay unidirectionalWay, DiscreteEventSimulator sim) {
-		
+
 		long time = (long) exitBuffer.physicalLayer.simulator.time();
 		Event event = new DReachingENBEvent(sim, time,
 				time + unidirectionalWay.getLink().getTotalLatency(packet.getSize()), unidirectionalWay, packet);
-		
+
 		event.register(); // add a new event
 	}
 
@@ -187,11 +199,11 @@ public abstract class EventController extends Event {
 	 * @param sim
 	 */
 	public void addEventG(ExitBuffer exitBuffer, UnidirectionalWay unidirectionalWay, DiscreteEventSimulator sim) {
-		
+
 		long time = (long) exitBuffer.physicalLayer.simulator.time();
 		Event event = new GReachingDestinationEvent(sim, time,
 				time + unidirectionalWay.getLink().getTotalLatency(packet.getSize()), unidirectionalWay, packet);
-	
+
 		event.register(); // add a new event
 	}
 
@@ -202,11 +214,11 @@ public abstract class EventController extends Event {
 	 * @param sim
 	 */
 	public void addEventF(ExitBuffer exitBuffer, DiscreteEventSimulator sim) {
-		
+
 		long time = (long) exitBuffer.physicalLayer.simulator.time();
 		Event event = new FLeavingSwitchEvent(sim, time, time + Constant.SWITCH_CYCLE, exitBuffer, packet);
-		
+
 		event.register();
 	}
-	
+
 }
