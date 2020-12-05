@@ -9,7 +9,7 @@ import events.IEventGenerator;
 public abstract class Element implements IEventGenerator {
 	protected int id;
 	protected State state;
-	protected long soonestEndTime = Long.MAX_VALUE; /// todo check NHONLV change from 0 to max
+	protected long soonestEndTime = Long.MAX_VALUE; /// check NHONLV change from 0 to max
 
 	public Element() {
 	}
@@ -44,6 +44,13 @@ public abstract class Element implements IEventGenerator {
 		return soonestEndTime;
 	}
 
+	/**
+	 * This method is used to check whether the packet has event or not
+	 * 
+	 * @param packet the packet needs checking
+	 * @return false if DiscreteEventSimulator = null or packet = null; true
+	 *         otherwise
+	 */
 	public boolean hasEventOfPacket(Packet packet) {
 		DiscreteEventSimulator sim = DiscreteEventSimulator.getInstance();
 		if (sim == null)
@@ -54,7 +61,5 @@ public abstract class Element implements IEventGenerator {
 		else {
 			return false;
 		}
-
 	}
-
 }

@@ -48,9 +48,7 @@ public class InterPodIncoming extends OverSubscription {
 
 	@Override
 	public void pairHosts() {
-
 		Integer[] allHosts = this.getAllHosts();
-
 		int numOfHosts = allHosts.length;
 		int sizeOfPod = k * k / 4;
 		int currPod = 0, prePod = 0;
@@ -59,9 +57,7 @@ public class InterPodIncoming extends OverSubscription {
 			int dst = allHosts[i];
 			prePod = currPod;
 			if (!destinations.contains(dst)) {
-
 				int index = calIndex(numOfHosts, sizeOfPod, prePod, i, dst);
-
 				addSrcAndDst(index, sizeOfPod, allHosts, currPod, dst, i, numOfHosts);
 			} else {
 				currPod = i / sizeOfPod;
@@ -85,11 +81,9 @@ public class InterPodIncoming extends OverSubscription {
 
 	private void addSrcAndDst(int index, int sizeOfPod, Integer[] allHosts, int currPod, int dst, int i,
 			int numOfHosts) {
-
 		boolean found = false;
 		int count = 0;
 		int expectedSrc = allHosts[index];
-
 		while (!found && count < k) {
 			if (sources.contains(expectedSrc)) {
 				addIfContained(index, sizeOfPod, expectedSrc, allHosts, found, currPod, dst, i);
@@ -99,7 +93,6 @@ public class InterPodIncoming extends OverSubscription {
 					break;
 				}
 			}
-
 			if (!found) {
 				count++;
 				index = (index + sizeOfPod) % numOfHosts;
@@ -109,21 +102,17 @@ public class InterPodIncoming extends OverSubscription {
 
 	private void addIfContained(int index, int sizeOfPod, int expectedSrc, Integer[] allHosts, boolean found,
 			int currPod, int dst, int i) {
-
 		for (int j = index + 1; j < (index / sizeOfPod + 1) * sizeOfPod; j++) {
 			expectedSrc = allHosts[j];
-
 			if (!sources.contains(expectedSrc) && ((expectedSrc / sizeOfPod) != (dst / sizeOfPod))) {
 				found = true;
 				sources.add(expectedSrc);
 				destinations.add(dst);
-
 				if ((i + 1) % sizeOfPod == 0) {
 					currPod = (i + 1) / sizeOfPod;
 				} else {
 					currPod = j / sizeOfPod;
 				}
-
 				sources.add(dst);
 				destinations.add(expectedSrc);
 				break;
@@ -137,7 +126,6 @@ public class InterPodIncoming extends OverSubscription {
 
 		sources.add(expectedSrc);
 		destinations.add(dst);
-
 		sources.add(dst);
 		destinations.add(expectedSrc);
 
@@ -155,16 +143,12 @@ public class InterPodIncoming extends OverSubscription {
 	@Override
 	public void checkValid() {
 		Map<Integer, Integer> flowPerCore = new HashMap<Integer, Integer>();
-
 		int realCore = 0;
 		int sizeOfPod = k * k / 4;
 
 		checkPairQuantity(realCore); // check whether there are enough pairs or not.
-
-		checkSamePod(flowPerCore, realCore,
-				sizeOfPod); /*
-							 * check whether a source node and a destination node are in the same pod or not
-							 */
+		checkSamePod(flowPerCore, realCore, sizeOfPod); // check whether a source node and a destination node are in the
+														// same pod or not
 		int average = k;
 		int equal = 0;
 		for (int core : flowPerCore.keySet()) {
@@ -216,14 +200,12 @@ public class InterPodIncoming extends OverSubscription {
 			System.out
 					.println("From " + sources.get(i) + " through " + getCoreSwitch(sources.get(i), destinations.get(i))
 							+ "/" + realCore + " to " + destinations.get(i));
-
 			if (flowPerCore.containsKey(realCore)) {
 				int value = flowPerCore.get(realCore) + 1;
 				flowPerCore.put(realCore, value);
 			} else {
 				flowPerCore.put(realCore, 1);
 			}
-
 			if (sources.get(i) / sizeOfPod == destinations.get(i) / sizeOfPod) {
 				System.out.print("Source and destination are in the same pod. INVALID!!!!");
 				System.exit(0);
@@ -256,13 +238,10 @@ public class InterPodIncoming extends OverSubscription {
 		Address address = G.getAddress(destination);
 		Map<Integer, Map<Integer, Integer>> suffixTables = routing.getSuffixTables();
 		Map<Integer, Map<Triplet<Integer, Integer, Integer>, Integer>> prefixTables = routing.getPrefixTables();
-
 		Map<Integer, Integer> suffixTable = suffixTables.get(edge);
 		int suffix = address._4;
 		int agg = suffixTable.get(suffix);
-
 		Triplet<Integer, Integer, Integer> prefix = new Triplet<>(address._1, address._2, address._3);
-
 		Map<Triplet<Integer, Integer, Integer>, Integer> prefixTable = prefixTables.get(agg);
 		suffixTable = suffixTables.get(agg);
 
@@ -272,5 +251,4 @@ public class InterPodIncoming extends OverSubscription {
 			return suffixTable.get(suffix);
 		}
 	}
-
 }

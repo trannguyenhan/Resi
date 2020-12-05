@@ -1,6 +1,6 @@
 package events;
 
-import infrastructure.event.EventController;
+import infrastructure.event.Event;
 import infrastructure.state.Type;
 import network.elements.SourceQueue;
 import network.elements.Packet;
@@ -8,7 +8,7 @@ import network.states.sourcequeue.Sq1;
 import network.states.sourcequeue.Sq2;
 import simulator.DiscreteEventSimulator;
 
-public class AGenerationEvent extends EventController {
+public class AGenerationEvent extends Event {
 
 	/**
 	 * This is the constructor event of AGenerationEvent class extending Event
@@ -43,9 +43,23 @@ public class AGenerationEvent extends EventController {
 		newPacket.setType(Type.P1);
 
 		updateSrcQueue(sourceQueue); // update Source Queue
-		addEventB(sim, sourceQueue, newPacket); // add event B
-		addEventA(sim, sourceQueue); // add event A
+		createEvent(sim, sourceQueue, newPacket); // add event A and event B
 
+	}
+
+	/**
+	 * This method is used to create event type A and B
+	 */
+	@Override
+	public void createEvent(DiscreteEventSimulator sim, SourceQueue sourceQueue, Packet newPacket) {
+
+		long time = (long) sim.time();
+		Event event1 = new BLeavingSourceQueueEvent(sim, time, time, sourceQueue, newPacket);
+		event1.register();
+
+		time = (long) sourceQueue.getNextPacketTime();
+		Event event2 = new AGenerationEvent(sim, time, time, sourceQueue);
+		event2.register(); // add a new event
 	}
 
 	/**

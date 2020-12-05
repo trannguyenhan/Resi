@@ -1,7 +1,7 @@
 package events;
 
 import infrastructure.element.Element;
-import infrastructure.event.EventController;
+import infrastructure.event.Event;
 import infrastructure.state.Type;
 import network.elements.EntranceBuffer;
 import network.elements.ExitBuffer;
@@ -16,7 +16,7 @@ enum TypeB {
 	B, B1, B2, B3, B4
 }
 
-public class BLeavingSourceQueueEvent extends EventController {
+public class BLeavingSourceQueueEvent extends Event {
 	protected TypeB type = TypeB.B;
 
 	/**
@@ -54,22 +54,33 @@ public class BLeavingSourceQueueEvent extends EventController {
 				.getOtherNode(sourceQueue.physicalLayer.node).getId();
 		EntranceBuffer entranceBuffer = null;
 		UnidirectionalWay unidirectionalWay = null;
-
 		ExitBuffer exitBuffer = sourceQueue.physicalLayer.exitBuffers.get(connectedNodeID);
+
 		if (((exitBuffer.getState().type == Type.X00) || (exitBuffer.getState().type == Type.X01))
 				&& (sourceQueue.getState() instanceof Sq2 && sourceQueue.isPeekPacket(packet))) {
-
-			changeSrcQueueState(sourceQueue, exitBuffer); // change state source queue, type B1
-			// change state EXB, type B4
+			changeSrcQueueState(sourceQueue, exitBuffer); // change the state of source queue, type B1
 			if (exitBuffer.isFull()) {
-				changeState(entranceBuffer, exitBuffer, unidirectionalWay);
-				addEventC(sourceQueue, exitBuffer, sim);
+				changeState(entranceBuffer, exitBuffer, unidirectionalWay);// change EXB's state , type B4
+				createEvent(sourceQueue, exitBuffer, sim); // add event C
 			}
 		}
 	}
 
 	/**
-	 * This method is used to change the state of exit buffer
+	 * This method is used to create event type C
+	 */
+	@Override
+	public void createEvent(SourceQueue sourceQueue, ExitBuffer exitBuffer, DiscreteEventSimulator sim) {
+		long time = (long) sourceQueue.physicalLayer.simulator.time();
+		Event event = new CLeavingEXBEvent(sim, time, time, exitBuffer, packet);
+
+		event.register();// add a new event
+	}
+
+	/**
+	 * This method is used to change the state of exit buffer. If the state of EXB
+	 * is X00 then change it to X10. If the state of EXB is X01 then change it to
+	 * X11
 	 */
 	@Override
 	public void changeState(EntranceBuffer entranceBuffer, ExitBuffer exitBuffer, UnidirectionalWay unidirectionalWay) {
@@ -77,7 +88,7 @@ public class BLeavingSourceQueueEvent extends EventController {
 			exitBuffer.setType(Type.X10);
 		}
 		if (exitBuffer.getState().type == Type.X01) {
-			changeEXBStateX11(exitBuffer);
+			changeEXBState(exitBuffer, "X11");
 		}
 	}
 
@@ -96,8 +107,6 @@ public class BLeavingSourceQueueEvent extends EventController {
 		sourceQueue.removePacket();
 		exitBuffer.insertPacket(packet);
 
-		{
-			packet.setType(Type.P2);
-		}
+		packet.setType(Type.P2);
 	}
 }

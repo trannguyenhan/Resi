@@ -2,7 +2,7 @@ package events;
 
 import infrastructure.element.Element;
 import infrastructure.entity.Node;
-import infrastructure.event.EventController;
+import infrastructure.event.Event;
 import infrastructure.state.Type;
 import network.elements.EntranceBuffer;
 import network.elements.ExitBuffer;
@@ -12,9 +12,10 @@ import network.entities.Host;
 import network.entities.Switch;
 import network.entities.TypeOfHost;
 import network.states.unidirectionalway.W0;
+import network.states.unidirectionalway.W1;
 import simulator.DiscreteEventSimulator;
 
-public class CLeavingEXBEvent extends EventController {
+public class CLeavingEXBEvent extends Event {
 
 	/**
 	 * This is the constructor method of CLeavingEXBEvent class extending Event
@@ -42,20 +43,18 @@ public class CLeavingEXBEvent extends EventController {
 		EntranceBuffer entranceBuffer = null;
 		UnidirectionalWay unidirectionalWay = exitBuffer.physicalLayer.links.get(exitBuffer.physicalLayer.node.getId())
 				.getWayToOtherNode(exitBuffer.physicalLayer.node);
-
+		
 		if (unidirectionalWay.getState() instanceof W0 && exitBuffer.isPeekPacket(packet)
 				&& ((exitBuffer.getState().type == Type.X11) || (exitBuffer.getState().type == Type.X01))) {
-			unidirectionalWay.addPacket(exitBuffer.removePacket());
-
-			changeState(entranceBuffer, exitBuffer, unidirectionalWay);
-
+			changeState(entranceBuffer, exitBuffer, unidirectionalWay); 
+			
 			Node nextNode = unidirectionalWay.getToNode();
 			if (nextNode instanceof Switch) { // if next node is switch, add event D
-				addEventD(exitBuffer, unidirectionalWay, sim);
+				createEvent(exitBuffer, unidirectionalWay, sim, 'D');
 			} else if (nextNode instanceof Host) { // if next node is host, add event G
 				Host h = (Host) nextNode;
 				if (h.type == TypeOfHost.Destination || h.type == TypeOfHost.Mix) {
-					addEventG(exitBuffer, unidirectionalWay, sim);
+					createEvent(exitBuffer, unidirectionalWay, sim, 'G');
 				}
 			}
 		}
@@ -66,9 +65,13 @@ public class CLeavingEXBEvent extends EventController {
 	 */
 	@Override
 	public void changeState(EntranceBuffer entranceBuffer, ExitBuffer exitBuffer, UnidirectionalWay unidirectionalWay) {
+		unidirectionalWay.addPacket(exitBuffer.removePacket());
 		packet.setType(Type.P3);
-
-		changeEXBStateX00(exitBuffer); // change EXB state
-		changeWayStateW1(unidirectionalWay); // change uniWay state
+		
+		// change EXB state to X00
+		changeEXBState(exitBuffer, "X00"); 
+		
+		// change the state of unidirectional way to State W1
+		changeWayState(unidirectionalWay, "W1");
 	}
 }

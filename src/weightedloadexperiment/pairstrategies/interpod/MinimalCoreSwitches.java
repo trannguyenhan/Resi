@@ -16,14 +16,12 @@ public class MinimalCoreSwitches extends InterPodIncoming {
 
 	public MinimalCoreSwitches(FatTreeRoutingAlgorithm routing, FatTreeGraph G) {
 		super(routing, G);
-
 	}
 
 	@Override
 	public void setAllHosts(Integer[] allHosts) {
 		super.setAllHosts(allHosts);
 		this.k = (int) Math.cbrt(4 * allHosts.length);
-
 		int numOfHosts = allHosts.length;
 
 		coreInPath = new int[numOfHosts][numOfHosts];
@@ -35,7 +33,6 @@ public class MinimalCoreSwitches extends InterPodIncoming {
 				coreInPath[i][j] = core;
 			}
 		}
-
 		allCores = new int[k * k / 4];
 		int minCore = k * k * k / 4 + k * k;
 		for (int i = 0; i < k * k / 4; i++) {
@@ -53,11 +50,9 @@ public class MinimalCoreSwitches extends InterPodIncoming {
 		for (int i = delta; (i - delta) < numOfOversubscriptedCores; i++) {
 			oversubscriptedCores[i - delta] = allCores[i % (k * k / 4)];
 		}
-
 		delta = delta + RandomGenerator.nextInt(0, k * k / 4);
 		delta = delta % numOfOversubscriptedCores;
 		List<Integer> dests = getDestinations();
-
 		List<Integer> usedPods = new ArrayList<Integer>();
 
 		for (int pod = 0; pod < k; pod++) {
@@ -73,9 +68,13 @@ public class MinimalCoreSwitches extends InterPodIncoming {
 			}
 		}
 	}
-	
-	// Input is the host's index in the list of hosts from 0 to 15
-	// Returns host's ID in the list of nodes: 0..3, 8..11, 16..19, 24..27
+
+	/**
+	 * This method is used to get host's ID in the list of nodes
+	 * 
+	 * @param i This is the host's index in the list of hosts from 0 to 15
+	 * @return host's ID in the list of nodes: 0..3, 8..11, 16..19, 24..27
+	 */
 	private int getHostIndex(int i) {
 		int result = 0;
 		int pod = i / (k * k / 4);
@@ -117,7 +116,6 @@ public class MinimalCoreSwitches extends InterPodIncoming {
 	}
 
 	private boolean isFromAcceptablePod(List<Integer> usedPods, int src, int dst) {
-
 		int pod = src / (k * k / 4 + k);
 		if (usedPods.size() == 0) {
 			usedPods.add(pod);
@@ -136,7 +134,5 @@ public class MinimalCoreSwitches extends InterPodIncoming {
 				}
 			}
 		}
-
 	}
-
 }

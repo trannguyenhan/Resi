@@ -1,7 +1,7 @@
 package events;
 
 import infrastructure.element.Element;
-import infrastructure.event.EventController;
+import infrastructure.event.Event;
 import infrastructure.state.Type;
 import network.elements.EntranceBuffer;
 import network.elements.ExitBuffer;
@@ -9,14 +9,17 @@ import network.elements.Packet;
 import network.elements.UnidirectionalWay;
 import network.entities.Switch;
 import network.states.enb.N0;
+import network.states.enb.N1;
+import network.states.unidirectionalway.W0;
 import network.states.unidirectionalway.W1;
+import network.states.unidirectionalway.W2;
 import simulator.DiscreteEventSimulator;
 
 enum TypeD {
 	D, D1, D2
 }
 
-public class DReachingENBEvent extends EventController {
+public class DReachingENBEvent extends Event {
 	public TypeD type = TypeD.D;
 
 	/**
@@ -52,7 +55,6 @@ public class DReachingENBEvent extends EventController {
 			unidirectionalWay.removePacket();
 			entranceBuffer.insertPacket(packet);
 			packet.setType(Type.P4);
-
 			changeState(entranceBuffer, exitBuffer, unidirectionalWay);
 		}
 		entranceBuffer.getNode().getNetworkLayer().route(entranceBuffer);
@@ -65,19 +67,18 @@ public class DReachingENBEvent extends EventController {
 	@Override
 	public void changeState(EntranceBuffer entranceBuffer, ExitBuffer exitBuffer, UnidirectionalWay unidirectionalWay) {
 		if (entranceBuffer.isFull()) {
-			type = TypeD.D2; // ENB full
-			changeENBStateN1(entranceBuffer); // change state of ENB
-			changeWayStateW2(unidirectionalWay); // change state of way
+			type = TypeD.D2; // ENB is full
+			changeENBState(entranceBuffer, "N1"); // change the state of entrance buffer to State N1
+			changeWayState(unidirectionalWay, "W2"); // change the state of unidirectional way to State W2
 		} else {
-			type = TypeD.D1; // ENB not full
-
+			type = TypeD.D1; // ENB is not full
 			if (exitBuffer.getState().type == Type.X00) {
-				changeEXBStateX01(exitBuffer); // change EXB state
+				changeEXBState(exitBuffer, "X01"); // change EXB state to X01
 			}
 			if (exitBuffer.getState().type == Type.X10) {
-				changeEXBStateX11(exitBuffer); // change EXB state
+				changeEXBState(exitBuffer, "X11"); // change EXB state to X11
 			}
 		}
-		changeWayStateW0(unidirectionalWay); // change state of way
+		changeWayState(unidirectionalWay, "W0"); // change the state of unidirectional way to State W0
 	}
 }

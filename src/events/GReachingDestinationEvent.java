@@ -2,17 +2,18 @@ package events;
 
 import infrastructure.element.Element;
 import infrastructure.entity.Node;
-import infrastructure.event.EventController;
+import infrastructure.event.Event;
 import infrastructure.state.Type;
 import network.elements.EntranceBuffer;
 import network.elements.ExitBuffer;
 import network.elements.Packet;
 import network.elements.UnidirectionalWay;
 import network.entities.Host;
+import network.states.unidirectionalway.W0;
 import network.states.unidirectionalway.W1;
 import simulator.DiscreteEventSimulator;
 
-public class GReachingDestinationEvent extends EventController {
+public class GReachingDestinationEvent extends Event {
 
 	/**
 	 * This is the constructor method of GReachingDestinationEvent class extending
@@ -59,14 +60,15 @@ public class GReachingDestinationEvent extends EventController {
 	@Override
 	public void changeState(EntranceBuffer entranceBuffer, ExitBuffer exitBuffer, UnidirectionalWay unidirectionalWay) {
 		packet.setType(Type.P6); // change state packet
-		changeWayStateW0(unidirectionalWay); // change state of uniWay
 
-		// change state of EXB
+		// change the state of unidirectional way to State W0
+		changeWayState(unidirectionalWay, "W0");
+
 		if (exitBuffer.getState().type == Type.X00) {
-			changeEXBStateX01(exitBuffer);
+			changeEXBState(exitBuffer, "X01"); // change EXB state to X01
 		}
 		if (exitBuffer.getState().type == Type.X10) {
-			changeEXBStateX11(exitBuffer);
+			changeEXBState(exitBuffer, "X11"); // change EXB state to X11
 		}
 	}
 }

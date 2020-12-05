@@ -1,7 +1,7 @@
 package events;
 
 import infrastructure.element.Element;
-import infrastructure.event.EventController;
+import infrastructure.event.Event;
 import infrastructure.state.Type;
 import network.elements.EntranceBuffer;
 import network.elements.ExitBuffer;
@@ -10,7 +10,7 @@ import network.states.unidirectionalway.W0;
 import network.states.unidirectionalway.W2;
 import simulator.DiscreteEventSimulator;
 
-public class HNotificationEvent extends EventController {
+public class HNotificationEvent extends Event {
 
 	/**
 	 * This is the constructor method of HNotificationEvent class extending Event
@@ -49,15 +49,17 @@ public class HNotificationEvent extends EventController {
 	 */
 	@Override
 	public void changeState(EntranceBuffer entranceBuffer, ExitBuffer exitBuffer, UnidirectionalWay unidirectionalWay) {
-		// change state of EXB
+		
 		if (exitBuffer.getState().type == Type.X00) {
-			changeEXBStateX01(exitBuffer);
+			changeEXBState(exitBuffer, "X01"); // change EXB state to X01
 		}
 		if (exitBuffer.getState().type == Type.X10) {
-			changeEXBStateX11(exitBuffer);
+			changeEXBState(exitBuffer, "X11"); // change EXB state to X11
 		}
+
 		if (unidirectionalWay.getState() instanceof W2) {
-			changeWayStateW0(unidirectionalWay); // change uniWay state
+			// change the state of unidirectional way to State W0
+			changeWayState(unidirectionalWay, "W0"); 
 		}
 	}
 }

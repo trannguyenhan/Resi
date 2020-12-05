@@ -60,7 +60,6 @@ public abstract class PairGenerator {
 	}
 
 	public static boolean isOversubscriptedLink(Link link, int maxIndexOfCore, int minIndexOfCore) {
-
 		boolean result = false;
 
 		Map<Integer, UnidirectionalWay> ways = link.Ways();

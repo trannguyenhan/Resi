@@ -1,13 +1,14 @@
 package events;
 
 import infrastructure.element.Element;
-import infrastructure.event.EventController;
+import infrastructure.event.Event;
 import infrastructure.state.Type;
 import network.elements.EntranceBuffer;
 import network.elements.ExitBuffer;
 import network.elements.Packet;
 import network.elements.UnidirectionalWay;
 import network.entities.Switch;
+import network.states.enb.N0;
 import network.states.enb.N1;
 import simulator.DiscreteEventSimulator;
 
@@ -15,7 +16,7 @@ enum TypeE {
 	E, E1, E2
 }
 
-public class EMovingInSwitchEvent extends EventController {
+public class EMovingInSwitchEvent extends Event {
 	public TypeE type = TypeE.E;
 
 	/**
@@ -45,19 +46,13 @@ public class EMovingInSwitchEvent extends EventController {
 		int nextNodeID = entranceBuffer.getNextNodeId();
 		ExitBuffer exitBuffer = sw.physicalLayer.exitBuffers.get(nextNodeID);
 		UnidirectionalWay unidirectionalWay = null;
-		
+
 		if (entranceBuffer.isPeekPacket(packet)
 				&& ((exitBuffer.getState().type == Type.X00) || (exitBuffer.getState().type == Type.X01))) {
-			entranceBuffer.dropNextNode();
-			entranceBuffer.removePacket();
-			exitBuffer.insertPacket(packet);
-			exitBuffer.removeFromRequestList(entranceBuffer);
-			packet.setType(Type.P5);
+			changeState(entranceBuffer, exitBuffer, unidirectionalWay);
 
-			changeState(entranceBuffer,exitBuffer, unidirectionalWay);
-			
 			if (exitBuffer.isPeekPacket(packet)) {
-				addEventF(exitBuffer, sim); // add event F
+				createEvent(exitBuffer, unidirectionalWay, sim, 'F'); // add event F
 			}
 			exitBuffer.getNode().getNetworkLayer().controlFlow(exitBuffer);
 			if (!entranceBuffer.isEmpty()) {
@@ -65,22 +60,27 @@ public class EMovingInSwitchEvent extends EventController {
 			}
 		}
 	}
-	
+
 	/**
-	 * This method is used to change the state of entrance buffer and exit buffer 
+	 * This method is used to change the state of entrance buffer and exit buffer
 	 */
 	@Override
 	public void changeState(EntranceBuffer entranceBuffer, ExitBuffer exitBuffer, UnidirectionalWay unidirectionalWay) {
+		entranceBuffer.dropNextNode();
+		entranceBuffer.removePacket();
+		exitBuffer.insertPacket(packet);
+		exitBuffer.removeFromRequestList(entranceBuffer);
+		packet.setType(Type.P5);
 		if (entranceBuffer.getState() instanceof N1) {
-			changeENBStateN0(entranceBuffer); // change ENB state
+			changeENBState(entranceBuffer, "N0"); // change the state of entrance buffer to State N0
 		}
 		if (exitBuffer.isFull()) {
 			type = TypeE.E2;
 			if (exitBuffer.getState().type == Type.X00) {
-				changeEXBStateX10(exitBuffer); // change EXB state
+				changeEXBState(exitBuffer, "X10"); // change EXB state to X10
 			}
 			if (exitBuffer.getState().type == Type.X01) {
-				changeEXBStateX11(exitBuffer); // change EXB state
+				changeEXBState(exitBuffer, "X11"); // change EXB state to X11
 			}
 		}
 	}

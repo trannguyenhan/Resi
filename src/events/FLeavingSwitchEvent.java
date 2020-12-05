@@ -2,7 +2,7 @@ package events;
 
 import infrastructure.element.Element;
 import infrastructure.entity.Node;
-import infrastructure.event.EventController;
+import infrastructure.event.Event;
 import infrastructure.state.Type;
 import network.elements.EntranceBuffer;
 import network.elements.ExitBuffer;
@@ -12,9 +12,10 @@ import network.entities.Host;
 import network.entities.Switch;
 import network.entities.TypeOfHost;
 import network.states.unidirectionalway.W0;
+import network.states.unidirectionalway.W1;
 import simulator.DiscreteEventSimulator;
 
-public class FLeavingSwitchEvent extends EventController {
+public class FLeavingSwitchEvent extends Event {
 
 	/**
 	 * This is the constructor method of FLeavingSwitchEvent class extending Event
@@ -46,19 +47,16 @@ public class FLeavingSwitchEvent extends EventController {
 
 		if (exitBuffer.isPeekPacket(packet) && unidirectionalWay.getState() instanceof W0
 				&& ((exitBuffer.getState().type == Type.X11) || (exitBuffer.getState().type == Type.X01))) {
-			unidirectionalWay.addPacket(exitBuffer.removePacket());
-
 			changeState(entranceBuffer, exitBuffer, unidirectionalWay);
-
 			Node nextNode = exitBuffer.getConnectNode();
 			exitBuffer.physicalLayer.node.getNetworkLayer().routingAlgorithm.update(packet, nextNode);
 			if (nextNode instanceof Host) {
 				Host h = (Host) nextNode;
 				if (h.type == TypeOfHost.Destination || h.type == TypeOfHost.Mix) {
-					addEventG(exitBuffer, unidirectionalWay, sim); // add event G
+					createEvent(exitBuffer, unidirectionalWay, sim, 'G'); // add event G
 				}
 			} else if (nextNode instanceof Switch) {
-				addEventD(exitBuffer, unidirectionalWay, sim); // add event D
+				createEvent(exitBuffer, unidirectionalWay, sim, 'D'); // add event D
 			}
 		}
 	}
@@ -68,11 +66,13 @@ public class FLeavingSwitchEvent extends EventController {
 	 */
 	@Override
 	public void changeState(EntranceBuffer entranceBuffer, ExitBuffer exitBuffer, UnidirectionalWay unidirectionalWay) {
+		unidirectionalWay.addPacket(exitBuffer.removePacket());
+
 		if (packet.getState().type == Type.P5) {
 			packet.setType(Type.P3); // change Packet state
 		}
+		changeEXBState(exitBuffer, "X00"); // change EXB state to X00
 
-		changeEXBStateX00(exitBuffer); // change EXB state
-		changeWayStateW1(unidirectionalWay); // change state of way
+		changeWayState(unidirectionalWay, "W1"); // change the state of unidirectional way to State W1
 	}
 }
