@@ -24,24 +24,12 @@ In this project, we simulate the process of data packet transmission in a data c
 
 <hr>
 
-### Why the Master Templates?
+### Background
 
-With the use of version control, there is a huge struggle among most people to do a brief of what their project is about.
-Lets face it, most developers are not into typing out prose to explain what they just built. Others dread the whole process of documenting it.
-<br>
-In addition, what to include so that someone else working on their project can benefit from their amazing work can sometimes be a hard task.
-<br>
-This is the foundation behind this project. A sample project that allows you to get started with a well written **ReadMe.md** file.
+The following two research papers explain the ideas behind this tool:
+* A Reduction Model For Simulating Large-Scale Interconnection Network, Nguyen Tien Thanh, Nguyen Khanh Van, Bui Manh Cuong.
 
-ReadMe MasterTemplates:
-* Give developers an easy time when writing their project ReadMe.
-
-* Enable more time to be spent coding out their projects.
-
-* Help us have better github projects without one liners.
-
-* Help people who want to use the various projects on github to know more about the project's architecture.
-
+* A scalable, commodity data center network architecture, Mohammad Al-Fares, Alexander Loukissas, Amin Vahdat.
 
 <hr>
 
@@ -106,7 +94,7 @@ Before you contribute though read the contributing guide here: [CONTRIBUTING GUI
 
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg?style=for-the-badge)](#)
 
-The javatuples contains a collection of network topologies, which are not our work. All other code / scripts / materials are original contributions of the above contributors, and are released under the MIT LICENSE (see "./LICENSE"). 
+The javatuples is one of the simplest java libraries ever made, which is not our work. Its aim is to provide a set of java classes that allow you to work with tuples. All other code / scripts / materials are original contributions of the above contributors, and are released under the MIT LICENSE (see "./LICENSE"). 
 
 We would appreciate you citing this code and the most relevant of our associated research publications below.
 
