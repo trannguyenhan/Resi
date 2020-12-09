@@ -17,11 +17,10 @@ A reduction simulation of data packet transmission in Data Center Network, using
 
 ReSi stands for Reduction Simulation
 
-In this project, we simulate the process of data packet transmission in a data center network
+In this project, we simulate the process of data packet transmission in a data center network:
+ - Today's data centers many contain tens of thousands of computers with high speed and large capacity. In order for these servers to function properly, people must set the topology, routing algorithms, and flow control algorithms...
+ - One of the most popular topologies that has been used is Fat-Tree
 
- - [Android Project ReadMe template](https://github.com/tamzi/ReadMe-MasterTemplates/tree/master/android)
- - [Web project template](https://github.com/tamzi/ReadMe-MasterTemplates/tree/master/website)
- - A General contibutions guide in each project
 
 <hr>
 
@@ -32,9 +31,11 @@ The following two research papers explain the ideas behind this tool:
 
 * [A scalable, commodity data center network architecture](http://ccr.sigcomm.org/online/files/p63-alfares.pdf), Mohammad Al-Fares, Alexander Loukissas, Amin Vahdat.
   - In this paper, the authors adopt a fat-tree topology to interconnect commodity Ethernet switches, with two-level routing table and some algorithms of flow control
-  in order to improve the throughput of data center network
+  in order to improve the throughput of data center network.
   - They conducted experiments with a 4-port fat-tree, using 10 physical machines to set up this virtual network. On each machine, there is a Click to perform packet
-  routing tasks
+  routing tasks.
+  - Each host generates packet with speed 96 Mbps. The uplinks from the pod switches to the core switch are bandwwidth-limited to 106,67 Mbps and all other links are limited to 96 Mbps.
+  - They run five times on an experiemt and the simulation time is 1 minute.
  
 <hr>
 
