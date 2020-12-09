@@ -22,7 +22,7 @@ ReSi stands for Reduction Simulation:
 * In this simulator, we DO NOT take communication protocols such as HTTP, UDP, TCP ... into consideration.
 * Resi's purpose: to allow developers to install (i) source and destination pairing; (ii) install routing algorithms; (iii) implement flow control algorithms.
 * When running a simulation program (file ThrougphputExperiment.java), it will calculate the throughput value of the transmission process in a certain simulation period.  Here is the example of a fat-tree topology (k = 4):
-![4-port fattree](fat-tree topology 4 ports.png)
+![4-port fattree](fat-tree-topology.png)
 
 
 
