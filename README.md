@@ -31,7 +31,11 @@ The following two research papers explain the ideas behind this tool:
 * [A Reduction Model For Simulating Large-Scale Interconnection Network], Nguyen Tien Thanh, Nguyen Khanh Van, Bui Manh Cuong.
 
 * [A scalable, commodity data center network architecture](http://ccr.sigcomm.org/online/files/p63-alfares.pdf), Mohammad Al-Fares, Alexander Loukissas, Amin Vahdat.
-
+  - In this paper, the authors adopt a fat-tree topology to interconnect commodity Ethernet switches, with two-level routing table and some algorithms of flow control
+  in order to improve the throughput of data center network
+  - They conducted experiments with a 4-port fat-tree, using 10 physical machines to set up this virtual network. On each machine, there is a Click to perform packet
+  routing tasks
+ 
 <hr>
 
 ### INSTRUCTIONS FOR USE
