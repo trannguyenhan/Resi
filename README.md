@@ -55,10 +55,10 @@ The following two research papers explain the ideas behind this tool:
 ### INSTRUCTIONS FOR USE
 
 1. Firstly, you have to install Unmontreal SSJ Library. 
-  * You can install SSJ either by adding it as a dependency for your project, by **downloading a binary release** or by **compiling it from scratch**.
-  * SSJ is compatible with Java SE8 and later versions of Java. It requires the Java Development Kit (JDK), whose latest version is available at Oracle with installation instructions. It must be installed before installing SSJ.
-  * It is also useful to install an integrated development environments (IDE) such as Eclipse, NetBeans, IntelliJ IDEA, for example, to write, compile, and run your Java code.
-  * You can see [how to install SSJ here](https://github.com/umontreal-simul/ssj) 
+  - You can install SSJ either by adding it as a dependency for your project, by **downloading a binary release** or by **compiling it from scratch**.
+  - SSJ is compatible with Java SE8 and later versions of Java. It requires the Java Development Kit (JDK), whose latest version is available at Oracle with installation instructions. It must be installed before installing SSJ.
+  - It is also useful to install an integrated development environments (IDE) such as Eclipse, NetBeans, IntelliJ IDEA, for example, to write, compile, and run your Java code.
+  - You can see [how to install SSJ here](https://github.com/umontreal-simul/ssj) 
 
 2. In order to run the project and calculate the throughput value, run the file ThrougphputExperiment.java
 
