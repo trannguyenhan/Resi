@@ -53,8 +53,7 @@ If you can learn it, awesome! It will save you time...But it really is not impor
 
 ![Edit the Website link](https://raw.githubusercontent.com/tamzi/ReadMe-MasterTemplates/master/website/art/web.png)
 
-5. Want to give a suggestion? Feel free: it's open source. you can [raise issues here](https://github.com/tamzi/ReadMe-MasterTemplates/issues):
-
+5. Want to give a suggestion? Feel free: it's open source. you can [raise issues here](https://github.com/vuminhhieu1311/Resi/issues):
 
 <hr>
 
