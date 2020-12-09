@@ -81,7 +81,10 @@ The project is still very incomplete but under development. We would love to hav
 
 Here are the results of the above described experiments:
 
-![result](result.png)
+![result](results.png)
+
+Most of the results are coincident with the paper, making it possible to confirm that the experimental plan and the experimental tool (reduction simulation) are correct.
+The only difference is in the "Same-ID outgoing" case.
 
 <hr>
 
