@@ -1,6 +1,8 @@
 # Resi
 A reduction simulation of data packet transmission in Data Center Network, using fat-tree topology 
 
+<hr>
+
 ## Table of contents
 - [Description](#description)
 - [Why the MasterTemplates?](#why-the-master-templates)
