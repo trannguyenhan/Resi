@@ -1,18 +1,5 @@
 # Resi
 A reduction simulation of data packet transmission in Data Center Network, using fat-tree topology 
-<p align="center">
-  <a href="https://github.com/tamzi/ReadMe-MasterTemplates">
-    <img src="https://raw.githubusercontent.com/tamzi/ReadMe-MasterTemplates/master/art/readmemastertemplate.jpg" alt="ReadMe Master Templates" width=230 height=150>
-  </a>
-  <h2 align="center">ReadMe Master Templates</h2>
-
-  <p align="center">
-    If you are working on your projects and using github, the README.md file is a useful starter place for you to write good and clear documentations for  your projects. Use this readMe roject to get started with your project's ReadMe.md file.
-    <br>
-    </p>
-</p>
-
-<br>
 
 ## Table of contents
 - [Description](#description)
@@ -27,9 +14,9 @@ A reduction simulation of data packet transmission in Data Center Network, using
 
 ### Description
 
-Despite the fact that you writing a technical document, it needs to be clear. Describing your project makes it easier for people to contribute to it and alos use it!
+ReSi stands for Reduction Simulation
 
-In this project you wil find the following readMes:
+In this project, we simulate the process of data packet transmission in a data center network
 
  - [Android Project ReadMe template](https://github.com/tamzi/ReadMe-MasterTemplates/tree/master/android)
  - [Web project template](https://github.com/tamzi/ReadMe-MasterTemplates/tree/master/website)
