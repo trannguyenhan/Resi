@@ -7,8 +7,8 @@ A reduction simulation of data packet transmission in Data Center Network, using
 - [DESCRIPTION](#description)
 - [BACKGROUND](#background)
 - [INSTRUCTIONS FOR USE](#instructions-for-use)
-- [CONTRIBUTORS](#contributors)
 - [RESULTS](#results)
+- [CONTRIBUTORS](#contributors)
 - [LICENCE](#licence)
 
 <hr>
@@ -69,14 +69,6 @@ The project is still very incomplete but under development. We would love to hav
 
 <hr>
 
-### CONTRIBUTORS
-
-- Vu Minh Hieu (hieu.vm183917@sis.hust.edu.vn)
-- Nguyen Tien Thanh (nguyenthanh@soict.hust.edu.vn)
-- Nguyen Khanh Van (vannk@soict.hust.edu.vn
-- Le Vinh Nhon (nhon.lv176841@sis.hust.edu.vn)
-- Nguyen Chi Hieu
-
 ### RESULTS
 
 Here are the results of the above described experiments:
@@ -85,6 +77,16 @@ Here are the results of the above described experiments:
 
 Most of the results are coincident with the paper, making it possible to confirm that the experimental plan and the experimental tool (reduction simulation) are correct.
 The only difference is in the "Same-ID outgoing" case.
+
+<hr>
+
+### CONTRIBUTORS
+
+- Vu Minh Hieu (hieu.vm183917@sis.hust.edu.vn)
+- Nguyen Tien Thanh (nguyenthanh@soict.hust.edu.vn)
+- Nguyen Khanh Van (vannk@soict.hust.edu.vn
+- Le Vinh Nhon (nhon.lv176841@sis.hust.edu.vn)
+- Nguyen Chi Hieu
 
 <hr>
 
