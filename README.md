@@ -5,7 +5,7 @@ A reduction simulation of data packet transmission in Data Center Network, using
 
 ## TABLE OF CONTENTS
 - [DESCRIPTION](#description)
-- [BACKGROUND](#BACKGROUNDS)
+- [BACKGROUND](#why-the-master-templates)
 - [INSTRUCTIONS FOR USE](#instructions-for-use)
 - [CONTRIBUTORS](#contributors)
 - [LICENCE](#licence)
