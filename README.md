@@ -15,7 +15,7 @@ A reduction simulation of data packet transmission in Data Center Network, using
 
 ### DESCRIPTION
 
-Today's data centers may contain tens of thousands of computers with high speed and large capacity. In order for these servers to function properly, people must set up the topology, routing algorithms, and flow control algorithms... One of the most popular topologies that have been used is Fat-Tree.
+Today's data centers may contain tens of thousands of computers with high speed and large capacity. In order for these servers to function properly, people must set up the topology, routing algorithms, and flow control algorithms... One of the most popular topologies that have been used is **Fat-Tree**.
 
 ReSi stands for Reduction Simulation:
 
@@ -29,7 +29,9 @@ Here is the example of a fat-tree topology (k = 4):
 ![4-port fattree](fat-tree-topology.png)
 
 We generate the communicating pairs according to the following strategies, with the added restriction that any host receives traffic from exactly one host:
+- Random: A host sends to any other host in the network with uniform probability.
 - Stride(i): A host with index x will send to the host with index (x+1) mod 16.
+- Staggered Prob: A host send to another host in its subnet with probability (Subnet P), and to its pod with probability (Pod P), and to anyone else with probability   (1 - Subnet P - Pod P).
 - Inter-pod Incoming: Multiple pods send to different hosts in the same pod, and all happen to choose the same core switch.
 - Same-ID Outgoing: Hosts in the same subnet send to different hosts elsewhere in the network such that the destination hosts have the same host IDs.
 
@@ -45,7 +47,7 @@ The following two research papers explain the ideas behind this tool:
   in order to improve the throughput of data center network.
   - They conduct experiments with a 4-port fat-tree, using 10 physical machines to set up this virtual network. On each machine, there is a Click to perform packet
   routing tasks.
-  - Each host generates packet with speed 96 Mbps. The uplinks from the pod switches to the core switch are bandwwidth-limited to 106,67 Mbps and all other links are limited to 96 Mbps.
+  - Each host generates packet with speed 96 Mbps. The uplinks from the pod switches to the core switch are bandwidth-limited to 106,67 Mbps and all other links are limited to 96 Mbps.
   - They run five times on an experiemt and the simulation period is 1 minute.
  
 <hr>
@@ -53,16 +55,16 @@ The following two research papers explain the ideas behind this tool:
 ### INSTRUCTIONS FOR USE
 
 1. Firstly, you have to install Unmontreal SSJ Library. 
-* You can install SSJ either by adding it as a dependency for your project, by **downloading a binary release** or by **compiling it from scratch**.
-* SSJ is compatible with Java SE8 and later versions of Java. It requires the Java Development Kit (JDK), whose latest version is available at Oracle with installation instructions. It must be installed before installing SSJ.
-* It is also useful to install an integrated development environments (IDE) such as Eclipse, NetBeans, IntelliJ IDEA, for example, to write, compile, and run your Java code.
-* You can see [how to install SSJ here](https://github.com/umontreal-simul/ssj) 
+  * You can install SSJ either by adding it as a dependency for your project, by **downloading a binary release** or by **compiling it from scratch**.
+  * SSJ is compatible with Java SE8 and later versions of Java. It requires the Java Development Kit (JDK), whose latest version is available at Oracle with installation instructions. It must be installed before installing SSJ.
+  * It is also useful to install an integrated development environments (IDE) such as Eclipse, NetBeans, IntelliJ IDEA, for example, to write, compile, and run your Java code.
+  * You can see [how to install SSJ here](https://github.com/umontreal-simul/ssj) 
 
 2. In order to run the project and calculate the throughput value, run the file ThrougphputExperiment.java
 
 4. You can raise the simulation time from 1 second to 1 minute in class **config.Constant**, MAX_TIME = 60*((long)1e9)
 
-5. Want to give a suggestion? Feel free: it's open source. you can [raise issues here](https://github.com/vuminhhieu1311/Resi/issues)
+5. Want to give a suggestion? Feel free: it's open source. you can [raise issues here.](https://github.com/vuminhhieu1311/Resi/issues)
 The project is still very incomplete but under development. We would love to have your help in making our project better.
 
 <hr>
@@ -81,6 +83,7 @@ Here are the results of the above described experiments:
 
 ![result](result.png)
 
+<hr>
 
 ### LICENCE
 
