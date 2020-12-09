@@ -106,3 +106,7 @@ Before you contribute though read the contributing guide here: [CONTRIBUTING GUI
 
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg?style=for-the-badge)](#)
 
+The javatuples contains a collection of network topologies, which are not our work. All other code / scripts / materials are original contributions of the above contributors, and are released under the MIT LICENSE (see "./LICENSE"). 
+
+We would appreciate you citing this code and the most relevant of our associated research publications below.
+
