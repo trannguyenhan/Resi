@@ -30,7 +30,7 @@ In this project, we simulate the process of data packet transmission in a data c
 The following two research papers explain the ideas behind this tool:
 * [A Reduction Model For Simulating Large-Scale Interconnection Network], Nguyen Tien Thanh, Nguyen Khanh Van, Bui Manh Cuong.
 
-* [A scalable, commodity data center network architecture], Mohammad Al-Fares, Alexander Loukissas, Amin Vahdat.
+* [A scalable, commodity data center network architecture](http://ccr.sigcomm.org/online/files/p63-alfares.pdf), Mohammad Al-Fares, Alexander Loukissas, Amin Vahdat.
 
 <hr>
 
