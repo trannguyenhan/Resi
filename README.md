@@ -18,10 +18,10 @@ A reduction simulation of data packet transmission in Data Center Network, using
 ReSi stands for Reduction Simulation
 
 * In this project, we simulate the process of data packet transmission in a data center network:
- - Today's data centers many contain tens of thousands of computers with high speed and large capacity. In order for these servers to function properly, people must set the topology, routing algorithms, and flow control algorithms...
- - One of the most popular topologies that has been used is Fat-Tree
 * In this simulator, we DO NOT take communication protocols such as HTTP, UDP, TCP ... into consideration.
 * Resi's purpose: to allow developers to install (i) source and destination pairing; (ii) install routing algorithms; (iii) implement flow control algorithms.
+* Today's data centers many contain tens of thousands of computers with high speed and large capacity. In order for these servers to function properly, people must set the topology, routing algorithms, and flow control algorithms...
+ *One of the most popular topologies that has been used is Fat-Tree
 
 <hr>
 
