@@ -8,6 +8,7 @@ A reduction simulation of data packet transmission in Data Center Network, using
 - [BACKGROUND](#background)
 - [INSTRUCTIONS FOR USE](#instructions-for-use)
 - [CONTRIBUTORS](#contributors)
+- [RESULTS](#results)
 - [LICENCE](#licence)
 
 <hr>
@@ -51,25 +52,15 @@ The following two research papers explain the ideas behind this tool:
 
 ### INSTRUCTIONS FOR USE
 
-1. First, you have to install Unmontreal SSJ Library. 
-You can install SSJ either by adding it as a dependency for your Maven- or Gradle-based project, by downloading a binary release or by compiling it from scratch.
-SSJ is compatible with Java SE8 and later versions of Java. It requires the Java Development Kit (JDK), whose latest version is available at Oracle with installation instructions. It must be installed before installing SSJ.
-It is also useful to install an integrated development environments (IDE) such as Eclipse, NetBeans, IntelliJ IDEA, for example, to write, compile, and run your Java code.
-You can see [How to install SSJ here](https://github.com/umontreal-simul/ssj) 
+1. Firstly, you have to install Unmontreal SSJ Library. 
+* You can install SSJ either by adding it as a dependency for your project, by **downloading a binary release** or by **compiling it from scratch**.
+* SSJ is compatible with Java SE8 and later versions of Java. It requires the Java Development Kit (JDK), whose latest version is available at Oracle with installation instructions. It must be installed before installing SSJ.
+* It is also useful to install an integrated development environments (IDE) such as Eclipse, NetBeans, IntelliJ IDEA, for example, to write, compile, and run your Java code.
+* You can see [how to install SSJ here](https://github.com/umontreal-simul/ssj) 
 
-2. There are different Markdown templates for each type of project as below: 
-    * [Android](https://github.com/tamzi/ReadMe-MasterTemplates/tree/master/android)- For android focused ReadMe
-    * [Website](https://github.com/tamzi/ReadMe-MasterTemplates/tree/master/website)- For websites with HTML, CSS and JS
-    * IOS ...coming soon - FOr IOS projects
-    * Scripts ....coming soon - For Python, JS type projects
-    * brief ...coming soon - TLo edit, this is a minimal version
+2. In order to run the project and calculate the throughput value, run the file ThrougphputExperiment.java
 
-3. Copy the respective files depending on the type of project. Paste it and edit the file.
-
-4. As a general rule, provide link to download the app if its published on the playstore /website if it is hosted at the description section above.See image below
-:point_down: :point_down:
-
-![Edit the Website link](https://raw.githubusercontent.com/tamzi/ReadMe-MasterTemplates/master/website/art/web.png)
+4. You can raise the simulation time from 1 second to 1 minute in class **config.Constant**, MAX_TIME = 60*((long)1e9)
 
 5. Want to give a suggestion? Feel free: it's open source. you can [raise issues here](https://github.com/vuminhhieu1311/Resi/issues)
 The project is still very incomplete but under development. We would love to have your help in making our project better.
@@ -83,6 +74,13 @@ The project is still very incomplete but under development. We would love to hav
 - Nguyen Khanh Van (vannk@soict.hust.edu.vn
 - Le Vinh Nhon (nhon.lv176841@sis.hust.edu.vn)
 - Nguyen Chi Hieu
+
+### RESULTS
+
+Here are the results of the above described experiments:
+
+![result](result.png)
+
 
 ### LICENCE
 
