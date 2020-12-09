@@ -1,20 +1,19 @@
-# Resi
+# RESI
 A reduction simulation of data packet transmission in Data Center Network, using fat-tree topology 
 
 <hr>
 
-## Table of contents
-- [Description](#description)
-- [Why the MasterTemplates?](#why-the-master-templates)
-- [How to use them](#how-to-use-them)
+## TABLE OF CONTENTS
+- [DESCRIPTION](#description)
+- [BACKGROUND](#why-the-master-templates)
+- [INSTRUCTIONS FOR USE](#how-to-use-them)
 - [Roadmap](#roadmap)
-- [Releases](#releases)
-- [Contributors](#contributors)
-- [Licence](#licence)
+- [CONTRIBUTORS](#contributors)
+- [LICENCE](#licence)
 
 <hr>
 
-### Description
+### DESCRIPTION
 
 ReSi stands for Reduction Simulation
 
@@ -26,7 +25,7 @@ In this project, we simulate the process of data packet transmission in a data c
 
 <hr>
 
-### Background
+### BACKGROUND
 
 The following two research papers explain the ideas behind this tool:
 * [A Reduction Model For Simulating Large-Scale Interconnection Network], Nguyen Tien Thanh, Nguyen Khanh Van, Bui Manh Cuong.
@@ -35,7 +34,7 @@ The following two research papers explain the ideas behind this tool:
 
 <hr>
 
-### How to use them
+### INSTRUCTIONS FOR USE
 
 1. All the files are in markdown format. While it is good to learn markdown. It is always great to have the [Markdown CheatSheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet) bookmarked somewhere in your browser.
 If you can learn it, awesome! It will save you time...But it really is not important: **the more you use markdown, the better you get at it O.o**.
@@ -83,7 +82,7 @@ Before you contribute though read the contributing guide here: [CONTRIBUTING GUI
 
 <hr>
 
-### Contributors
+### CONTRIBUTORS
 
 - Vu Minh Hieu (hieu.vm183917@sis.hust.edu.vn)
 - Nguyen Tien Thanh (nguyenthanh@soict.hust.edu.vn)
@@ -91,7 +90,7 @@ Before you contribute though read the contributing guide here: [CONTRIBUTING GUI
 - Le Vinh Nhon (nhon.lv176841@sis.hust.edu.vn)
 - Nguyen Chi Hieu
 
-### Licence
+### LICENCE
 
 
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg?style=for-the-badge)](#)
