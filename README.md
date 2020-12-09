@@ -93,21 +93,13 @@ Before you contribute though read the contributing guide here: [CONTRIBUTING GUI
 
 <hr>
 
-### Releases
-- [x] [code of conduct](https://github.com/tamzi/ReadMe-MasterTemplates/blob/master/CodeOfConduct.md)
-- [x] [contribution](https://github.com/tamzi/ReadMe-MasterTemplates/blob/master/contributing.md)
-- [x] [Android ReadMe version](https://github.com/tamzi/ReadMe-MasterTemplates/tree/master/android)
-- [ ] Web version
-- [ ] A brief ReadMe
-- [ ] ReadMe master templates plugins: Brackets, Android Studio, VSCode,IntelliJ
-
 ### Contributors
 
-<a href="https://github.com/tamzi/ReadMe-MasterTemplates/graphs/contributors">
-  <img src="https://contributors-img.firebaseapp.com/image?repo=tamzi/ReadMe-MasterTemplates" />
-</a>
-
-Twitter:  [@tamrefrank](https://twitter.com/tamrefrank)
+- Vu Minh Hieu (hieu.vm183917@sis.hust.edu.vn)
+- Nguyen Tien Thanh (nguyenthanh@soict.hust.edu.vn)
+- Nguyen Khanh Van (vannk@soict.hust.edu.vn
+- Le Vinh Nhon (nhon.lv176841@sis.hust.edu.vn)
+- Nguyen Chi Hieu
 
 ### Licence
 
@@ -116,6 +108,5 @@ Twitter:  [@tamrefrank](https://twitter.com/tamrefrank)
 
 
 
-[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Ftamzi%2FReadMe-MasterTemplates.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Ftamzi%2FReadMe-MasterTemplates?ref=badge_large)
 
 <a href="https://www.producthunt.com/posts/readme-master-templates?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-readme-master-templates" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=186076&theme=light" alt="ReadMe Master Templates - Better ReadMe projects for your projects! | Product Hunt Embed" style="width: 250px; height: 54px;" width="250px" height="54px" /></a>
