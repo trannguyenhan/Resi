@@ -96,6 +96,9 @@ Before you contribute though read the contributing guide here: [CONTRIBUTING GUI
 
 The javatuples is one of the simplest java libraries ever made, which is not our work. Its aim is to provide a set of java classes that allow you to work with tuples. All other code / scripts / materials are original contributions of the above contributors, and are released under the MIT LICENSE (see "./LICENSE"). 
 
-We would appreciate you citing this code and the most relevant of our associated research publications below.
+
 [![Open Source Love](https://badges.frapsoft.com/os/v2/open-source-200x33.png?v=103)](#)
+
+We would appreciate you citing this code and the most relevant of our associated research publications below.
+
 
