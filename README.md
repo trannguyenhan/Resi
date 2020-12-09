@@ -5,8 +5,8 @@ A reduction simulation of data packet transmission in Data Center Network, using
 
 ## TABLE OF CONTENTS
 - [DESCRIPTION](#description)
-- [BACKGROUND](#why-the-master-templates)
-- [INSTRUCTIONS FOR USE](#how-to-use-them)
+- [BACKGROUND](#backgrounds)
+- [INSTRUCTIONS FOR USE](#instructions-for-use)
 - [CONTRIBUTORS](#contributors)
 - [LICENCE](#licence)
 
@@ -14,17 +14,23 @@ A reduction simulation of data packet transmission in Data Center Network, using
 
 ### DESCRIPTION
 
-Today's data centers man contain tens of thousands of computers with high speed and large capacity. In order for these servers to function properly, people must set the topology, routing algorithms, and flow control algorithms... One of the most popular topologies that has been used is Fat-Tree.
+Today's data centers may contain tens of thousands of computers with high speed and large capacity. In order for these servers to function properly, people must set up the topology, routing algorithms, and flow control algorithms... One of the most popular topologies that have been used is Fat-Tree.
 
 ReSi stands for Reduction Simulation:
 
 * In this project, we simulate the process of data packet transmission in a data center network:
 * In this simulator, we DO NOT take communication protocols such as HTTP, UDP, TCP ... into consideration.
 * Resi's purpose: to allow developers to install (i) source and destination pairing; (ii) install routing algorithms; (iii) implement flow control algorithms.
-* When running a simulation program (file ThrougphputExperiment.java), it will calculate the throughput value of the transmission process in a certain simulation period.  Here is the example of a fat-tree topology (k = 4):
+* When running a simulation program (file ThrougphputExperiment.java), it will calculate the throughput value of the transmission process in a certain simulation period. 
+
+Here is the example of a fat-tree topology (k = 4):
+
 ![4-port fattree](fat-tree-topology.png)
 
-
+We generate the communicating pairs according to the following strategies, with the added restriction that any host receives traffic from exactly one host:
+- Stride(i): A host with index x will send to the host with index (x+1) mod 16.
+- Inter-pod Incoming: Multiple pods send to different hosts in the same pod, and all happen to choose the same core switch.
+- Same-ID Outgoing: Hosts in the same subnet send to different hosts elsewhere in the network such that the destination hosts have the same host IDs.
 
 <hr>
 
