@@ -6,6 +6,7 @@ A reduction simulation of data packet transmission in Data Center Network, using
 ## TABLE OF CONTENTS
 - [DESCRIPTION](#description)
 - [BACKGROUND](#background)
+- [PROJECT'S ORGANIZATION](#project's-organization)
 - [INSTRUCTIONS FOR USE](#instructions-for-use)
 - [RESULTS](#results)
 - [CONTRIBUTORS](#contributors)
@@ -52,19 +53,37 @@ Our project is inspired by the following two research papers:
  
 <hr>
 
+### PROJECT'S ORGANIZATION
+Here is the list of packages in our project:
+  - common: provides data structures and addiontional classes for inputs and outputs (StdIn, StdOut..)
+  - config: sets constant values
+  - custom: creates a fat-tree graph, sets address for nodes and implements routing algorithm
+  - event: generates events for the simulator and their own actions
+  - infrastructure: provides essential infrastructures for this project
+  - javatuples: provides a set of java classes that allow you to work with tuples
+  - network: includes all the necessary elements to build a topology
+  - routing: implements routing algorithm and fine routing path to build a routing table
+  - simulator: generates the simulator and its actions
+  - weightedloadexperiment: creates the communicating strategies to pair source hosts and destination hosts and calculates the throughput values
+
 ### INSTRUCTIONS FOR USE
 
-1. Firstly, you have to install Unmontreal SSJ Library. 
+1. This project is written in Java. Therefore, you can run it on IDEs such as Netbeans, Eclipse, IntelliJ IDEA, ...
+
+2. In order to run this project, you have to install **Unmontreal SSJ Library**.
+  - SSJ is a Java library for stochastic simulation. It provides facilities for generating uniform and nonuniform random variates, computing different measures related to probability distributions, performing goodness-of-fit tests, applying quasi-Monte Carlo methods, collecting statistics (elementary), and programming discrete-event simulations with both events and processes.
   - You can install SSJ either by **adding it as a dependency for your project**, by **downloading a binary release** or by **compiling it from scratch**.
   - SSJ is compatible with Java SE8 and later versions of Java. It requires the Java Development Kit (JDK), whose latest version is available at Oracle with installation instructions. It must be installed before installing SSJ.
   - It is also useful to install an integrated development environments (IDE) such as Eclipse, NetBeans, IntelliJ IDEA, for example, to write, compile, and run your Java code.
   - You can see [how to install SSJ here.](https://github.com/umontreal-simul/ssj) 
 
-2. In order to run the project and calculate the throughput value, run the file ThrougphputExperiment.java
+3. In order to run the project and calculate the throughput value, run the file ThrougphputExperiment.java
 
 4. You can raise the simulation time from 1 second to 1 minute in class **config.Constant**, MAX_TIME = 60*((long)1e9)
 
-5. Want to give a suggestion? Feel free: it's open source. you can [raise issues here.](https://github.com/vuminhhieu1311/Resi/issues)
+5. You can also change one of the above communicating pairs (Random, Stride, Staggered Prob, Inter-pod Incoming, Same-ID Outgoing) in the main method of class [weightedloadexperiment.ThroughputExperiment.](https://github.com/vuminhhieu1311/Resi/blob/master/weightedloadexperiment/ThroughputExperiment.java)
+
+6. Want to give a suggestion? Feel free: it's open source. you can [raise issues here.](https://github.com/vuminhhieu1311/Resi/issues)
 The project is still very incomplete but under development. We would love to have your help in making our project better.
 
 <hr>
