@@ -1,0 +1,12 @@
+/AGenerationEvent.class
+/BLeavingSourceQueueEvent.class
+/CLeavingEXBEvent.class
+/DReachingENBEvent.class
+/EMovingInSwitchEvent.class
+/FLeavingSwitchEvent.class
+/GReachingDestinationEvent.class
+/HNotificationEvent.class
+/IEventGenerator.class
+/TypeB.class
+/TypeD.class
+/TypeE.class
