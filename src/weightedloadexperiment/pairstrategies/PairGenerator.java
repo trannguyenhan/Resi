@@ -39,15 +39,15 @@ public abstract class PairGenerator {
 	private List<Integer> sources;
 	private List<Integer> destinations;
 
-	public PairGenerator() {
-		sources = new ArrayList<Integer>();
-		destinations = new ArrayList<Integer>();
+	protected PairGenerator() {
+		sources = new ArrayList<>();
+		destinations = new ArrayList<>();
 	}
 
-	public PairGenerator(Integer[] allHosts) {
+	protected PairGenerator(Integer[] allHosts) {
 		this.allHosts = allHosts;
-		sources = new ArrayList<Integer>();
-		destinations = new ArrayList<Integer>();
+		sources = new ArrayList<>();
+		destinations = new ArrayList<>();
 	}
 
 	public abstract void pairHosts();
@@ -62,7 +62,7 @@ public abstract class PairGenerator {
 	public static boolean isOversubscriptedLink(Link link, int maxIndexOfCore, int minIndexOfCore) {
 		boolean result = false;
 
-		Map<Integer, UnidirectionalWay> ways = link.Ways();
+		Map<Integer, UnidirectionalWay> ways = link.waps();
 		for (UnidirectionalWay way : ways.values()) {
 			int idFromNode = way.getFromNode().getId();
 			int idToNode = way.getToNode().getId();

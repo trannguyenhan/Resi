@@ -68,6 +68,7 @@ public class Host extends Node {
 		return (this.type == TypeOfHost.Destination || this.type == TypeOfHost.Mix);
 	}
 
+	@Override
 	public boolean isSourceNode() {
 		return (this.type == TypeOfHost.Source || this.type == TypeOfHost.Mix);
 	}

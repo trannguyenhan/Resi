@@ -9,13 +9,13 @@ public class ForcePair extends InterPodIncoming {
 
 	private int modulo = 0;
 
-	public ForcePair(FatTreeRoutingAlgorithm routing, FatTreeGraph G) {
-		super(routing, G);
+	public ForcePair(FatTreeRoutingAlgorithm routing, FatTreeGraph graph) {
+		super(routing, graph);
 		this.modulo = 0;
 	}
 
-	public ForcePair(FatTreeRoutingAlgorithm routing, FatTreeGraph G, int modulo) {
-		super(routing, G);
+	public ForcePair(FatTreeRoutingAlgorithm routing, FatTreeGraph graph, int modulo) {
+		super(routing, graph);
 		this.modulo = modulo;
 	}
 
@@ -31,9 +31,9 @@ public class ForcePair extends InterPodIncoming {
 					.println("From " + sources.get(i) + " through " + getCoreSwitch(sources.get(i), destinations.get(i))
 							+ "/" + realCore + " to " + destinations.get(i));
 		}
-		return;
 	}
 
+	@Override
 	public void pairHosts() {
 		List<Integer> sources = getSources();
 		List<Integer> destinations = getDestinations();
@@ -41,25 +41,25 @@ public class ForcePair extends InterPodIncoming {
 			Integer[] pairs = pairHostsByModulo(this.modulo);
 			sources.addAll(Arrays.asList(pairs));
 		} else {
-			sources.add(1); // destinations.add(11);
-			sources.add(2); // destinations.add(16);
-			sources.add(3); // destinations.add(25);
-			sources.add(0); // destinations.add(18);
+			sources.add(1); 
+			sources.add(2); 
+			sources.add(3); 
+			sources.add(0); 
 
-			sources.add(9); // destinations.add(19);
-			sources.add(10); // destinations.add(24);
-			sources.add(11); // destinations.add(26);
-			sources.add(18); // destinations.add(27);
+			sources.add(9); 
+			sources.add(10); 
+			sources.add(11); 
+			sources.add(18); 
 
-			sources.add(8); // destinations.add(0);
-			sources.add(17); // destinations.add(1);
-			sources.add(26); // destinations.add(2);
-			sources.add(19); // destinations.add(3);
+			sources.add(8); 
+			sources.add(17);
+			sources.add(26); 
+			sources.add(19); 
 
-			sources.add(16); // destinations.add(8);
-			sources.add(25); // destinations.add(9);
-			sources.add(27); // destinations.add(10);
-			sources.add(24); // destinations.add(17);
+			sources.add(16); 
+			sources.add(25); 
+			sources.add(27); 
+			sources.add(24); 
 		}
 
 		destinations.add(11);
@@ -81,7 +81,7 @@ public class ForcePair extends InterPodIncoming {
 		destinations.add(9);
 		destinations.add(10);
 		destinations.add(17);
-		
+
 		this.setSources(sources);
 		this.setDestinations(destinations);
 	}
@@ -101,13 +101,6 @@ public class ForcePair extends InterPodIncoming {
 			results = new Integer[] { 1, 2, 3, 26, 9, 10, 11, 18, 8, 17, 16, 19, 0, 25, 27, 24 };
 		}
 		if (x == 13) {
-			// 11, 16,25, 18,19, 24,26, 27, 0, 1, 2, 3, 8, 9, 10, 17
-			// results = new Integer[]{1, 18, 8, 11,25, 26, 3, 9, 2,10, 27,17, 10, 0, 19,
-			// 24};
-			// 11, 16,25, 18,19, 24,26, 27, 0, 1, 2, 3, 8, 9, 10, 17
-			// results = new Integer[]{24, 27, 1, 26, 0, 18,19, 16,10,25, 11, 8, 2, 17, 3,
-			// 9};
-			// 11, 16,25, 18,19, 24,26, 27, 0, 1, 2, 3, 8, 9, 10, 17
 			results = new Integer[] { 0, 26, 9, 11, 1, 3, 19, 17, 18, 24, 10, 25, 2, 16, 27, 8 };
 		}
 		if (x == 12) {
@@ -131,11 +124,11 @@ public class ForcePair extends InterPodIncoming {
 				results[i] = 27;
 			}
 		}
-		if (x == 6) //Achieve 50%
+		if (x == 6) // Achieve 50%
 		{
 			results = new Integer[] { 1, 26, 8, 10, 0, 3, 19, 16, 11, 9, 27, 17, 2, 25, 18, 24 };
 		}
-		if (x == 7) //Achieve 50%
+		if (x == 7) // Achieve 50%
 		{
 			results = new Integer[] { 27, 9, 2, 1, 3, 17, 16, 10, 8, 18, 24, 11, 0, 19, 25, 26 };
 		}

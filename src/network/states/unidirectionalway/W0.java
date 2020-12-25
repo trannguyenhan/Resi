@@ -24,21 +24,16 @@ public class W0 extends State {
 		ExitBuffer exitBuffer = unidirectionalWay.getFromNode().physicalLayer.exitBuffers
 				.get(unidirectionalWay.getToNode().getId());
 		Packet packet = exitBuffer.getPeekPacket();
-		if (packet != null) {
-			if (!(exitBuffer.hasEventOfPacket(packet))) {
-
-				if (exitBuffer.getNode() instanceof Host) {
-					long time = (long) exitBuffer.physicalLayer.simulator.time();
-					Event event = new CLeavingEXBEvent(exitBuffer.physicalLayer.simulator, time, time, exitBuffer,
-							packet);
-					event.register(); // add a new event
-				} else if (exitBuffer.getNode() instanceof Switch) {
-					long time = (long) exitBuffer.physicalLayer.simulator.time();
-					Event event = new FLeavingSwitchEvent(exitBuffer.physicalLayer.simulator, time,
-							time + Constant.SWITCH_CYCLE, exitBuffer, packet);
-					event.register(); // add a new event
-
-				}
+		if (packet != null && !(exitBuffer.hasEventOfPacket(packet))) {
+			if (exitBuffer.getNode() instanceof Host) {
+				long time = (long) exitBuffer.physicalLayer.simulator.time();
+				Event event = new CLeavingEXBEvent(exitBuffer.physicalLayer.simulator, time, time, exitBuffer, packet);
+				event.register(); // add a new event
+			} else if (exitBuffer.getNode() instanceof Switch) {
+				long time = (long) exitBuffer.physicalLayer.simulator.time();
+				Event event = new FLeavingSwitchEvent(exitBuffer.physicalLayer.simulator, time,
+						time + Constant.SWITCH_CYCLE, exitBuffer, packet);
+				event.register(); // add a new event
 			}
 		}
 	}

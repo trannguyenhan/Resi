@@ -22,7 +22,6 @@ public class Topology {
 	private Map<Integer, Switch> switchById;
 	private List<Integer> sourceNodes;
 	private List<Integer> destinationNodes;
-	// private long bandwithToHost = 0;
 	// ThanhNT 14/10 new property
 	public Map<Integer, String> cordOfNodes;
 	// End of ThanhNT 14/10 new property
@@ -41,11 +40,11 @@ public class Topology {
 		cordOfNodes = new HashMap<>();// ThanhNT 14/10 add new statements to init property
 
 		initSwitch(graph, routingAlgorithm); // Initialize switch and add this to a list
-		Coordination C = new Coordination(graph);
-		linkSwitch(C); // Link from switch to switch
+		Coordination c = new Coordination(graph);
+		linkSwitch(c); // Link from switch to switch
 		this.pairGenerator = pair;
 		initHost(routingAlgorithm, pair); // Initialize host and add this to a list
-		linkSwitchHost(C, graph); // link from switch to host
+		linkSwitchHost(c, graph); // link from switch to host
 
 		pairGenerator.setUpBandwidth(this);
 	}
@@ -75,9 +74,9 @@ public class Topology {
 	/**
 	 * This method is used link from switch to switch
 	 * 
-	 * @param C
+	 * @param c
 	 */
-	private void linkSwitch(Coordination C) {
+	private void linkSwitch(Coordination c) {
 
 		for (Switch sw : switches) {
 			for (int nextNodeID : graph.adj(sw.getId())) {
@@ -85,7 +84,7 @@ public class Topology {
 					Switch otherSwitch = switchById.get(nextNodeID);
 					if (!otherSwitch.physicalLayer.links.containsKey(sw.getId())) {
 						// create new link
-						double distance = C.distanceBetween(sw.getId(), otherSwitch.getId());
+						double distance = c.distanceBetween(sw.getId(), otherSwitch.getId());
 						Link link = new Link(sw, otherSwitch, distance);
 						sw.physicalLayer.links.put(otherSwitch.getId(), link);
 						otherSwitch.physicalLayer.links.put(sw.getId(), link);
@@ -93,8 +92,8 @@ public class Topology {
 						createBuffer(sw, otherSwitch); // Create entrance buffer and exit buffer of switch and otherSwitch
 
 						// ThanhNT 14/10 add new statements to insert coord of switch
-						cordOfNodes.put(sw.getId(), C.getCoordOfSwitch(sw.getId()));
-						cordOfNodes.put(otherSwitch.getId(), C.getCoordOfSwitch(otherSwitch.getId()));
+						cordOfNodes.put(sw.getId(), c.getCoordOfSwitch(sw.getId()));
+						cordOfNodes.put(otherSwitch.getId(), c.getCoordOfSwitch(otherSwitch.getId()));
 					}
 				}
 			}
@@ -196,10 +195,10 @@ public class Topology {
 	/**
 	 * This method is used to link from switch to host
 	 * 
-	 * @param C
+	 * @param c
 	 * @param graph
 	 */
-	private void linkSwitchHost(Coordination C, FatTreeGraph graph) {
+	private void linkSwitchHost(Coordination c, FatTreeGraph graph) {
 		for (Host host : hosts) {
 			// get switch
 			int switchID = graph.adj(host.getId()).get(0);
@@ -226,7 +225,7 @@ public class Topology {
 				sw.physicalLayer.exitBuffers.put(host.getId(), exitBuffer);
 			}
 			// ThanhNT 14/10 add new statements to insert coord of HOST
-			cordOfNodes.put(host.getId(), C.getCoordOfHost(sw.getId(), Constant.HOST_TO_SWITCH_LENGTH));
+			cordOfNodes.put(host.getId(), c.getCoordOfHost(sw.getId(), Constant.HOST_TO_SWITCH_LENGTH));
 		}
 	}
 

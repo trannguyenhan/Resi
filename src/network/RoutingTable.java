@@ -6,7 +6,7 @@ public class RoutingTable {
 	private HashMap<Integer, Integer> table;
 
 	public RoutingTable() {
-		table = new HashMap<Integer, Integer>();
+		table = new HashMap<>();
 	}
 
 	public HashMap<Integer, Integer> getTable() {

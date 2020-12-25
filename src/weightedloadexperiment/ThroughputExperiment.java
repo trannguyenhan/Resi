@@ -6,24 +6,19 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-//import com.sun.java.swing.plaf.windows.TMSchema.State;
-
 import common.StdOut;
 import config.Constant;
 import custom.fattree.FatTreeFlowClassifier;
 import custom.fattree.FatTreeGraph;
 import custom.fattree.FatTreeRoutingAlgorithm;
 import network.Topology;
-
 import network.entities.Host;
 import network.entities.Switch;
 import network.entities.TypeOfHost;
 import simulator.DiscreteEventSimulator;
-import weightedloadexperiment.pairstrategies.InterPodIncoming;
 import weightedloadexperiment.pairstrategies.PairGenerator;
 import weightedloadexperiment.pairstrategies.SameIDOutgoing;
-import weightedloadexperiment.pairstrategies.StrideIndex;
+
 
 public class ThroughputExperiment {
 	private Topology topology;
@@ -44,7 +39,6 @@ public class ThroughputExperiment {
 
 		topology.clear(); // clear all the data, queue, ... in switches, hosts
 		topology.setSimulator(simulator);
-
 		int count = 0;
 		for (Integer source : trafficPattern.keySet()) {
 			Integer destination = trafficPattern.get(source);
@@ -68,7 +62,7 @@ public class ThroughputExperiment {
 
 		double interval = 1e7;
 		double throughput = 0;
-		List<Double> scores = new ArrayList<Double>();
+		List<Double> scores = new ArrayList<>();
 		for (int i = 0; i < nPoint; i++) {
 			points[1][i] = 100 * points[1][i] * Constant.PACKET_SIZE
 					/ (trafficPattern.size() * Constant.LINK_BANDWIDTH * interval / 1e9);
@@ -79,10 +73,7 @@ public class ThroughputExperiment {
 		throughput = points[1][nPoint - 1];
 
 		StdOut.printf("Throughput : %.2f\n", throughput);
-
-		double rawThroughput = throughput * Constant.LINK_BANDWIDTH / 100 / 1e9;
-
-		double alternativeRawThroughput = simulator.numReceived * Constant.PACKET_SIZE / (trafficPattern.size());
+		double alternativeRawThroughput = (double) DiscreteEventSimulator.numReceived * Constant.PACKET_SIZE / (trafficPattern.size());
 		alternativeRawThroughput = alternativeRawThroughput / (nPoint * interval);
 
 		long end = System.currentTimeMillis();
@@ -119,7 +110,8 @@ public class ThroughputExperiment {
 	private void calFlowCapacity() {
 		
 		int rxPacket = 0;
-		double thp = 0, privateThp = 0;
+		double thp = 0;
+		double privateThp = 0;
 
 		for (int i = 0; i < topology.getHosts().size(); i++) {
 			Host host = topology.getHosts().get(i);
@@ -152,15 +144,15 @@ public class ThroughputExperiment {
 
 	public static void main(String[] args) {
 
-		FatTreeGraph G = new FatTreeGraph(4);
+		FatTreeGraph graph = new FatTreeGraph(4);
 		FatTreeRoutingAlgorithm ra = //new FatTreeRoutingAlgorithm(G, false);
-				new FatTreeFlowClassifier(G, false);
+				new FatTreeFlowClassifier(graph, false);
 		PairGenerator pairGenerator = //new StrideIndex(8);
 		//new InterPodIncoming(ra, G);
 		// new ForcePair(ra, G, 13);
 		// new MinimalCoreSwitches(ra, G);
-		new SameIDOutgoing(G, ra);
-		Topology topology = new Topology(G, ra, pairGenerator);
+		new SameIDOutgoing(graph, ra);
+		Topology topology = new Topology(graph, ra, pairGenerator);
 		// new StaggeredProb(hosts, 4, 1, 0);
 		// new InterPodIncoming(hosts, k, ra, G);
 		ThroughputExperiment experiment = new ThroughputExperiment(topology);

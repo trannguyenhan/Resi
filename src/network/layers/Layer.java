@@ -6,7 +6,7 @@ public abstract class Layer {
 
 	public RoutingAlgorithm routingAlgorithm;
 
-	public Layer() {
+	protected Layer() {
 
 	}
 

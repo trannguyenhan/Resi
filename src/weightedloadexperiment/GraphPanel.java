@@ -17,8 +17,6 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 public class GraphPanel extends JPanel {
-	private int width = 800;
-	private int height = 400;
 	private int padding = 25;
 	private int labelPadding = 25;
 	private Color lineColor = new Color(44, 102, 230, 180);
@@ -58,7 +56,7 @@ public class GraphPanel extends JPanel {
 			int y0 = getHeight()
 					- ((i * (getHeight() - padding * 2 - labelPadding)) / numberYDivisions + padding + labelPadding);
 			int y1 = y0;
-			if (scores.size() > 0) {
+			if (!scores.isEmpty()) {
 				g2.setColor(gridColor);
 				g2.drawLine(padding + labelPadding + 1 + pointWidth, y0, getWidth() - padding, y1);
 				g2.setColor(Color.BLACK);
@@ -85,7 +83,7 @@ public class GraphPanel extends JPanel {
 				int x1 = x0;
 				int y0 = getHeight() - padding - labelPadding;
 				int y1 = y0 - pointWidth;
-				if ((i % ((int) ((scores.size() / 20.0)) + 1)) == 0) {
+				if (i % ((int) ((scores.size() / 20.0)) + 1) == 0) {
 					g2.setColor(gridColor);
 					g2.drawLine(x0, getHeight() - padding - labelPadding - 1 - pointWidth, x1, padding);
 					g2.setColor(Color.BLACK);
@@ -190,7 +188,7 @@ public class GraphPanel extends JPanel {
 		int maxDataPoints = 40;
 		int maxScore = 10;
 		for (int i = 0; i < maxDataPoints; i++) {
-			scores.add((double) random.nextDouble() * maxScore);
+			scores.add(random.nextDouble() * maxScore);
 		}
 		GraphPanel mainPanel = new GraphPanel(scores);
 		mainPanel.setPreferredSize(new Dimension(800, 600));

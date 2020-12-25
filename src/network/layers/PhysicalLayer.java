@@ -2,10 +2,8 @@ package network.layers;
 
 import infrastructure.entity.Node;
 import network.elements.*;
-import infrastructure.entity.Device;
 import network.entities.*;
 import simulator.DiscreteEventSimulator;
-import simulator.Simulator;
 
 import java.util.HashMap;
 
@@ -33,11 +31,10 @@ public class PhysicalLayer extends Layer { // only transfers packets from a node
 		}
 	}
 
-	public PhysicalLayer(Switch sw, int k) {
+	public PhysicalLayer(Switch sw) {
 		entranceBuffers = new HashMap<>();
 		exitBuffers = new HashMap<>();
 		this.node = sw;
 		this.links = new HashMap<>();
 	}
-
 }

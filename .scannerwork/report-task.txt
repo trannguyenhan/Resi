@@ -1,6 +1,6 @@
-projectKey=Resi
+projectKey=hello
 serverUrl=http://localhost:9000
 serverVersion=8.6.0.39681
-dashboardUrl=http://localhost:9000/dashboard?id=Resi
-ceTaskId=AXaUavrzJ5vGgMfh7r1B
-ceTaskUrl=http://localhost:9000/api/ce/task?id=AXaUavrzJ5vGgMfh7r1B
+dashboardUrl=http://localhost:9000/dashboard?id=hello
+ceTaskId=AXaXNHsTM1X2UzUgd17x
+ceTaskUrl=http://localhost:9000/api/ce/task?id=AXaXNHsTM1X2UzUgd17x

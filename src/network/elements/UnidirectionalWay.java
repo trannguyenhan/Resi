@@ -3,7 +3,6 @@ package network.elements;
 import infrastructure.element.Element;
 import infrastructure.entity.Node;
 import network.entities.Link;
-//import network.states.packet.SStateP3;
 import network.states.unidirectionalway.W0;
 
 public class UnidirectionalWay extends Element {
@@ -37,9 +36,9 @@ public class UnidirectionalWay extends Element {
 	}
 
 	public Packet removePacket() {
-		Packet packet = this.packet;
+		Packet p = this.packet;
 		this.packet = null;
-		return packet;
+		return p;
 	}
 
 	public void addPacket(Packet packet) {

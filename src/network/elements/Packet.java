@@ -12,7 +12,7 @@ public class Packet extends Element {
 
 	private double startTime;
 	private double endTime;
-	public int nHop = 0; // nHop will be 1 when the packet is sent to switch
+	public static final int nHop = 0; // nHop will be 1 when the packet is sent to switch
 	
 	public DataLinkLayer dataLinkLayer;
 

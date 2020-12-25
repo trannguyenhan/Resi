@@ -47,7 +47,7 @@ public class Link extends Device {
 		return ways.get(node.getId());
 	}
 
-	public Map<Integer, UnidirectionalWay> Ways() {
+	public Map<Integer, UnidirectionalWay> waps() {
 		return ways;
 	}
 

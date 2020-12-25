@@ -13,9 +13,9 @@ public class SameIDOutgoing extends OverSubscription {
 	private int delta = RandomGenerator.nextInt(0, k * k * k / 4);
 	private int sameHostID = -1;
 
-	public SameIDOutgoing(FatTreeGraph G, FatTreeRoutingAlgorithm routing) {
+	public SameIDOutgoing(FatTreeGraph g, FatTreeRoutingAlgorithm routing) {
 		super();
-		this.G = G;
+		this.graph = g;
 		this.routing = routing;
 	}
 
@@ -38,8 +38,8 @@ public class SameIDOutgoing extends OverSubscription {
 
 		while (i < numOfHosts && count < numOfHosts * 1000) {
 			sameHostID = -1;
-			List<Integer> allTempDsts = new ArrayList<Integer>();
-			List<Integer> allTempSrcs = new ArrayList<Integer>();
+			List<Integer> allTempDsts = new ArrayList<>();
+			List<Integer> allTempSrcs = new ArrayList<>();
 
 			addSrcAndDst(i, numOfHosts, allTempDsts, allTempSrcs, allHosts);
 
@@ -102,7 +102,7 @@ public class SameIDOutgoing extends OverSubscription {
 		for (int m = 0; m < allTempDsts.size(); m++) {
 			System.out.print(allTempDsts.get(m) + "(" + getHostID(allTempDsts.get(m)) + ") ");
 			int id = allTempDsts.get(m);
-			Address host = G.getAddress(id);
+			Address host = graph.getAddress(id);
 			System.out.print("Addr: " + host._1 + "." + host._2 + "." + host._3 + "." + host._4);
 			System.out.println();
 		}
@@ -112,7 +112,7 @@ public class SameIDOutgoing extends OverSubscription {
 	@Override
 	public void setAllHosts(Integer[] allHosts) {
 		super.setAllHosts(allHosts);
-		this.k = (int) Math.cbrt(4 * allHosts.length);
+		this.k = (int) Math.cbrt(4 * (double)allHosts.length);
 	}
 
 	/**
@@ -134,7 +134,7 @@ public class SameIDOutgoing extends OverSubscription {
 	}
 
 	public int getHostID(int id) {
-		Address host = G.getAddress(id);
+		Address host = graph.getAddress(id);
 		int lastPart = host._4;
 		int hostID = 0;
 		if (lengthOfHostID == 8) {
@@ -154,7 +154,7 @@ public class SameIDOutgoing extends OverSubscription {
 	private int lengthOfHostID = 8;
 
 	private void setTypeOfAddresss() {
-		Address one = G.getAddress(0);
+		Address one = graph.getAddress(0);
 		int firstPart = one._1;
 		int firstBit = firstPart >> 31;
 		int firstTwoBits = firstPart >> 30;
@@ -169,7 +169,6 @@ public class SameIDOutgoing extends OverSubscription {
 		}
 		if (firstThreeBits == 5) {
 			lengthOfHostID = 8;
-			return;
 		}
 	}
 

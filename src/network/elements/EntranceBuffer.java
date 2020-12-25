@@ -15,6 +15,7 @@ public class EntranceBuffer extends LimitedBuffer {
 		this.setState(new N0(this));
 	}
 
+	@Override
 	public void checkStateChange() {
 	}
 
@@ -31,6 +32,6 @@ public class EntranceBuffer extends LimitedBuffer {
 	}
 
 	public boolean hasNextNode() {
-		return !(nextNodeId == -1);
+		return (nextNodeId != -1);
 	}
 }

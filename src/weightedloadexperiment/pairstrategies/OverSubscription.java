@@ -20,13 +20,13 @@ public abstract class OverSubscription extends PairGenerator {
 	public int k;
 
 	public FatTreeRoutingAlgorithm routing;
-	public FatTreeGraph G;
+	public FatTreeGraph graph;
 
-	public OverSubscription() {
+	protected OverSubscription() {
 
 	}
 
-	public OverSubscription(Integer[] allHosts) {
+	protected OverSubscription(Integer[] allHosts) {
 		super(allHosts);
 
 	}
@@ -37,7 +37,7 @@ public abstract class OverSubscription extends PairGenerator {
 
 		List<Switch> switches = network.getSwitches();
 
-		int k = (int) Math.cbrt(4 * allHosts.length);
+		int k = (int) Math.cbrt(4 * (double)allHosts.length);
 		int maxIndexOfCore = allHosts.length + 5 * k * k / 4 - 1;
 		int minIndexOfCore = maxIndexOfCore - k + 1;
 
@@ -59,16 +59,15 @@ public abstract class OverSubscription extends PairGenerator {
 		this.modulo = allHosts.length;
 	}
 
-	public int getCoreSwitch(int source, int destination) {
-		int edge = G.adj(source).get(0);
-		int agg = G.adj(edge).get(k / 2);
-		int core = G.adj(agg).get(k / 2);
-		return core;
+	public int getCoreSwitch(int source) {
+		int edge = graph.adj(source).get(0);
+		int agg = graph.adj(edge).get(k / 2);
+		return graph.adj(agg).get(k / 2); //core
 	}
 
 	public int getRealCoreSwitch(int source, int destination) {
-		int edge = G.adj(source).get(0);
-		Address address = G.getAddress(destination);
+		int edge = graph.adj(source).get(0);
+		Address address = graph.getAddress(destination);
 		Map<Integer, Map<Integer, Integer>> suffixTables = routing.getSuffixTables();
 		Map<Integer, Map<Triplet<Integer, Integer, Integer>, Integer>> prefixTables = routing.getPrefixTables();
 

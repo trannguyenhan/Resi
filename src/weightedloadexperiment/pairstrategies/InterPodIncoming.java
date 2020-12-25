@@ -18,16 +18,16 @@ public class InterPodIncoming extends OverSubscription {
 	private List<Integer> destinations = getDestinations();
 	private int delta = RandomGenerator.nextInt(0, k * k / 4);
 
-	public InterPodIncoming(FatTreeRoutingAlgorithm routing, FatTreeGraph G) {
+	public InterPodIncoming(FatTreeRoutingAlgorithm routing, FatTreeGraph graph) {
 		super();
 		this.routing = routing;
-		this.G = G;
+		this.graph = graph;
 	}
 
 	@Override
 	public void setAllHosts(Integer[] allHosts) {
 		super.setAllHosts(allHosts);
-		this.k = (int) Math.cbrt(4 * allHosts.length);
+		this.k = (int) Math.cbrt(4 * (double)allHosts.length);
 
 		int numOfHosts = allHosts.length;
 
@@ -51,7 +51,8 @@ public class InterPodIncoming extends OverSubscription {
 		Integer[] allHosts = this.getAllHosts();
 		int numOfHosts = allHosts.length;
 		int sizeOfPod = k * k / 4;
-		int currPod = 0, prePod = 0;
+		int currPod = 0;
+		int prePod = 0;
 
 		for (int i = 0; i < numOfHosts; i++) {
 			int dst = allHosts[i];
@@ -142,7 +143,7 @@ public class InterPodIncoming extends OverSubscription {
 	 */
 	@Override
 	public void checkValid() {
-		Map<Integer, Integer> flowPerCore = new HashMap<Integer, Integer>();
+		Map<Integer, Integer> flowPerCore = new HashMap<>();
 		int realCore = 0;
 		int sizeOfPod = k * k / 4;
 
@@ -155,8 +156,6 @@ public class InterPodIncoming extends OverSubscription {
 			if (average == flowPerCore.get(core)) {
 				equal++;
 			}
-		}
-		if (equal == k * k * k / 4) {
 		}
 	}
 
@@ -214,28 +213,29 @@ public class InterPodIncoming extends OverSubscription {
 		}
 	}
 
-	public void transform(int[][] M, int length) {
+	public void transform(int[][] m, int length) {
 		for (int i = 0; i < length; i++) {
 			for (int j = 0; j < length; j++) {
 				if (i > j) {
-					int temp = M[j][i];
-					M[j][i] = M[i][j];
-					M[i][j] = temp;
+					int temp = m[j][i];
+					m[j][i] = m[i][j];
+					m[i][j] = temp;
 				}
 			}
 		}
 	}
 
+	@Override
 	public int getCoreSwitch(int source, int destination) {
-		int edge = G.adj(source).get(0);
-		int agg = G.adj(edge).get(k / 2);
-		int core = G.adj(agg).get(k / 2);
-		return core;
+		int edge = graph.adj(source).get(0);
+		int agg = graph.adj(edge).get(k / 2);
+		return graph.adj(agg).get(k / 2); //core
 	}
 
+	@Override
 	public int getRealCoreSwitch(int source, int destination) {
-		int edge = G.adj(source).get(0);
-		Address address = G.getAddress(destination);
+		int edge = graph.adj(source).get(0);
+		Address address = graph.getAddress(destination);
 		Map<Integer, Map<Integer, Integer>> suffixTables = routing.getSuffixTables();
 		Map<Integer, Map<Triplet<Integer, Integer, Integer>, Integer>> prefixTables = routing.getPrefixTables();
 		Map<Integer, Integer> suffixTable = suffixTables.get(edge);

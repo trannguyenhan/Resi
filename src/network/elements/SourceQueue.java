@@ -3,7 +3,6 @@ package network.elements;
 import config.Constant;
 import infrastructure.element.Buffer;
 
-//import network.states.packet.StateP1;
 import network.states.sourcequeue.*;
 
 public class SourceQueue extends Buffer {
@@ -50,19 +49,18 @@ public class SourceQueue extends Buffer {
 			return null;
 
 		numGeneratedPacket++;
-		double timeSent = numGeneratedPacket * Constant.HOST_DELAY;
+		double timeSent = (double) numGeneratedPacket * Constant.HOST_DELAY;
 		Packet p = new Packet(0, sourceId, destinationId, timeSent);
 		insertPacket(p);
 		return p;
 	}
 
 	public Packet removePacket() {
-		if (allPackets.size() == 1) {
-			if (state instanceof Sq2) {
-				state = new Sq1(this);
-				state.act();
-			}
+		if (allPackets.size() == 1 && state instanceof Sq2) {
+			state = new Sq1(this);
+			state.act();
 		}
+
 		return allPackets.dequeue();
 	}
 

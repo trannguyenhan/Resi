@@ -28,17 +28,13 @@ public class N0 extends State {
 				.get(entranceBuffer.getConnectNode().getId()).getWayToOtherNode(entranceBuffer.getConnectNode());
 		Packet packet = unidirectionalWay.getPacket();
 
-		if (packet != null) // when adding a new event, we have to create a new state for the packet,
-							// because this state is associated with the event
-			if (!unidirectionalWay.hasEventOfPacket(packet)) {
-				// add event D
-				time = (long) entranceBuffer.physicalLayer.simulator.time();
-				event = new DReachingENBEvent(entranceBuffer.physicalLayer.simulator, time,
-						time + unidirectionalWay.getLink().getTotalLatency(packet.getSize()), unidirectionalWay,
-						packet);
-				event.register(); // add a new event
-
-			}
-
+		if (packet != null && !unidirectionalWay.hasEventOfPacket(packet)) // when adding a new event, we have to create
+																			// a new state for the packet, because this
+																			// state is associated with the event
+			// add event D
+			time = (long) entranceBuffer.physicalLayer.simulator.time();
+		event = new DReachingENBEvent(entranceBuffer.physicalLayer.simulator, time,
+				time + unidirectionalWay.getLink().getTotalLatency(packet.getSize()), unidirectionalWay, packet);
+		event.register(); // add a new event
 	}
 }

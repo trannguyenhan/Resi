@@ -5,28 +5,21 @@ import java.util.List;
 import common.StdOut;
 import config.Constant;
 import infrastructure.event.Event;
-import network.elements.EntranceBuffer;
-import network.elements.ExitBuffer;
-import network.elements.UnidirectionalWay;
-import network.entities.Host;
-import network.entities.Link;
-import network.entities.Switch;
-import network.entities.TypeOfHost;
 
 public class DiscreteEventSimulator extends Simulator {
-	public int numReceived = 0;
+	public static final int numReceived = 0;
 	public long receivedPacketPerUnit[];
-	public int numSent = 0;
-	public int numLoss = 0;
-	public long totalPacketTime = 0;
+	public static final int numSent = 0;
+	public static final int numLoss = 0;
+	public static final long totalPacketTime = 0;
 	public long numEvent = 0;
 	private boolean isLimit;
 	private double timeLimit;
 	private boolean verbose;
 	private boolean isAssigned = false;
-	public long totalHop = 0;
+	public static final long totalHop = 0;
 
-	public List<Integer> sizeOfCurrEvents = new ArrayList<Integer>();
+	public List<Integer> sizeOfCurrEvents = new ArrayList<>();
 
 	private static final DiscreteEventSimulator des = new DiscreteEventSimulator(true, Constant.MAX_TIME, false);
 
@@ -138,9 +131,7 @@ public class DiscreteEventSimulator extends Simulator {
 		this.getEventList().add(e);
 	}
 
-	public long selectNextCurrentTime(long currentTime) {
-		long result = Long.MAX_VALUE;
-		return result;
+	public long selectNextCurrentTime() {
+		return Long.MAX_VALUE;
 	}
-
 }
