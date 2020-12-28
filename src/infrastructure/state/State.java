@@ -16,10 +16,10 @@ import network.entities.Switch;
 import simulator.DiscreteEventSimulator;
 
 public class State {
-	public static final int countPacket = 0;
-	public static final int countStateENB = 0;
+	public static final int numPacket = 0;
+	public static final int numStateENB = 0;
 
-	public static final int countStateEXB = 0;
+	public static final int numStateEXB = 0;
 	public IEventGenerator element;
 	public Type type = Type.NONE;
 

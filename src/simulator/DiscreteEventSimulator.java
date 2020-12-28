@@ -7,17 +7,17 @@ import config.Constant;
 import infrastructure.event.Event;
 
 public class DiscreteEventSimulator extends Simulator {
-	public static final int numReceived = 0;
+	public int numReceived = 0;
 	public long receivedPacketPerUnit[];
-	public static final int numSent = 0;
-	public static final int numLoss = 0;
-	public static final long totalPacketTime = 0;
+	public int numSent = 0;
+	public int numLoss = 0;
+	public long totalPacketTime = 0;
 	public long numEvent = 0;
 	private boolean isLimit;
 	private double timeLimit;
 	private boolean verbose;
 	private boolean isAssigned = false;
-	public static final long totalHop = 0;
+	public long totalHop = 0;
 
 	public List<Integer> sizeOfCurrEvents = new ArrayList<>();
 
@@ -25,7 +25,8 @@ public class DiscreteEventSimulator extends Simulator {
 
 	public int halfSizeOfEvents = 0;
 
-	private static boolean IS_LIMIT = false, VERBOSE = false;
+	private static boolean IS_LIMIT = false;
+	private static boolean VERBOSE = false;
 	private static double TIME_LIMIT = 0;
 
 	public static void Initialize(boolean isLimit, double timeLimit, boolean verbose) {
@@ -131,7 +132,7 @@ public class DiscreteEventSimulator extends Simulator {
 		this.getEventList().add(e);
 	}
 
-	public long selectNextCurrentTime() {
+	public long selectNextCurrentTime(long currentTime) {
 		return Long.MAX_VALUE;
 	}
 }

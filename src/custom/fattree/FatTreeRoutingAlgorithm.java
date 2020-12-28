@@ -10,8 +10,8 @@ import java.util.Map;
 import infrastructure.entity.Node;
 
 public class FatTreeRoutingAlgorithm implements RoutingAlgorithm, Cloneable {
-	public FatTreeGraph g;
-	public Map<Pair<Integer, Integer>, RoutingPath> precomputedPaths = new HashMap<>();
+	public final FatTreeGraph g;
+	public final Map<Pair<Integer, Integer>, RoutingPath> precomputedPaths = new HashMap<>();
 	public Map<Integer, Map<Integer, Integer>> suffixTables = new HashMap<>();
 
 	public Map<Integer, Map<Integer, Integer>> getSuffixTables() {

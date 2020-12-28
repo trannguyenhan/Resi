@@ -6,9 +6,11 @@ import infrastructure.state.State;
 import infrastructure.state.Type;
 
 import java.util.ArrayList;
+import java.util.List;
+
 
 public class ExitBuffer extends LimitedBuffer {
-	protected ArrayList<EntranceBuffer> requestList;
+	protected List<EntranceBuffer> requestList;
 
 	public ExitBuffer(Node node, Node connectNode, int size) {
 		this.node = node;
@@ -21,7 +23,7 @@ public class ExitBuffer extends LimitedBuffer {
 		this.setState(s);
 	}
 
-	public ArrayList<EntranceBuffer> getRequestList() {
+	public List<EntranceBuffer> getRequestList() {
 		return requestList;
 	}
 

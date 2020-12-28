@@ -9,10 +9,7 @@ import network.elements.Packet;
 import network.elements.UnidirectionalWay;
 import network.entities.Switch;
 import network.states.enb.N0;
-import network.states.enb.N1;
-import network.states.unidirectionalway.W0;
 import network.states.unidirectionalway.W1;
-import network.states.unidirectionalway.W2;
 import simulator.DiscreteEventSimulator;
 
 enum TypeD {
@@ -20,7 +17,7 @@ enum TypeD {
 }
 
 public class DReachingENBEvent extends Event {
-	public static final TypeD type = TypeD.D;
+	public static TypeD type = TypeD.D;
 
 	/**
 	 * This is the constructor method of DReachingENBEvent class extending Event

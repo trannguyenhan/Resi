@@ -31,7 +31,7 @@ public class PhysicalLayer extends Layer { // only transfers packets from a node
 		}
 	}
 
-	public PhysicalLayer(Switch sw) {
+	public PhysicalLayer(Switch sw, int k) {
 		entranceBuffers = new HashMap<>();
 		exitBuffers = new HashMap<>();
 		this.node = sw;

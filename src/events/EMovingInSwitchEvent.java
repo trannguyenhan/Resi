@@ -17,7 +17,7 @@ enum TypeE {
 }
 
 public class EMovingInSwitchEvent extends Event {
-	public static final TypeE type = TypeE.E;
+	public TypeE type = TypeE.E;
 
 	/**
 	 * This is the constructor method of EMovingInSwitchEvent class extending Event

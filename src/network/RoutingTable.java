@@ -1,15 +1,16 @@
 package network;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class RoutingTable {
-	private HashMap<Integer, Integer> table;
+	private Map<Integer, Integer> table;
 
 	public RoutingTable() {
 		table = new HashMap<>();
 	}
 
-	public HashMap<Integer, Integer> getTable() {
+	public Map<Integer, Integer> getTable() {
 		return table;
 	}
 

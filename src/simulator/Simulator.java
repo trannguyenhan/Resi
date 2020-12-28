@@ -1,6 +1,7 @@
 package simulator;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import infrastructure.event.Event;
 import network.Topology;
@@ -12,7 +13,7 @@ public abstract class Simulator extends umontreal.ssj.simevents.Simulator {
 
 	public Topology topology;
 
-	public ArrayList<Event> currentEvents = new ArrayList<>();
+	public List<Event> currentEvents = new ArrayList<>();
 
 	public double time() {
 		return this.currentTime;

@@ -19,7 +19,6 @@ import simulator.DiscreteEventSimulator;
 import weightedloadexperiment.pairstrategies.PairGenerator;
 import weightedloadexperiment.pairstrategies.SameIDOutgoing;
 
-
 public class ThroughputExperiment {
 	private Topology topology;
 
@@ -39,6 +38,7 @@ public class ThroughputExperiment {
 
 		topology.clear(); // clear all the data, queue, ... in switches, hosts
 		topology.setSimulator(simulator);
+
 		int count = 0;
 		for (Integer source : trafficPattern.keySet()) {
 			Integer destination = trafficPattern.get(source);
@@ -73,8 +73,11 @@ public class ThroughputExperiment {
 		throughput = points[1][nPoint - 1];
 
 		StdOut.printf("Throughput : %.2f\n", throughput);
-		double alternativeRawThroughput = (double) DiscreteEventSimulator.numReceived * Constant.PACKET_SIZE / (trafficPattern.size());
-		alternativeRawThroughput = alternativeRawThroughput / (nPoint * interval);
+
+		double rawThroughput = throughput * Constant.LINK_BANDWIDTH / 100 / 1e9;
+
+		double alternativeRawThroughput = simulator.numReceived * Constant.PACKET_SIZE / (trafficPattern.size());
+		alternativeRawThroughput = (double)alternativeRawThroughput / (nPoint * interval);
 
 		long end = System.currentTimeMillis();
 		NumberFormat formatter = new DecimalFormat("#0.00000");
@@ -107,8 +110,7 @@ public class ThroughputExperiment {
 	/**
 	 * This method is used to calculate the capacity for switches to flow to other nodes
 	 */
-	private void calFlowCapacity() {
-		
+	private void calFlowCapacity() {		
 		int rxPacket = 0;
 		double thp = 0;
 		double privateThp = 0;
@@ -126,7 +128,6 @@ public class ThroughputExperiment {
 				}
 			}
 		}
-
 		for (int i = 0; i < topology.getSwitches().size(); i++) {
 			Switch nodeSwitch = topology.getSwitches().get(i);
 			System.out.print("\nSwitch has id: " + nodeSwitch.getId() + " \n");
@@ -143,7 +144,6 @@ public class ThroughputExperiment {
 	}
 
 	public static void main(String[] args) {
-
 		FatTreeGraph graph = new FatTreeGraph(4);
 		FatTreeRoutingAlgorithm ra = //new FatTreeRoutingAlgorithm(G, false);
 				new FatTreeFlowClassifier(graph, false);
@@ -157,17 +157,13 @@ public class ThroughputExperiment {
 		// new InterPodIncoming(hosts, k, ra, G);
 		ThroughputExperiment experiment = new ThroughputExperiment(topology);
 		Map<Integer, Integer> traffic = new HashMap<>();
-		List<Integer> sourceNodeIDs // = new ArrayList<>();
-				= topology.getSourceNodeIDs();
-		List<Integer> destinationNodeIDs // = new ArrayList<>();
-				= topology.getDestinationNodeIDs();
+		List<Integer> sourceNodeIDs = topology.getSourceNodeIDs();
+		List<Integer> destinationNodeIDs = topology.getDestinationNodeIDs();
 		int sizeOfFlow = // 1;
 				sourceNodeIDs.size();
-
 		for (int i = 0; i < sizeOfFlow; i++) {
 			traffic.put(sourceNodeIDs.get(i), destinationNodeIDs.get(i));
 		}
-
 		experiment.showThroughput(traffic, false); // show the value of through-put which has been calculated
 		experiment.calFlowCapacity(); // Calculate the capacity for flowing from switches to nodes
 	}

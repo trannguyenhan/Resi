@@ -59,7 +59,7 @@ public abstract class OverSubscription extends PairGenerator {
 		this.modulo = allHosts.length;
 	}
 
-	public int getCoreSwitch(int source) {
+	public int getCoreSwitch(int source, int destination) {
 		int edge = graph.adj(source).get(0);
 		int agg = graph.adj(edge).get(k / 2);
 		return graph.adj(agg).get(k / 2); //core

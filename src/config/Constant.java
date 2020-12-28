@@ -30,5 +30,8 @@ public class Constant {
 	public static final int QUEUE_SIZE = 5;
 	public static final int SWITCH_CYCLE = 10;
 	public static final int CREDIT_DELAY = 1;
-
+	
+    private Constant() {	
+    	
+    }
 }

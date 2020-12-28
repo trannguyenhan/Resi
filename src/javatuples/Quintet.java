@@ -313,7 +313,7 @@ public final class Quintet<A, B, C, D, E> extends Tuple
 
 	public <X0, X1, X2, X3> Ennead<A, B, C, D, E, X0, X1, X2, X3> addAt5(final X0 value0, final X1 value1,
 			final X2 value2, final X3 value3) {
-		return new Ennead<A, B, C, D, E, X0, X1, X2, X3>(this.val0, this.val1, this.val2, this.val3, this.val4, value0,
+		return new Ennead<>(this.val0, this.val1, this.val2, this.val3, this.val4, value0,
 				value1, value2, value3);
 	}
 

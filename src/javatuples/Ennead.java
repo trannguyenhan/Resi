@@ -305,7 +305,7 @@ public final class Ennead<A, B, C, D, E, F, G, H, I> extends Tuple implements IV
 	}
 
 	public <X0> Decade<A, B, C, D, E, F, G, H, X0, I> addAt8(final X0 value0) {
-		return new Decade<A, B, C, D, E, F, G, H, X0, I>(this.val0, this.val1, this.val2, this.val3, this.val4,
+		return new Decade<>(this.val0, this.val1, this.val2, this.val3, this.val4,
 				this.val5, this.val6, this.val7, value0, this.val8);
 	}
 
@@ -423,7 +423,7 @@ public final class Ennead<A, B, C, D, E, F, G, H, I> extends Tuple implements IV
 	}
 
 	public Octet<A, B, C, E, F, G, H, I> removeFrom3() {
-		return new Octet<A, B, C, E, F, G, H, I>(this.val0, this.val1, this.val2, this.val4, this.val5, this.val6,
+		return new Octet<>(this.val0, this.val1, this.val2, this.val4, this.val5, this.val6,
 				this.val7, this.val8);
 	}
 

@@ -148,16 +148,16 @@ public abstract class Event extends umontreal.ssj.simevents.Event {
 	 *                   and X11
 	 */
 	public void changeEXBState(ExitBuffer exitBuffer, String state) {
-		if (state == "X00") {
+		if (state.equals("X00")) {
 			exitBuffer.setType(Type.X00); // change EXB state to X00
 			exitBuffer.getState().act();
-		} else if (state == "X01") {
+		} else if (state.equals("X01")) {
 			exitBuffer.setType(Type.X01); // change EXB state to X01
 			exitBuffer.getState().act();
-		} else if (state == "X10") {
+		} else if (state.equals("X10")) {
 			exitBuffer.setType(Type.X10); // change EXB state to X10
 			exitBuffer.getState().act();
-		} else if (state == "X11") {
+		} else if (state.equals("X11")) {
 			exitBuffer.setType(Type.X11); // change EXB state to X11
 			exitBuffer.getState().act();
 		}
@@ -171,10 +171,10 @@ public abstract class Event extends umontreal.ssj.simevents.Event {
 	 *                       N1
 	 */
 	public void changeENBState(EntranceBuffer entranceBuffer, String state) {
-		if (state == "N0") {
+		if (state.equals("N0")) {
 			entranceBuffer.setState(new N0(entranceBuffer)); // change ENB state to N0
 			entranceBuffer.getState().act();
-		} else if (state == "N1") {
+		} else if (state.equals("N1")) {
 			entranceBuffer.setState(new N1(entranceBuffer)); // change ENB state to N1
 			entranceBuffer.getState().act();
 		}
@@ -188,13 +188,13 @@ public abstract class Event extends umontreal.ssj.simevents.Event {
 	 *                          W0, W1 and W2
 	 */
 	public void changeWayState(UnidirectionalWay unidirectionalWay, String state) {
-		if (state == "W0") {
+		if (state.equals("W0")) {
 			unidirectionalWay.setState(new W0(unidirectionalWay)); // change state of way to W0
 			unidirectionalWay.getState().act();
-		} else if (state == "W1") {
+		} else if (state.equals("W1")) {
 			unidirectionalWay.setState(new W1(unidirectionalWay)); // change state of way to W1
 			unidirectionalWay.getState().act();
-		} else if (state == "W2") {
+		} else if (state.equals("W2")) {
 			unidirectionalWay.setState(new W2(unidirectionalWay)); // change state of way to W2
 			unidirectionalWay.getState().act();
 		}
