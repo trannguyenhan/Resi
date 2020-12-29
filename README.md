@@ -89,8 +89,9 @@ The project is still very incomplete but under development. We would love to hav
 <hr>
 
 ### RESULTS
+We have used Sonarqube to reduce the risk of our project. We still have 314 issues suggested by Sonarqube which has not been fixed, because they are issues about coding convention and some issues in the package javatuples, which is not our work. You can see more [here] (https://github.com/vuminhhieu1311/Resi/blob/master/Issues02.html)
 
-Here are the results of the above described experiments:
+And here are the results of the above described experiments:
 
 ![result](results.png)
 
