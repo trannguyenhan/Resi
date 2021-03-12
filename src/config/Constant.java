@@ -19,7 +19,7 @@ public class Constant {
 	public static final int PACKET_SIZE = // (int) 1e5; // 100Kb
 			9600; // 9.6Kb
 	// Maximum time system
-	public static final long MAX_TIME = 60 * ((long) 1e9);
+	public static final long MAX_TIME = 1 * ((long) 1e9);
 	public static final int TIME_REARRANGE = (int) 1e9;
 
 	public static final int PACKET_INTERVAL = PACKET_SIZE;

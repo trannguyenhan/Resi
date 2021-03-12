@@ -16,6 +16,8 @@ import network.entities.Host;
 import network.entities.Switch;
 import network.entities.TypeOfHost;
 import simulator.DiscreteEventSimulator;
+import weightedloadexperiment.pairstrategies.IPIBacktracking;
+import weightedloadexperiment.pairstrategies.IPIBacktrackingRandom;
 import weightedloadexperiment.pairstrategies.PairGenerator;
 import weightedloadexperiment.pairstrategies.SameIDOutgoing;
 
@@ -151,7 +153,9 @@ public class ThroughputExperiment {
 		//new InterPodIncoming(ra, G);
 		// new ForcePair(ra, G, 13);
 		// new MinimalCoreSwitches(ra, G);
-		new SameIDOutgoing(graph, ra);
+		//new SameIDOutgoing(graph, ra);
+		//new IPIBacktracking(ra, graph);
+		new IPIBacktrackingRandom(ra, graph);
 		Topology topology = new Topology(graph, ra, pairGenerator);
 		// new StaggeredProb(hosts, 4, 1, 0);
 		// new InterPodIncoming(hosts, k, ra, G);
