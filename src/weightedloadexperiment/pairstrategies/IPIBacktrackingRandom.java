@@ -5,19 +5,22 @@ import java.util.Random;
 import custom.fattree.FatTreeGraph;
 import custom.fattree.FatTreeRoutingAlgorithm;
 
-public class IPIBacktrackingRandom extends IPIBacktracking{
+/* The subject is suited to picking out a random pair that will produce different pairs each run
+ * Note: If you want to find multiple pairs at the same time, you cannot use this object, it will find all the same objects in each run.
+ * */
+public class IPIBacktrackingRandom extends IPIBacktracking {
 
 	public IPIBacktrackingRandom(FatTreeRoutingAlgorithm routing, FatTreeGraph graph) {
 		super(routing, graph);
 	}
-	
+
 	protected Random random = new Random();
-	
+
 	@Override
 	public void TRY(int a) {
-		for (int i = 0; i < numOfHosts; i++) {
-			i = random.nextInt(numOfHosts);
-			
+		for (int j = 0; j < numOfHosts; j++) {
+			int i = random.nextInt(numOfHosts);
+				
 			if (exit == 1)
 				return;
 

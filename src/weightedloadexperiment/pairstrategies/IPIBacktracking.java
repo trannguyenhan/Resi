@@ -9,6 +9,9 @@ import java.util.Random;
 import custom.fattree.FatTreeGraph;
 import custom.fattree.FatTreeRoutingAlgorithm;
 
+/* Exhaust each case one by one to find all the ways of pairing
+ * Note: Cannot be used with large k (causes combinatorial bursts, with k> 6 cannot be run)
+ * */
 public class IPIBacktracking extends InterPodIncoming {
 	protected List<List<Integer>> listSources;
 	protected List<List<Integer>> listDestinations;
@@ -56,12 +59,12 @@ public class IPIBacktracking extends InterPodIncoming {
 		this.setSources(sources);
 		this.setDestinations(destinations);
 		
-//		try {
-//			printFile(count);
-//		} catch (FileNotFoundException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+		try {
+			printFile(count);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	/* Print result to file text
@@ -72,7 +75,7 @@ public class IPIBacktracking extends InterPodIncoming {
 			List<Integer> tmpDestination = listDestinations.get(i);
 			int lens = tmpSource.size();
 			
-			String fileName = "data/result" + i + ".txt";
+			String fileName = "data/result_" + Integer.toString(k) + "_" + Integer.toString(i) + ".txt";
 			PrintWriter printWriter = new PrintWriter(fileName);
 			
 			printWriter.write(k + "\n");
@@ -114,7 +117,7 @@ public class IPIBacktracking extends InterPodIncoming {
 
 	public void solution() {
 		count++;
-		if (count == 1)
+		if (count == 30)
 			exit = 1;
 
 		List<Integer> tmpSources = new ArrayList<>();
@@ -127,6 +130,8 @@ public class IPIBacktracking extends InterPodIncoming {
 
 		listSources.add(tmpSources);
 		listDestinations.add(tmpDestinations);
+		
+		System.out.println("find result " + count);
 	}
 
 	public boolean check(int src, int dst, int a, int i) {

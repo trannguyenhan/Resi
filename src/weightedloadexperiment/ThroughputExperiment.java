@@ -18,6 +18,7 @@ import network.entities.TypeOfHost;
 import simulator.DiscreteEventSimulator;
 import weightedloadexperiment.pairstrategies.IPIBacktracking;
 import weightedloadexperiment.pairstrategies.IPIBacktrackingRandom;
+import weightedloadexperiment.pairstrategies.IPIBacktrackingRandomImprove;
 import weightedloadexperiment.pairstrategies.PairGenerator;
 import weightedloadexperiment.pairstrategies.SameIDOutgoing;
 
@@ -146,7 +147,7 @@ public class ThroughputExperiment {
 	}
 
 	public static void main(String[] args) {
-		FatTreeGraph graph = new FatTreeGraph(4);
+		FatTreeGraph graph = new FatTreeGraph(6);
 		FatTreeRoutingAlgorithm ra = //new FatTreeRoutingAlgorithm(G, false);
 				new FatTreeFlowClassifier(graph, false);
 		PairGenerator pairGenerator = //new StrideIndex(8);
@@ -155,7 +156,8 @@ public class ThroughputExperiment {
 		// new MinimalCoreSwitches(ra, G);
 		//new SameIDOutgoing(graph, ra);
 		//new IPIBacktracking(ra, graph);
-		new IPIBacktrackingRandom(ra, graph);
+		//new IPIBacktrackingRandom(ra, graph);
+		new IPIBacktrackingRandomImprove(ra, graph);
 		Topology topology = new Topology(graph, ra, pairGenerator);
 		// new StaggeredProb(hosts, 4, 1, 0);
 		// new InterPodIncoming(hosts, k, ra, G);
