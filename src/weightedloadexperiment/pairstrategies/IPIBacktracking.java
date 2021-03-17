@@ -115,9 +115,14 @@ public class IPIBacktracking extends InterPodIncoming {
 		}
 	}
 
+	public boolean stopWithCout(int count) {
+		if(count == 1000) return true;
+		return false;
+	}
+	
 	public void solution() {
 		count++;
-		if (count == 30)
+		if (stopWithCout(count))
 			exit = 1;
 
 		List<Integer> tmpSources = new ArrayList<>();
@@ -131,7 +136,7 @@ public class IPIBacktracking extends InterPodIncoming {
 		listSources.add(tmpSources);
 		listDestinations.add(tmpDestinations);
 		
-		System.out.println("find result " + count);
+		System.out.println("found result!");
 	}
 
 	public boolean check(int src, int dst, int a, int i) {

@@ -156,8 +156,8 @@ public class ThroughputExperiment {
 		// new MinimalCoreSwitches(ra, G);
 		//new SameIDOutgoing(graph, ra);
 		//new IPIBacktracking(ra, graph);
-		//new IPIBacktrackingRandom(ra, graph);
-		new IPIBacktrackingRandomImprove(ra, graph);
+		new IPIBacktrackingRandom(ra, graph);
+		//new IPIBacktrackingRandomImprove(ra, graph);
 		Topology topology = new Topology(graph, ra, pairGenerator);
 		// new StaggeredProb(hosts, 4, 1, 0);
 		// new InterPodIncoming(hosts, k, ra, G);

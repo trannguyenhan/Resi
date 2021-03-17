@@ -18,38 +18,39 @@ public class IPIBacktrackingRandomImprove extends IPIBacktrackingRandom {
 
 	@Override
 	public void pairHosts() {
-		int scount = 4; // modify number of test in here
+		int scount = 12; // modify number of test in here
+		
 		listSources = new ArrayList<List<Integer>>();
 		listDestinations = new ArrayList<List<Integer>>();
-		
+
 		allHosts = this.getAllHosts();
 		numOfHosts = allHosts.length;
 		pair = new int[numOfHosts];
 		mark = new boolean[numOfHosts];
 
+		total_devices = k * k * k / 4 + 5 * k * k / 4;
+		each_devices_in_hostpod = (k * k) / 4 + k;
+		
 		for (int j = 0; j < scount; j++) {
 			exit = 0;
 			count = 0;
-			total_devices = k * k * k / 4 + 5 * k * k / 4;
-			each_devices_in_hostpod = (k * k) / 4 + k;
 
 			for (int i = 0; i < numOfHosts; i++) {
 				mark[i] = false;
 			}
 
 			TRY(0);
-			System.out.println("found result " + j);
 		}
-		
-		/*choose one result in list result*/
-		int index = random.nextInt(scount-1);
+
+		/* choose one result in list result */
+		int index = random.nextInt(scount - 1);
 		addDestinationsAndSource(index);
 
 		this.setSources(sources);
 		this.setDestinations(destinations);
-		
+
 		try {
-			printFile(scount-2);
+			printFile(scount - 2);
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -57,20 +58,8 @@ public class IPIBacktrackingRandomImprove extends IPIBacktrackingRandom {
 	}
 	
 	@Override
-	public void solution() {
-		count++;
-		if (count == 1)
-			exit = 1;
-
-		List<Integer> tmpSources = new ArrayList<>();
-		List<Integer> tmpDestinations = new ArrayList<>();
-		for (int i = 0; i < numOfHosts; i++) {
-			// System.out.println(allHosts[i] + " " + allHosts[pair[i]]);
-			tmpSources.add(allHosts[i]);
-			tmpDestinations.add(allHosts[pair[i]]);
-		}
-
-		listSources.add(tmpSources);
-		listDestinations.add(tmpDestinations);		
+	public boolean stopWithCout(int count) {
+		if(count == 1) return true;
+		return false;
 	}
 }

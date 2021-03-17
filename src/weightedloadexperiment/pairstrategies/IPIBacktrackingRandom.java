@@ -20,7 +20,7 @@ public class IPIBacktrackingRandom extends IPIBacktracking {
 	public void TRY(int a) {
 		for (int j = 0; j < numOfHosts; j++) {
 			int i = random.nextInt(numOfHosts);
-				
+
 			if (exit == 1)
 				return;
 
@@ -39,4 +39,10 @@ public class IPIBacktrackingRandom extends IPIBacktracking {
 			}
 		}
 	}
+
+	@Override
+		public boolean stopWithCout(int count) {
+			if(count == 1) return true;
+			return false;
+		}
 }
