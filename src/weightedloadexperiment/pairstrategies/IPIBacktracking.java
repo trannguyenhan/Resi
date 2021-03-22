@@ -147,19 +147,7 @@ public class IPIBacktracking extends InterPodIncoming {
 		if (mark[i])
 			return false;
 
-		// The targets of the same group have node sources in different groups
-		int t = a / k;
-		int d = a % k;
-		int beg = t * k;
-		int en = t * k + d;
-
-		for (int j = beg; j < en; j++) {
-			if (checkHostInPod(allHosts[j], dst)) {
-				return false;
-			}
-		}
-
-		// All threads go to the same port with at least one other thread
+		// All flows go to the same port with at least one other flow
 		int numberHostsUseCoreSW[] = new int[total_devices];
 		for (int j = 0; j < a; j++) {
 			int tmpCoreSW = getRealCoreSwitch(allHosts[j], allHosts[pair[j]]);
@@ -167,26 +155,37 @@ public class IPIBacktracking extends InterPodIncoming {
 		}
 		int nowCoreSW = getRealCoreSwitch(src, dst);
 		numberHostsUseCoreSW[nowCoreSW]++;
-		if (numberHostsUseCoreSW[nowCoreSW] > k)
+		if (numberHostsUseCoreSW[nowCoreSW] > k) // divides the flow equally by the cores
 			return false;
 
-		//Check threads
+		// Check flows
+		int t = a / k;
+		int d = a % k;
+		int beg = t * k;
+		int en = t * k + d;
+		
 		for(int j=0; j<total_devices; j++) {
 			numberHostsUseCoreSW[j] = 0;
 		}
 		
-		if (a != 0 && a % k == 0) {
+		if (a != 0 && (a % (k*k/4) == 0)) {
+			// if a is first host in pod
 			t = (a-1) / k;
 			d = (a-1) % k;
 			beg = t * k;
 			en = t *k + d;
+			// consider only the hosts of the previous pod
 			for(int j=beg; j<=en; j++) {
 				int tmpCoreSW = getRealCoreSwitch(allHosts[j], allHosts[pair[j]]);
 				numberHostsUseCoreSW[tmpCoreSW]++;
 			}
 			
 			for(int j=0; j<total_devices; j++) {
-				if(numberHostsUseCoreSW[j] != 0 && numberHostsUseCoreSW[j] != k/2) return false;
+				if(numberHostsUseCoreSW[j] != 0 && numberHostsUseCoreSW[j] != 2)
+				// voi cac host cung subnet thi chung di qua cung 1 core
+				// trong 1 pod co k/2 subnet, vay thi cac core cua mang
+				// se co mot so core co k/2 luong di qua, 1 so core co 0 luong di qua
+					return false;
 			}
 		}
 		

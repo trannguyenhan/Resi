@@ -147,7 +147,7 @@ public class ThroughputExperiment {
 	}
 
 	public static void main(String[] args) {
-		FatTreeGraph graph = new FatTreeGraph(6);
+		FatTreeGraph graph = new FatTreeGraph(4);
 		FatTreeRoutingAlgorithm ra = //new FatTreeRoutingAlgorithm(G, false);
 				new FatTreeFlowClassifier(graph, false);
 		PairGenerator pairGenerator = //new StrideIndex(8);

@@ -1,20 +1,19 @@
 package network.layers;
 
-import config.Constant;
-import events.EMovingInSwitchEvent;
 import events.IEventGenerator;
 import infrastructure.entity.Node;
-import infrastructure.event.Event;
 import infrastructure.state.State;
 import network.elements.EntranceBuffer;
 import network.elements.ExitBuffer;
 import network.elements.Packet;
+import network.layers.flowcontroller.DefaultController;
 import routing.RoutingAlgorithm;
 
 public class NetworkLayer extends Layer implements IEventGenerator {
 
 	protected State state;
-
+	protected DefaultController defaultController = new DefaultController();
+	
 	public State getState() {
 		return state;
 	}
@@ -34,28 +33,9 @@ public class NetworkLayer extends Layer implements IEventGenerator {
 	}
 
 	public void controlFlow(ExitBuffer exitBuffer) {
-		if (!(exitBuffer.isRequestListEmpty())) {
-			int selectedId = Integer.MAX_VALUE;
-			EntranceBuffer selectedENB = null;
-			Packet p;
-			// Get enbs from request lisst of the current exb
-			for (EntranceBuffer enb : exitBuffer.getRequestList()) {
-				p = enb.getPeekPacket();
-				// Choose the Inport whose packet has the smallest ID
-				if (p != null && !(enb.hasEventOfPacket(p)) && p.getId() < selectedId) {
-					selectedId = p.getId();
-					selectedENB = enb;
-				}
-			}
-			if (selectedENB != null) {
-				long time = (long) selectedENB.physicalLayer.simulator.time();
-				Event event = new EMovingInSwitchEvent(selectedENB.physicalLayer.simulator, time,
-						time + Constant.SWITCH_CYCLE, selectedENB, selectedENB.getPeekPacket());
-				event.register(); // add a new packet
-			}
-		}
+		defaultController.controlFlow(exitBuffer);
 	}
-
+	
 	public void route(EntranceBuffer entranceBuffer) {
 		if (entranceBuffer.getNextNodeId() == -1) {
 			Packet packet = entranceBuffer.getPeekPacket();

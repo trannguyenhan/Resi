@@ -41,8 +41,9 @@ public class IPIBacktrackingRandom extends IPIBacktracking {
 	}
 
 	@Override
-		public boolean stopWithCout(int count) {
-			if(count == 1) return true;
-			return false;
-		}
+	public boolean stopWithCout(int count) {
+		if (count == 1)
+			return true;
+		return false;
+	}
 }
