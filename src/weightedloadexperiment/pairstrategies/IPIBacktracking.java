@@ -115,11 +115,15 @@ public class IPIBacktracking extends InterPodIncoming {
 		}
 	}
 
+	/* Count defines the number of pairing cases we want to get
+	 * */
 	public boolean stopWithCout(int count) {
 		if(count == 1000) return true;
 		return false;
 	}
 	
+	/* Save result
+	 * */
 	public void solution() {
 		count++;
 		if (stopWithCout(count))
@@ -139,6 +143,8 @@ public class IPIBacktracking extends InterPodIncoming {
 		System.out.println("found result!");
 	}
 
+	/* Check source and destination before pair them
+	 * */
 	public boolean check(int src, int dst, int a, int i) {
 		if (src == dst)
 			return false;

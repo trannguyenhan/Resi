@@ -7,13 +7,16 @@ import network.elements.EntranceBuffer;
 import network.elements.ExitBuffer;
 import network.elements.Packet;
 import network.layers.flowcontroller.DefaultController;
+import network.layers.flowcontroller.FlowClassification;
 import routing.RoutingAlgorithm;
 
 public class NetworkLayer extends Layer implements IEventGenerator {
 
 	protected State state;
-	protected DefaultController defaultController = new DefaultController();
-	
+	protected DefaultController defaultController 
+		= new DefaultController();
+		//= new FlowClassification();
+		
 	public State getState() {
 		return state;
 	}
