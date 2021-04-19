@@ -44,7 +44,6 @@ public class AGenerationEvent extends Event {
 
 		updateSrcQueue(sourceQueue); // update Source Queue
 		createEvent(sim, sourceQueue, newPacket); // add event A and event B
-
 	}
 
 	/**

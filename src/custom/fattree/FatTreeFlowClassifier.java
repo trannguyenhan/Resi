@@ -1,6 +1,5 @@
 package custom.fattree;
 
-import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -81,32 +80,63 @@ public class FatTreeFlowClassifier extends FatTreeRoutingAlgorithm {
 		int source = packet.getSource();
 		
 		// flow = true : have classifier, flow = false : send package with default port
-		return next(source, current, destination, true);
+		int nextNodeID = next(source, current, destination, true);
+		
+		if(preNodeIDs.containsKey(packet.getId())) {
+			int preNodeID = preNodeIDs.get(packet.getId());
+			int prePortID = hash(preNodeID, current, -1);
+			
+			if(countPacketsUsePort.containsKey(prePortID)) {
+				countPacketsUsePort.put(prePortID, countPacketsUsePort.get(prePortID) - 1);
+			}
+			
+			listAllPacketsUsePort.get(prePortID).remove(packet); // remove packet in previous port
+		}
+		
+		preNodeIDs.put(packet.getId(), current);
+		
+		int currentPortID = hash(current, nextNodeID, -1);
+		if(listAllPacketsUsePort.containsKey(currentPortID)){ // add packet in current port ( next node ID)
+			listAllPacketsUsePort.get(currentPortID).add(packet);
+		} else {
+			listAllPacketsUsePort.put(currentPortID, new ArrayList<Packet>());
+			listAllPacketsUsePort.get(currentPortID).add(packet);
+		}
+		
+		return nextNodeID;
 	}
 
-	/*Add flow classifier - trannguyenhan write */
+	/* Flow classifier with IncomingPacket and RearrangeFlow */
+	public Map<Integer, Integer> seen = new HashMap<Integer, Integer>(); // check a flow with source and destination has been passed
+	public Map<Integer, Integer> countPacketsUsePort = new HashMap<Integer, Integer>(); // each line connects 2 points representing 1 port  <--| 
+	public Map<Integer, List<Packet>> listAllPacketsUsePort = new HashMap<Integer, List<Packet>>(); // list packet in each port      __________|
+	public Map<Integer, Integer> preNodeIDs = new HashMap<Integer, Integer>(); // return previous node id of packet
+	
+	private int k = g.getK();;
+	private int each_devices_in_hostpod = ( k * k ) / 4 + k;
+	
+	/** 
+	 * This method is used to find the next node from the current node in the path with flow classifier if flow is true
+	 * @param source      This is the source node
+	 * @param current     This is the current node
+	 * @param destination This is the destination node
+	 * @param flow 	      This is choose use flow classifier
+	 */
 	public int next(int source, int current, int destination, boolean flow) {
 		if(flow) {
 			return incomingPacket(source, current, destination);
 		} else {
+			// call old function no flow classifier
 			return next(source, current, destination);
 		}
 	}
-	
-	public static Map<Integer, Integer> seen = new HashMap<Integer, Integer>();
-	public static Map<AbstractMap.SimpleEntry<Integer, Integer>, Integer> usePorts = 
-			new HashMap<AbstractMap.SimpleEntry<Integer, Integer>, Integer>(); // each line connects 2 points representing 1 port
-	
-	private int k = g.getK();
-	private int each_devices_in_hostpod = (k*k)/4+k;
-	
-	/*
-	 * Check that host number a and b are on the same pod
+
+	/* Check that host number a and b are on the same pod
 	 */
 	public boolean checkDevicesInPod(int a, int b) {
 		int podA = a / each_devices_in_hostpod;
 		int podB = b / each_devices_in_hostpod;
-
+		
 		if (podA == podB)
 			return true;
 		return false;
@@ -116,34 +146,40 @@ public class FatTreeFlowClassifier extends FatTreeRoutingAlgorithm {
 	 * */
 	public int incomingPacket(int source, int current, int destination) { // flow classifier
 		int type = g.switchType(current);
-		if(type == FatTreeGraph.CORE) {
-			return next(source, current, destination);
-		} if((type == FatTreeGraph.AGG || type == FatTreeGraph.EDGE) && checkDevicesInPod(current, destination)) {
+
+		// we no classifier with CORE switch or EDGE and AGG switch in Pod with destination
+		// because there is only one path to destination
+		if(checkDevicesInPod(current, destination)) {
+			if(type == FatTreeGraph.AGG || type == FatTreeGraph.EDGE) {
+				return next(source, current, destination);
+			}
+		} else if(type == FatTreeGraph.CORE) {
 			return next(source, current, destination);
 		}
 		
 		// start algorithm flow classifier
 		// hash(source, destination)
-		int hashID = hash(source, destination, current);
+		int flowID = hash(source, destination, current);
 		
-		if(seen.containsKey(hashID)) {
-			return seen.get(hashID);
+		if(seen.containsKey(flowID)) {
+			return seen.get(flowID);
 		} else {
-			List<Integer> listNeiborNodes = getNodeCanGo(g.adj(current), current, source, destination);
+			List<Integer> listNeiborNodes = getNodeCanSent(g.adj(current), current);
 			
 			int minFlow = Integer.MAX_VALUE;
 			int minIndexFlow = 0;
 			for(int i=listNeiborNodes.size()-1; i>=0; i--) {
 				int tmpID = listNeiborNodes.get(i);
 				
-				if(usePorts.containsKey(new AbstractMap.SimpleEntry<>(current, tmpID))){ // check port is exits
-					int tmp = usePorts.get(new AbstractMap.SimpleEntry<>(current, tmpID));
+				int portID = hash(current, tmpID, -1);
+				if(countPacketsUsePort.containsKey(portID)){ // check port is exits
+					int tmp = countPacketsUsePort.get(portID);
 					if(tmp < minFlow) {
 						minFlow = tmp;
 						minIndexFlow = tmpID;
 					}
 				} else { // if port not exits, add port to usePorts with number of flow use is 0
-					usePorts.put(new AbstractMap.SimpleEntry<>(current, tmpID), 0); 
+					countPacketsUsePort.put(portID, 0); 
 					if(minFlow >= 0) {
 						minFlow = 0;
 						minIndexFlow = tmpID;
@@ -151,21 +187,26 @@ public class FatTreeFlowClassifier extends FatTreeRoutingAlgorithm {
 				}
 			}
 			
-			usePorts.put(new AbstractMap.SimpleEntry<>(current, minIndexFlow), 
-					usePorts.get(new AbstractMap.SimpleEntry<>(current, minIndexFlow))+1);
-			seen.put(hashID, minIndexFlow);
+			int portMinID = hash(current, minIndexFlow, -1);
+			countPacketsUsePort.put(portMinID, countPacketsUsePort.get(portMinID)+1);
+			seen.put(flowID, minIndexFlow);
 			
 			return minIndexFlow;
 		}
 	}
 	
+	// hash function, with c = -1 mean is we only hash 2 parameter a and b
 	public int hash(int a, int b, int c) {
-		return a * 11 + b * 17 + c * 31;
+		if(c == -1) {
+			return a + b* 127;
+		} else {
+			return a + b * 127 + c * 131;
+		}
 	}
 	
 	/* Removes the port that just sent the packet to the current node
 	 * */
-	public List<Integer> getNodeCanGo(List<Integer> list, int current, int source, int destination){
+	public List<Integer> getNodeCanSent(List<Integer> list, int current){
 		List<Integer> listResult = new ArrayList<Integer>();
 		
 		for(int i=0; i<list.size(); i++) {
@@ -175,6 +216,70 @@ public class FatTreeFlowClassifier extends FatTreeRoutingAlgorithm {
 		}
 		
 		return listResult;
+	}
+	
+	/**
+	 * This method call every t second ( t = 1 in this project)
+	 * This method help sort flow with size of packet in flow
+	 */
+	public void rearrangeFlows() {
+		int total_devices = k*k*k/4 + 5*k*k/4; 
+		for(int currentID=0; currentID<total_devices; currentID++) {
+			int type = g.switchType(currentID);
+			
+			if(type == FatTreeGraph.AGG && type == FatTreeGraph.EDGE) {
+				List<Integer> listNeiborNodes = getNodeCanSent(g.adj(currentID), currentID); // get neighborhood node of node i-th
+				int minSizeNodeID = -1;
+				int maxSizeNodeID = -1;
+				int minSize = Integer.MAX_VALUE;
+				int maxSize = 0;
+				
+				for(int i=0; i<listNeiborNodes.size(); i++) {
+					int nextNodeID = listNeiborNodes.get(i);
+					int portID = hash(currentID, nextNodeID, -1);
+					
+					int sumSize = 0;
+					for(int j=0; j<listAllPacketsUsePort.get(portID).size(); j++) {
+						sumSize += listAllPacketsUsePort.get(portID).get(j).getSize();
+					}
+					
+					if(sumSize < minSize) {
+						minSize = sumSize;
+						minSizeNodeID = nextNodeID;
+					}
+					
+					if(sumSize > maxSize) {
+						maxSize = sumSize;
+						maxSizeNodeID = nextNodeID;
+					}
+				}
+				
+				int diffSize = maxSize - minSize;
+				
+				int portMinID = hash(currentID, minSizeNodeID, -1);
+				int portMaxID = hash(currentID, maxSizeNodeID, -1);
+				int maxSizePacketID = -1;
+				maxSize = 0;
+				
+				// find packet have size max and less diffSize, location packet found save variable maxSizepacketID
+				for(int j=0; j<listAllPacketsUsePort.get(portMaxID).size(); j++) {
+					if(listAllPacketsUsePort.get(portMaxID).get(j).getSize() < diffSize
+							&& listAllPacketsUsePort.get(portMaxID).get(j).getSize() > maxSize) {
+						maxSize = listAllPacketsUsePort.get(portMaxID).get(j).getSize();
+						maxSizePacketID = j;
+					}
+				}
+				
+				// assign flow f from port-max to port-min
+				listAllPacketsUsePort.get(portMinID).add(listAllPacketsUsePort.get(portMaxID)
+						.get(maxSizePacketID));  
+				listAllPacketsUsePort.get(portMaxID).remove(maxSizePacketID);
+				
+				// reduce the number of flow in countPacketsUsePort
+				countPacketsUsePort.put(portMinID, countPacketsUsePort.get(portMinID)+1);
+				countPacketsUsePort.put(portMaxID, countPacketsUsePort.get(portMinID)-1);
+			}
+		}
 	}
 	
 	/*End algorithm flow classifier*/

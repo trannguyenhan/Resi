@@ -11,6 +11,8 @@ import config.Constant;
 import custom.fattree.FatTreeFlowClassifier;
 import custom.fattree.FatTreeGraph;
 import custom.fattree.FatTreeRoutingAlgorithm;
+import events.layers.RearrangementEvent;
+import infrastructure.event.Event;
 import network.Topology;
 import network.entities.Host;
 import network.entities.Switch;
@@ -48,6 +50,9 @@ public class ThroughputExperiment {
 			count++;
 			((Host) topology.getHostById(source)).generatePacket(destination);
 		}
+		
+		Event event = new RearrangementEvent(simulator, count, count, topology.getSwitches().get(0).getNetworkLayer());
+		event.register();
 		simulator.start();
 	}
 
@@ -149,7 +154,7 @@ public class ThroughputExperiment {
 	public static void main(String[] args) {
 		FatTreeGraph graph = new FatTreeGraph(4);
 		FatTreeRoutingAlgorithm ra = //new FatTreeRoutingAlgorithm(G, false);
-				new FatTreeFlowClassifier(graph, false);
+				new FatTreeFlowClassifier(graph, false); 
 		PairGenerator pairGenerator = //new StrideIndex(8);
 		//new InterPodIncoming(ra, G);
 		// new ForcePair(ra, G, 13);

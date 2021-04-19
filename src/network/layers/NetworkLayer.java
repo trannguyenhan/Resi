@@ -66,6 +66,8 @@ public class NetworkLayer extends Layer implements IEventGenerator {
 			int nextNodeID = routingAlgorithm.next(packet, entranceBuffer.getNode());
 			entranceBuffer.setNextNode(nextNodeID);
 
+//			System.out.println("node i->j : " + entranceBuffer.getNode().getId() + " : " + nextNodeID + 
+//					" with source and destination is : " + packet.getSource() + " : " + packet.getDestination());
 			ExitBuffer exitBuffer = entranceBuffer.physicalLayer.exitBuffers.get(nextNodeID);
 			exitBuffer.addToRequestList(entranceBuffer);
 			controlFlow(exitBuffer);
