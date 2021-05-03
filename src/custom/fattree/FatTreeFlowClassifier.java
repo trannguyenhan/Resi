@@ -225,9 +225,9 @@ public class FatTreeFlowClassifier extends FatTreeRoutingAlgorithm {
 	public void rearrangeFlows() {
 		int total_devices = k*k*k/4 + 5*k*k/4; 
 		for(int currentID=0; currentID<total_devices; currentID++) {
-			int type = g.switchType(currentID);
+			int type = g.switchType(currentID); 
 			
-			if(type == FatTreeGraph.AGG && type == FatTreeGraph.EDGE) {
+			if(type == FatTreeGraph.AGG && type == FatTreeGraph.EDGE) { // only rearrangeFlows with AGG and EDGE switch
 				List<Integer> listNeiborNodes = getNodeCanSent(g.adj(currentID), currentID); // get neighborhood node of node i-th
 				int minSizeNodeID = -1;
 				int maxSizeNodeID = -1;
@@ -275,7 +275,7 @@ public class FatTreeFlowClassifier extends FatTreeRoutingAlgorithm {
 						.get(maxSizePacketID));  
 				listAllPacketsUsePort.get(portMaxID).remove(maxSizePacketID);
 				
-				// reduce the number of flow in countPacketsUsePort
+				// reduce and increase the number of flow in countPacketsUsePort
 				countPacketsUsePort.put(portMinID, countPacketsUsePort.get(portMinID)+1);
 				countPacketsUsePort.put(portMaxID, countPacketsUsePort.get(portMinID)-1);
 			}

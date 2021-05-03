@@ -188,9 +188,9 @@ public class IPIBacktracking extends InterPodIncoming {
 			
 			for(int j=0; j<total_devices; j++) {
 				if(numberHostsUseCoreSW[j] != 0 && numberHostsUseCoreSW[j] != 2)
-				// voi cac host cung subnet thi chung di qua cung 1 core
-				// trong 1 pod co k/2 subnet, vay thi cac core cua mang
-				// se co mot so core co k/2 luong di qua, 1 so core co 0 luong di qua
+					// voi cac host cung subnet thi chung di qua cung 1 core
+					// trong 1 pod co k/2 subnet, vay thi cac core cua mang
+					// se co mot so core co k/2 luong di qua, 1 so core co 0 luong di qua
 					return false;
 			}
 		}

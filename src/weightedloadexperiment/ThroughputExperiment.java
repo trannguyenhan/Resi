@@ -21,6 +21,7 @@ import simulator.DiscreteEventSimulator;
 import weightedloadexperiment.pairstrategies.IPIBacktracking;
 import weightedloadexperiment.pairstrategies.IPIBacktrackingRandom;
 import weightedloadexperiment.pairstrategies.IPIBacktrackingRandomImprove;
+import weightedloadexperiment.pairstrategies.IPIHalfCoreSwitchRandom;
 import weightedloadexperiment.pairstrategies.PairGenerator;
 import weightedloadexperiment.pairstrategies.SameIDOutgoing;
 
@@ -51,8 +52,10 @@ public class ThroughputExperiment {
 			((Host) topology.getHostById(source)).generatePacket(destination);
 		}
 		
+		// add event rearrangement call function rearrangement sort flow in port
 		Event event = new RearrangementEvent(simulator, count, count, topology.getSwitches().get(0).getNetworkLayer());
 		event.register();
+		
 		simulator.start();
 	}
 
@@ -161,7 +164,9 @@ public class ThroughputExperiment {
 		// new MinimalCoreSwitches(ra, G);
 		//new SameIDOutgoing(graph, ra);
 		//new IPIBacktracking(ra, graph);
-		new IPIBacktrackingRandom(ra, graph);
+		//new IPIBacktrackingRandom(ra, graph);
+		new IPIHalfCoreSwitchRandom(ra, graph);
+				
 		//new IPIBacktrackingRandomImprove(ra, graph);
 		Topology topology = new Topology(graph, ra, pairGenerator);
 		// new StaggeredProb(hosts, 4, 1, 0);
