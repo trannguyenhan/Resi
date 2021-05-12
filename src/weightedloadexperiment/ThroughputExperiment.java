@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import com.sun.jdi.Method;
+
 import common.StdOut;
 import config.Constant;
 import custom.fattree.FatTreeFlowClassifier;
@@ -18,12 +21,14 @@ import network.entities.Host;
 import network.entities.Switch;
 import network.entities.TypeOfHost;
 import simulator.DiscreteEventSimulator;
+import weightedloadexperiment.pairstrategies.InterPodIncoming;
 import weightedloadexperiment.pairstrategies.IPIBacktracking;
 import weightedloadexperiment.pairstrategies.IPIBacktrackingRandom;
 import weightedloadexperiment.pairstrategies.IPIBacktrackingRandomImprove;
 import weightedloadexperiment.pairstrategies.IPIHalfCoreSwitchRandom;
 import weightedloadexperiment.pairstrategies.PairGenerator;
 import weightedloadexperiment.pairstrategies.SameIDOutgoing;
+import weightedloadexperiment.pairstrategies.StaggeredProb;
 
 public class ThroughputExperiment {
 	private Topology topology;
@@ -58,7 +63,7 @@ public class ThroughputExperiment {
 		
 		simulator.start();
 	}
-
+	
 	/**
 	 * This method is used to calculate the value of though-put and end the
 	 * simulator process
@@ -159,13 +164,14 @@ public class ThroughputExperiment {
 		FatTreeRoutingAlgorithm ra = //new FatTreeRoutingAlgorithm(G, false);
 				new FatTreeFlowClassifier(graph, false); 
 		PairGenerator pairGenerator = //new StrideIndex(8);
-		//new InterPodIncoming(ra, G);
+		//new InterPodIncoming(ra, graph);
 		// new ForcePair(ra, G, 13);
 		// new MinimalCoreSwitches(ra, G);
 		//new SameIDOutgoing(graph, ra);
 		//new IPIBacktracking(ra, graph);
 		//new IPIBacktrackingRandom(ra, graph);
 		new IPIHalfCoreSwitchRandom(ra, graph);
+		//new StaggeredProb(ra, graph, 1.0, 0.0);
 				
 		//new IPIBacktrackingRandomImprove(ra, graph);
 		Topology topology = new Topology(graph, ra, pairGenerator);
