@@ -49,12 +49,12 @@ public class IPIBacktrackingRandomImprove extends IPIBacktrackingRandom {
 		this.setSources(sources);
 		this.setDestinations(destinations);
 
-		try {
-			printFile(scount - 2);
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		try {
+//			printFile(scount - 2);
+//		} catch (FileNotFoundException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 	}
 	
 	@Override

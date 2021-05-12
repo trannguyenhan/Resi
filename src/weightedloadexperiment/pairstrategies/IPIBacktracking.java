@@ -59,12 +59,12 @@ public class IPIBacktracking extends InterPodIncoming {
 		this.setSources(sources);
 		this.setDestinations(destinations);
 		
-		try {
-			printFile(count);
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		try {
+//			printFile(count);
+//		} catch (FileNotFoundException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 	}
 	
 	/* Print result to file text
