@@ -9,6 +9,7 @@ import infrastructure.entity.Node;
 import javatuples.Pair;
 import network.elements.Packet;
 import routing.RoutingAlgorithm;
+import weightedloadexperiment.ThroughputExperiment;
 
 public class FatTreeFlowClassifier extends FatTreeRoutingAlgorithm {
 
@@ -16,13 +17,18 @@ public class FatTreeFlowClassifier extends FatTreeRoutingAlgorithm {
 	public Map<Integer, Long> outgoingTraffic = new HashMap<>();
 	public Map<Pair<Integer, Integer>, Long> flowTable = new HashMap<>();
 	private int currentNode;
-
+	
+	// if isFlowClassification = true => have use flow classification
+	// else use two level table routing each flow
+	private boolean isFlowClassification;
+	
 	public int getCurrentNode() {
 		return currentNode;
 	}
 
 	public FatTreeFlowClassifier(FatTreeGraph g, boolean precomputed) {
 		super(g, precomputed);
+		isFlowClassification = ThroughputExperiment.IS_FLOW_CLASSIFICATION;
 	}
 
 	private int time = 0;
@@ -79,8 +85,9 @@ public class FatTreeFlowClassifier extends FatTreeRoutingAlgorithm {
 		int destination = packet.getDestination();
 		int source = packet.getSource();
 		
-		// flow = true : have classifier, flow = false : send package with default port
-		int nextNodeID = next(source, current, destination, true);
+		// isFlowClassification = true : have classifier
+		// isFlowClassification = false : send package with default port (use two level table)
+		int nextNodeID = next(source, current, destination, isFlowClassification);
 		
 		if(preNodeIDs.containsKey(packet.getId())) {
 			int preNodeID = preNodeIDs.get(packet.getId());

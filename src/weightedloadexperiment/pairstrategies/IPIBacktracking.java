@@ -75,7 +75,7 @@ public class IPIBacktracking extends InterPodIncoming {
 			List<Integer> tmpDestination = listDestinations.get(i);
 			int lens = tmpSource.size();
 			
-			String fileName = "data/result_" + Integer.toString(k) + "_" + Integer.toString(i) + ".txt";
+			String fileName = "data/pair50/result_" + Integer.toString(k) + "_" + Integer.toString(i) + ".txt";
 			PrintWriter printWriter = new PrintWriter(fileName);
 			
 			printWriter.write(k + "\n");

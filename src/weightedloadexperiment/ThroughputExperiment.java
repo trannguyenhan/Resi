@@ -31,6 +31,8 @@ import weightedloadexperiment.pairstrategies.SameIDOutgoing;
 import weightedloadexperiment.pairstrategies.StaggeredProb;
 
 public class ThroughputExperiment {
+	public static final boolean IS_FLOW_CLASSIFICATION = true;
+	
 	private Topology topology;
 
 	public ThroughputExperiment(Topology network) {
@@ -58,8 +60,10 @@ public class ThroughputExperiment {
 		}
 		
 		// add event rearrangement call function rearrangement sort flow in port
-		Event event = new RearrangementEvent(simulator, count, count, topology.getSwitches().get(0).getNetworkLayer());
-		event.register();
+		if(IS_FLOW_CLASSIFICATION) {
+			Event event = new RearrangementEvent(simulator, count, count, topology.getSwitches().get(0).getNetworkLayer());
+			event.register();
+		}
 		
 		simulator.start();
 	}
@@ -163,6 +167,7 @@ public class ThroughputExperiment {
 		FatTreeGraph graph = new FatTreeGraph(4);
 		FatTreeRoutingAlgorithm ra = //new FatTreeRoutingAlgorithm(G, false);
 				new FatTreeFlowClassifier(graph, false); 
+		
 		PairGenerator pairGenerator = //new StrideIndex(8);
 		//new InterPodIncoming(ra, graph);
 		// new ForcePair(ra, G, 13);
@@ -172,8 +177,8 @@ public class ThroughputExperiment {
 		//new IPIBacktrackingRandom(ra, graph);
 		new IPIHalfCoreSwitchRandom(ra, graph);
 		//new StaggeredProb(ra, graph, 1.0, 0.0);
-				
 		//new IPIBacktrackingRandomImprove(ra, graph);
+		
 		Topology topology = new Topology(graph, ra, pairGenerator);
 		// new StaggeredProb(hosts, 4, 1, 0);
 		// new InterPodIncoming(hosts, k, ra, G);
