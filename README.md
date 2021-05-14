@@ -61,3 +61,67 @@ RearrangeFlows(){
 }
 ```
 
+Example case with throughput improve from 50% to 82.5%, with k = 4 :
+
+| Sources | Destination |
+|---------|-------------|
+| 0       | 8           |
+| 1       | 16          |
+| 2       | 17          |
+| 3       | 19          |
+| 8       | 0           |
+| 9       | 2           |
+| 10      | 3           |
+| 11      | 27          |
+| 16      | 24          |
+| 17      | 26          |
+| 18      | 9           |
+| 19      | 25          |
+| 24      | 18          |
+| 25      | 10          |
+| 26      | 11          |
+| 27      | 1           |
+
+Example case with throughput improve from 50% to 70.19%, with k = 4 :
+
+| Sources | Destination |
+|---------|-------------|
+| 0       | 18          |
+| 1       | 10          |
+| 2       | 11          |
+| 3       | 19          |
+| 8       | 2           |
+| 9       | 0           |
+| 10      | 17          |
+| 11      | 27          |
+| 16      | 24          |
+| 17      | 26          |
+| 18      | 9           |
+| 19      | 25          |
+| 24      | 16          |
+| 25      | 8           |
+| 26      | 1           |
+| 27      | 3           |
+
+Example case with throughput improve from 50% to 65.37%, with k = 4 :
+
+| Sources | Destination |
+|---------|-------------|
+| 0       | 18          |
+| 1       | 8           |
+| 2       | 11          |
+| 3       | 17          |
+| 8       | 16          |
+| 9       | 2           |
+| 10      | 1           |
+| 11      | 3           |
+| 16      | 26          |
+| 17      | 24          |
+| 18      | 25          |
+| 19      | 27          |
+| 24      | 0           |
+| 25      | 10          |
+| 26      | 9           |
+| 27      | 19          |
+
+Example case with throughput improve from 50% to 100%, with k = 4 : run with SameIDOutgoing pair host
