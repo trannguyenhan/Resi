@@ -125,3 +125,22 @@ Example case with throughput improve from 50% to 65.37%, with k = 4 :
 | 27      | 19          |
 
 Example case with throughput improve from 50% to 100%, with k = 4 : run with SameIDOutgoing pair host
+
+| Sources | Destination |
+|---------|-------------|
+| 0       | 1           |
+| 1       | 3           |
+| 0       | 2           |
+| 1       | 0           |
+| 0       | 8           |
+| 1       | 10          |
+| 0       | 9           |
+| 1       | 11          |
+| 0       | 16          |
+| 1       | 18          |
+| 0       | 17          |
+| 1       | 19          |
+| 0       | 24          |
+| 1       | 26          |
+| 0       | 25          |
+| 1       | 27          |
