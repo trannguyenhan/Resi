@@ -144,3 +144,24 @@ Example case with throughput improve from 50% to 100%, with k = 4 : run with Sam
 | 1       | 26          |
 | 0       | 25          |
 | 1       | 27          |
+
+With case have throughput = 100%, when run with flow classification, throughput is 100% too :
+
+| Sources | Destination |
+|---------|-------------|
+| 0       | 1           |
+| 1       | 3           |
+| 2       | 0           |
+| 3       | 2           |
+| 8       | 9           |
+| 9       | 11          |
+| 10      | 8           |
+| 11      | 10          |
+| 16      | 17          |
+| 17      | 19          |
+| 18      | 16          |
+| 19      | 18          |
+| 24      | 25          |
+| 25      | 27          |
+| 26      | 24          |
+| 27      | 26          |

@@ -3,6 +3,7 @@ package weightedloadexperiment;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,6 +30,7 @@ import weightedloadexperiment.pairstrategies.IPIBacktrackingRandomImprove;
 import weightedloadexperiment.pairstrategies.IPIHalfCoreSwitchRandom;
 import weightedloadexperiment.pairstrategies.PairGenerator;
 import weightedloadexperiment.pairstrategies.SameIDOutgoing;
+import weightedloadexperiment.pairstrategies.SelfIncoming;
 import weightedloadexperiment.pairstrategies.StaggeredProb;
 
 public class ThroughputExperiment {
@@ -167,18 +169,19 @@ public class ThroughputExperiment {
 	public static void main(String[] args) {
 		FatTreeGraph graph = new FatTreeGraph(4);
 		FatTreeRoutingAlgorithm ra = //new FatTreeRoutingAlgorithm(G, false);
-				//new FatTreeFlowClassifier(graph, false); 
-				new FatTreeFlowScheduler(graph, false);
+				new FatTreeFlowClassifier(graph, false); 
+				//new FatTreeFlowScheduler(graph, false);
 		PairGenerator pairGenerator = //new StrideIndex(8);
 		//new InterPodIncoming(ra, graph);
 		// new ForcePair(ra, G, 13);
 		// new MinimalCoreSwitches(ra, G);
-		//new SameIDOutgoing(graph, ra);
+		new SameIDOutgoing(graph, ra);
 		//new IPIBacktracking(ra, graph);
-		new IPIBacktrackingRandom(ra, graph);
+		//new IPIBacktrackingRandom(ra, graph);
 		//new IPIHalfCoreSwitchRandom(ra, graph);
 		//new StaggeredProb(ra, graph, 1.0, 0.0);
 		//new IPIBacktrackingRandomImprove(ra, graph);
+		//new SelfIncoming(ra, graph);
 		
 		Topology topology = new Topology(graph, ra, pairGenerator);
 		// new StaggeredProb(hosts, 4, 1, 0);
@@ -187,6 +190,7 @@ public class ThroughputExperiment {
 		Map<Integer, Integer> traffic = new HashMap<>();
 		List<Integer> sourceNodeIDs = topology.getSourceNodeIDs();
 		List<Integer> destinationNodeIDs = topology.getDestinationNodeIDs();
+
 		int sizeOfFlow = // 1;
 				sourceNodeIDs.size();
 		for (int i = 0; i < sizeOfFlow; i++) {

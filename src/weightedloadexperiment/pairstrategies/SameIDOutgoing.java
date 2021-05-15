@@ -36,7 +36,7 @@ public class SameIDOutgoing extends OverSubscription {
 		int count = 0;
 		int i = 0;
 
-		while (i < numOfHosts && count < numOfHosts * 1000) {
+		while (i < numOfHosts && count < numOfHosts * 100000) {
 			sameHostID = -1;
 			List<Integer> allTempDsts = new ArrayList<>();
 			List<Integer> allTempSrcs = new ArrayList<>();
@@ -49,7 +49,9 @@ public class SameIDOutgoing extends OverSubscription {
 				delta = RandomGenerator.nextInt(0, k * k * k / 4);
 			}
 			count++;
+			i += k/2;
 		}
+
 	}
 
 	private void addSrcAndDst(int i, int numOfHosts, List<Integer> allTempDsts, List<Integer> allTempSrcs,

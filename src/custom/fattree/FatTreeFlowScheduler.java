@@ -51,7 +51,6 @@ public class FatTreeFlowScheduler extends FatTreeRoutingAlgorithm {
 			for(int core : listCoreSwitch) {
 				int path_id = hash(getPodOfHost(source), core, getPodOfHost(destination));
 				if(!paths.contains(path_id)) {
-					
 					paths.add(path_id);
 					coreWithFlows.put(flow_id, core); 
 					break;
