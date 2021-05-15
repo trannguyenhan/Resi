@@ -50,7 +50,6 @@ public class FatTreeFlowClassifier extends FatTreeRoutingAlgorithm {
 	 */
 	@Override
 	public int next(int source, int current, int destination) {
-
 		if (g.isHostVertex(current)) {
 			return g.adj(current).get(0);
 		} else if (g.adj(current).contains(destination)) {
@@ -205,9 +204,9 @@ public class FatTreeFlowClassifier extends FatTreeRoutingAlgorithm {
 	// hash function, with c = -1 mean is we only hash 2 parameter a and b
 	public int hash(int a, int b, int c) {
 		if(c == -1) {
-			return a + b* 127;
+			return a + b* 3313;
 		} else {
-			return a + b * 127 + c * 131;
+			return a + b * 3313 + c * 131;
 		}
 	}
 	

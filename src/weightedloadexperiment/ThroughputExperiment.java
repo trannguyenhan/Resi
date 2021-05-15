@@ -12,6 +12,7 @@ import com.sun.jdi.Method;
 import common.StdOut;
 import config.Constant;
 import custom.fattree.FatTreeFlowClassifier;
+import custom.fattree.FatTreeFlowScheduler;
 import custom.fattree.FatTreeGraph;
 import custom.fattree.FatTreeRoutingAlgorithm;
 import events.layers.RearrangementEvent;
@@ -31,7 +32,7 @@ import weightedloadexperiment.pairstrategies.SameIDOutgoing;
 import weightedloadexperiment.pairstrategies.StaggeredProb;
 
 public class ThroughputExperiment {
-	public static final boolean IS_FLOW_CLASSIFICATION = true;
+	public static final boolean IS_FLOW_CLASSIFICATION = false;
 	
 	private Topology topology;
 
@@ -166,16 +167,16 @@ public class ThroughputExperiment {
 	public static void main(String[] args) {
 		FatTreeGraph graph = new FatTreeGraph(4);
 		FatTreeRoutingAlgorithm ra = //new FatTreeRoutingAlgorithm(G, false);
-				new FatTreeFlowClassifier(graph, false); 
-		
+				//new FatTreeFlowClassifier(graph, false); 
+				new FatTreeFlowScheduler(graph, false);
 		PairGenerator pairGenerator = //new StrideIndex(8);
 		//new InterPodIncoming(ra, graph);
 		// new ForcePair(ra, G, 13);
 		// new MinimalCoreSwitches(ra, G);
 		//new SameIDOutgoing(graph, ra);
 		//new IPIBacktracking(ra, graph);
-		//new IPIBacktrackingRandom(ra, graph);
-		new IPIHalfCoreSwitchRandom(ra, graph);
+		new IPIBacktrackingRandom(ra, graph);
+		//new IPIHalfCoreSwitchRandom(ra, graph);
 		//new StaggeredProb(ra, graph, 1.0, 0.0);
 		//new IPIBacktrackingRandomImprove(ra, graph);
 		
